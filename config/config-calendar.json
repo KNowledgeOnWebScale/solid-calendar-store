@@ -35,7 +35,7 @@
       "@id": "solid-server:RegexRouterRule",
       "RegexRouterRule:_storeMap": [
         {
-          "RegexRouterRule:_storeMap_key": "^/calender$",
+          "RegexRouterRule:_storeMap_key": "^/calendar$",
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:ICalendarStore" }
         },
         {
