@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.1/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^0.0.0/components/context.jsonld",
+    {
+      "solid-calendar": "urn:solid-calendar:default:",
+      "solid-server": "urn:solid-server:default:"
+    }
+  ],
+  "import": [
+    "files-scs:config/presets/acl.json",
+    "files-scs:config/presets/http.json",
+    "files-scs:config/presets/init.json",
+    "files-scs:config/presets/ldp.json",
+    "files-scs:config/presets/ldp/credentials-extractor.json",
+    "files-scs:config/presets/ldp/metadata-handler.json",
+    "files-scs:config/presets/ldp/operation-handler.json",
+    "files-scs:config/presets/ldp/permissions-extractor.json",
+    "files-scs:config/presets/ldp/response-writer.json",
+    "files-scs:config/presets/ldp/request-parser.json",
+    "files-scs:config/presets/ldp/websockets.json",
+    "files-scs:config/presets/logging.json",
+    "files-scs:config/presets/middleware.json",
+    "files-scs:config/presets/pod-management.json",
+    "files-scs:config/presets/representation-conversion.json",
+    "files-scs:config/presets/storage/backend/storage-memory.json",
+    "files-scs:config/presets/storage/routing/regex-routing.json",
+    "files-scs:config/presets/storage-wrapper.json",
+    "files-scs:config/presets/cli-params.json"
+  ],
+  "@graph": [
+    {
+      "@id": "solid-server:RegexRouterRule",
+      "RegexRouterRule:_storeMap": [
+        {
+          "RegexRouterRule:_storeMap_key": "^/calender$",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:ICalendarStore" }
+        },
+        {
+          "RegexRouterRule:_storeMap_key": ".*",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
+        }
+      ]
+    },
+    {
+      "@id": "solid-calendar:ICalendarStore",
+      "@type": "ICalendarStore"
+    }
+  ]
+}
