@@ -1,5 +1,6 @@
 import {BaseResourceStore, BasicRepresentation, Representation, ResourceIdentifier} from "@solid/community-server";
 import fetch from 'node-fetch';
+const parseContentType = require('content-type').parse;
 
 export class HttpGetStore extends BaseResourceStore {
     private readonly url: string;
@@ -17,8 +18,9 @@ export class HttpGetStore extends BaseResourceStore {
     public async getRepresentation(identifier: ResourceIdentifier): Promise<Representation> {
         const response = await fetch(this.url);
         const text = await response.text();
-        const contentType = response.headers.get('content-type') || 'text/plain';
+        let contentType = response.headers.get('content-type') || 'text/plain';
+        contentType = parseContentType(contentType).type;
 
-        return new BasicRepresentation(text, identifier, 'text/calendar');
+        return new BasicRepresentation(text, identifier, contentType);
     }
 }

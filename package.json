@@ -30,6 +30,7 @@
   "dependencies": {
     "@types/ical": "^0.6.2",
     "@types/node-fetch": "^2.5.8",
+    "content-type": "^1.0.4",
     "ical.js": "^1.4.0",
     "node-fetch": "^2.6.1"
   },
