@@ -1,6 +1,6 @@
 import {
-    BasicRepresentation,
-    Representation, RepresentationConverterArgs,
+    BasicRepresentation, readableToString,
+    Representation, RepresentationConverterArgs, transformSafely,
     TypedRepresentationConverter
 } from "@solid/community-server";
 
@@ -14,11 +14,13 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     }
 
     public async handle({ identifier, representation }: RepresentationConverterArgs): Promise<Representation> {
-        const jcalData = ICAL.parse(representation.data);
+        const data = await readableToString(representation.data)
+
+        const jcalData = ICAL.parse(data);
         const vcalendar = new ICAL.Component(jcalData);
         const vevent = vcalendar.getFirstSubcomponent('vevent');
-        const data = vevent.getFirstPropertyValue('summary');
+        const data2 = vevent.getFirstPropertyValue('summary');
 
-        return new BasicRepresentation(data, representation.metadata, outputType);
+        return new BasicRepresentation(data2, representation.metadata, outputType);
     }
 }
