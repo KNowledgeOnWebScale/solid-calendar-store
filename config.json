@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
+    { "solid-calendar": "urn:solid-calendar:default:" }
+  ],
+  "import": [
+    "files-sc:config/config-calendar.json"
+  ],
+  "@graph": [
+    {
+      "@id": "solid-calendar:HttpGetStore",
+      "HttpGetStore:_options_url": "https://calendar.google.com/calendar/ical/ihqfct3hddiiskgvujr3df2pe0%40group.calendar.google.com/public/basic.ics"
+    },
+    {
+      "@id": "solid-calendar:RepresentationConverter",
+      "@type": "IcsToJsonConverter"
+    },
+    {
+      "@id": "solid-calendar:JSONStore",
+      "@type": "RepresentationConvertingStore",
+      "RepresentationConvertingStore:_source": {
+        "@id": "solid-calendar:HttpGetStore"
+      },
+      "RepresentationConvertingStore:_options_outConverter": {
+        "@id": "solid-calendar:RepresentationConverter"
+      }
+    }
+  ]
+}
