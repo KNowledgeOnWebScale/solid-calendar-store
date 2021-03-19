@@ -14,13 +14,23 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     }
 
     public async handle({ identifier, representation }: RepresentationConverterArgs): Promise<Representation> {
-        const data = await readableToString(representation.data)
+        const data = await readableToString(representation.data);
+        const events: Object[] = [];
 
         const jcalData = ICAL.parse(data);
         const vcalendar = new ICAL.Component(jcalData);
-        const vevent = vcalendar.getFirstSubcomponent('vevent');
-        const data2 = vevent.getFirstPropertyValue('summary');
+        const vevents = vcalendar.getAllSubcomponents('vevent');
 
-        return new BasicRepresentation(data2, representation.metadata, outputType);
+        for (const vevent of vevents) {
+            const summary = vevent.getFirstPropertyValue('summary');
+            let start = vevent.getFirstPropertyValue('dtstart');
+            start = new Date(start);
+            let end = vevent.getFirstPropertyValue('dtend');
+            end = new Date(end);
+
+            events.push({title: summary, start, end});
+        }
+
+        return new BasicRepresentation(JSON.stringify(events), representation.metadata, outputType);
     }
 }
