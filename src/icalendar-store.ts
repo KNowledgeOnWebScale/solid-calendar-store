@@ -21,8 +21,9 @@ export class ICalendarStore extends BaseResourceStore {
         const jcalData = ICAL.parse(text);
         const vcalendar = new ICAL.Component(jcalData);
         const vevent = vcalendar.getFirstSubcomponent('vevent');
-        const summary = vevent.getFirstPropertyValue('summary');
+        const test = vevent.getFirstPropertyValue('summary');
 
-        return new BasicRepresentation(summary, identifier);
+        const rep = new BasicRepresentation(test, identifier, 'text/plain');
+        return rep;
     }
 }
