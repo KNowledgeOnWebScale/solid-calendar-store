@@ -47,6 +47,24 @@
     {
       "@id": "solid-calendar:JSONStore",
       "@type": "JSONStore"
+    },
+    {
+      "@id": "solid-calendar:RepresentationConverter",
+      "@type": "IcsToJsonConverter"
+    },
+    {
+      "@id": "solid-calendar:HttpGetStore",
+      "@type": "HttpGetStore"
+    },
+    {
+      "@id": "solid-calendar:JSONStore",
+      "@type": "RepresentationConvertingStore",
+      "RepresentationConvertingStore:_source": {
+        "@id": "solid-calendar:HttpGetStore"
+      },
+      "RepresentationConvertingStore:_options_outConverter": {
+        "@id": "solid-calendar:RepresentationConverter"
+      }
     }
   ]
 }

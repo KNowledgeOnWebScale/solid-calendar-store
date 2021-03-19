@@ -10,20 +10,6 @@
     {
       "@id": "solid-calendar:HttpGetStore",
       "HttpGetStore:_options_url": "https://calendar.google.com/calendar/ical/ihqfct3hddiiskgvujr3df2pe0%40group.calendar.google.com/public/basic.ics"
-    },
-    {
-      "@id": "solid-calendar:RepresentationConverter",
-      "@type": "IcsToJsonConverter"
-    },
-    {
-      "@id": "solid-calendar:JSONStore",
-      "@type": "RepresentationConvertingStore",
-      "RepresentationConvertingStore:_source": {
-        "@id": "solid-calendar:HttpGetStore"
-      },
-      "RepresentationConvertingStore:_options_outConverter": {
-        "@id": "solid-calendar:RepresentationConverter"
-      }
     }
   ]
 }
