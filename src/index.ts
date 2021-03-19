@@ -1,1 +1,1 @@
-export * from './icalendar-store';
+export * from './http-get-store';
