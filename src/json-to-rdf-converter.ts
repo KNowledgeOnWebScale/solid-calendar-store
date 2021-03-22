@@ -21,7 +21,6 @@ export class JsonToRdfConverter extends TypedRepresentationConverter {
 
     public async handle({ identifier, representation }: RepresentationConverterArgs): Promise<Representation> {
         const data = await readableToString(representation.data);
-        console.log(process.cwd());
         const rml = (await fs.readFile(this.rmlRulesPath, 'utf-8'));
         const body = {
             rml,
