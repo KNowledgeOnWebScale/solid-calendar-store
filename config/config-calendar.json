@@ -36,7 +36,7 @@
       "RegexRouterRule:_storeMap": [
         {
           "RegexRouterRule:_storeMap_key": "^/calendar$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:JSONStore" }
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:CalendarStore" }
         },
         {
           "RegexRouterRule:_storeMap_key": ".*",
@@ -45,19 +45,28 @@
       ]
     },
     {
-      "@id": "solid-calendar:JSONStore",
-      "@type": "JSONStore"
+      "@id": "solid-calendar:CalendarStore",
+      "@type": "CalendarStore"
     },
     {
-      "@id": "solid-calendar:RepresentationConverter",
+      "@id": "solid-calendar:RDFStore",
+      "@type": "RDFStore"
+    },
+    {
+      "@id": "solid-calendar:IcsToJsonConverter",
       "@type": "IcsToJsonConverter"
+    },
+    {
+      "@id": "solid-calendar:JsonToRdfConverter",
+      "@type": "JsonToRdfConverter",
+      "JsonToRdfConverter:_rmlRulesPath": "events.rml.ttl"
     },
     {
       "@id": "solid-calendar:HttpGetStore",
       "@type": "HttpGetStore"
     },
     {
-      "@id": "solid-calendar:JSONStore",
+      "@id": "solid-calendar:CalendarStore",
       "@type": "RepresentationConvertingStore",
       "RepresentationConvertingStore:_source": {
         "@id": "solid-calendar:HttpGetStore"
@@ -65,6 +74,43 @@
       "RepresentationConvertingStore:_options_outConverter": {
         "@id": "solid-calendar:RepresentationConverter"
       }
+    },
+    {
+      "@id": "solid-calendar:RdfRepresentationConverter",
+      "@type": "ChainedConverter",
+      "ChainedConverter:_converters": [
+        {
+          "@id": "solid-calendar:IcsToJsonConverter"
+        },
+        {
+          "@id": "solid-calendar:JsonToRdfConverter"
+        }
+      ]
+    },
+    {
+      "@id": "solid-calendar:RepresentationConverter",
+      "@type": "WaterfallHandler",
+      "WaterfallHandler:_handlers": [
+        {
+          "@id": "solid-server:IndexConverter"
+        },
+        {
+          "@type": "IfNeededConverter",
+          "comment": "Only continue converting if the requester cannot accept the available content type"
+        },
+        {
+          "@id": "solid-server:ContentTypeReplacer"
+        },
+        {
+          "@id": "solid-calendar:JsonToRdfConverter"
+        },
+        {
+          "@id": "solid-calendar:IcsToJsonConverter"
+        },
+        {
+          "@id": "solid-calendar:RdfRepresentationConverter"
+        }
+      ]
     }
   ]
 }

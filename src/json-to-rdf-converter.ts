@@ -6,7 +6,7 @@ import {
 import fetch from "node-fetch";
 
 const fs = require('fs-extra');
-const outputType = 'application/json';
+const outputType = 'text/turtle';
 
 const RMLMAPPER_WEB_API = 'https://tw06v069.ugent.be/rmlmapper/execute';
 
@@ -21,7 +21,8 @@ export class JsonToRdfConverter extends TypedRepresentationConverter {
 
     public async handle({ identifier, representation }: RepresentationConverterArgs): Promise<Representation> {
         const data = await readableToString(representation.data);
-        const rml = await fs.readFile(this.rmlRulesPath, 'utf-8');
+        console.log(process.cwd());
+        const rml = (await fs.readFile(this.rmlRulesPath, 'utf-8'));
         const body = {
             rml,
             sources: {'data.json': data}
@@ -29,9 +30,14 @@ export class JsonToRdfConverter extends TypedRepresentationConverter {
 
         const response = await fetch(RMLMAPPER_WEB_API, {
             method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(body)
         });
 
-        return new BasicRepresentation('', representation.metadata, outputType);
+        const result = await response.json();
+
+        return new BasicRepresentation(result.output, representation.metadata, outputType);
     }
 }
