@@ -2,3 +2,5 @@
 node_modules
 dist
 *-error-state.json
+rmlmapper.jar
+tmp
