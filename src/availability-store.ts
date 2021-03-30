@@ -23,8 +23,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     async getRepresentation(identifier: ResourceIdentifier, preferences: RepresentationPreferences, conditions?: Conditions): Promise<Representation> {
         const sourceRepresentation: Representation = await super.getRepresentation(identifier, preferences, conditions);
         const data = await readableToString(sourceRepresentation.data);
-        const calendar = JSON.parse(data);
-        const slots = getAvailableSlots(this.baseUrl, calendar.events);
+        const events = JSON.parse(data);
+        const slots = getAvailableSlots(this.baseUrl, events);
 
         console.log(slots);
 

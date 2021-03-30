@@ -19,7 +19,7 @@ export function utcDate(year: number, month: number, days: number) {
 
 export function inWeekend(date: Date) {
     const day = date.getUTCDay();
-    return day === 0 || day === 6;
+    return day === 6 || day === 7;
 }
 
 export function setZoneTime(zone: string, date: Date, hour: number, minute: number): Date {

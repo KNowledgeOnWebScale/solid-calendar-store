@@ -23,12 +23,12 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
 
         for (const vevent of vevents) {
             const summary = vevent.getFirstPropertyValue('summary');
-            let start = vevent.getFirstPropertyValue('dtstart');
-            start = new Date(start);
-            let end = vevent.getFirstPropertyValue('dtend');
-            end = new Date(end);
+            let startDate = vevent.getFirstPropertyValue('dtstart');
+            startDate = new Date(startDate);
+            let endDate = vevent.getFirstPropertyValue('dtend');
+            endDate = new Date(endDate);
 
-            events.push({title: summary, start, end});
+            events.push({title: summary, startDate, endDate});
         }
 
         return new BasicRepresentation(JSON.stringify(events), representation.metadata, outputType);

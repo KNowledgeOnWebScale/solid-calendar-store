@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {inWeekend, nextDay, setZoneTime} from "./date-utils";
+import {setHours, setMinutes} from 'date-fns'
 import {hash} from "./string-utils";
 
 const context = { '@context': 'https://ruben.verborgh.org/contexts/calendar' };
@@ -73,16 +74,16 @@ export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: an
     // Always consider a fixed range
     const now = new Date();
     const startDate = nextDay(now, 0);
-    const endDate = nextDay(startDate, 60);
+    const endDate = nextDay(startDate, 14);
 
     if (!slots) {
         slots = getSlots(startDate, endDate, baseUrl);
     }
 
     // Subtract unavailabilities
-    const available = subtractEvents(slots, busyEvents)
-        .map(e => roundEventTimes(e, 30, false))
-        .filter(e => getDuration(e) >= 30);
+    let available = subtractEvents(slots, busyEvents);
+    available = available.map(e => roundEventTimes(e, 30, false));
+    available = available.filter(e => getDuration(e) >= 30);
     available.forEach(event => {
         event.uid = `${baseUrl}slots#${hash(event.uid)}`;
     });
@@ -98,8 +99,13 @@ export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: an
  */
 export function getSlots(startDate: Date, endDate: Date, baseUrl: string) {
     const slots = [];
+    startDate = setHours(startDate, 23);
+    startDate = setMinutes(startDate, 59);
+    endDate = setHours(endDate, 23);
+    endDate = setMinutes(endDate, 59);
+    // endDate = new Date(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
 
-    for (let date = startDate; date <= endDate; date = nextDay(date)) {
+    for (let date = startDate; date < endDate; date = nextDay(date)) {
         slots.push(...createSlots(date, baseUrl));
     }
 
