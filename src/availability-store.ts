@@ -24,6 +24,12 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
         const sourceRepresentation: Representation = await super.getRepresentation(identifier, preferences, conditions);
         const data = await readableToString(sourceRepresentation.data);
         const events = JSON.parse(data);
+
+        events.forEach((event: {startDate: any, endDate: any }) => {
+            event.startDate = new Date(event.startDate);
+            event.endDate = new Date(event.endDate);
+        });
+
         const slots = getAvailableSlots(this.baseUrl, events);
 
         console.log(slots);

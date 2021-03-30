@@ -70,11 +70,11 @@ export function createCalendar(title: string, uid: string , events: any[]) {
     };
 }
 
-export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: any[]) {
+export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: any[], startDate?: Date, endDate?: Date) {
     // Always consider a fixed range
     const now = new Date();
-    const startDate = nextDay(now, 0);
-    const endDate = nextDay(startDate, 14);
+    startDate = startDate? startDate : nextDay(now, 0);
+    endDate = endDate? endDate : nextDay(startDate, 14);
 
     if (!slots) {
         slots = getSlots(startDate, endDate, baseUrl);

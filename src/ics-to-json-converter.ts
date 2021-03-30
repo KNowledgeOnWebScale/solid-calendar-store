@@ -24,9 +24,9 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
         for (const vevent of vevents) {
             const summary = vevent.getFirstPropertyValue('summary');
             let startDate = vevent.getFirstPropertyValue('dtstart');
-            startDate = new Date(startDate);
+            startDate = (new Date(startDate)).toISOString();
             let endDate = vevent.getFirstPropertyValue('dtend');
-            endDate = new Date(endDate);
+            endDate = new Date(endDate).toISOString();
 
             events.push({title: summary, startDate, endDate});
         }
