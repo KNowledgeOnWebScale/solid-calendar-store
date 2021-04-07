@@ -21,7 +21,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     }
 
     async getRepresentation(identifier: ResourceIdentifier, preferences: RepresentationPreferences, conditions?: Conditions): Promise<Representation> {
-        const sourceRepresentation: Representation = await super.getRepresentation(identifier, preferences, conditions);
+        const sourceRepresentation: Representation = await super.getRepresentation(identifier, {type: { 'application/json': 1 }}, conditions);
         const data = await readableToString(sourceRepresentation.data);
         const events = JSON.parse(data);
 

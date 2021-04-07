@@ -49,10 +49,6 @@
       ]
     },
     {
-      "@id": "solid-calendar:CalendarStore",
-      "@type": "CalendarStore"
-    },
-    {
       "@id": "solid-calendar:RDFStore",
       "@type": "RDFStore"
     },
