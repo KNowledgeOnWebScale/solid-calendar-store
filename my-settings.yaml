@@ -11,3 +11,4 @@ availabilitySlots:
     endTime:
       hour: 17
       minutes: 0
+minimumSlotDuration: 30

@@ -78,8 +78,9 @@ export function createCalendar(title: string, uid: string , events: any[]) {
  * @param startDate
  * @param endDate
  * @param availabilitySlots - Array of default availability slots.
+ * @param minimumSlotDuration - Minimum duration of a slot.
  */
-export function getAvailableSlots(baseUrl: string, busyEvents: any[], availabilitySlots: [], slots?: any[], startDate?: Date, endDate?: Date) {
+export function getAvailableSlots(baseUrl: string, busyEvents: any[], availabilitySlots: [], minimumSlotDuration: number, slots?: any[], startDate?: Date, endDate?: Date) {
     // Always consider a fixed range
     const now = new Date();
     startDate = startDate? startDate : nextDay(now, 0);
@@ -92,7 +93,7 @@ export function getAvailableSlots(baseUrl: string, busyEvents: any[], availabili
     // Subtract unavailabilities
     let available = subtractEvents(slots, busyEvents);
     available = available.map(e => roundEventTimes(e, 30, false));
-    available = available.filter(e => getDuration(e) >= 30);
+    available = available.filter(e => getDuration(e) >= minimumSlotDuration);
     available.forEach(event => {
         event.uid = `${baseUrl}slots#${hash(event.uid)}`;
     });

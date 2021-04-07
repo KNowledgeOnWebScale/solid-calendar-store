@@ -19,12 +19,14 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     private readonly baseUrl: string;
     private availabilitySlots: [];
     private readonly settingsPath: string;
+    private minimumSlotDuration: number;
 
     constructor(source: HttpGetStore, options: {baseUrl: string, settingsPath: string}) {
         super(source);
         this.baseUrl = options.baseUrl;
         this.settingsPath = options.settingsPath;
         this.availabilitySlots = [];
+        this.minimumSlotDuration = 30;
         this._getSettings();
     }
 
@@ -38,7 +40,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
             event.endDate = new Date(event.endDate);
         });
 
-        const slots = getAvailableSlots(this.baseUrl, events, this.availabilitySlots);
+        const slots = getAvailableSlots(this.baseUrl, events, this.availabilitySlots, this.minimumSlotDuration);
 
         console.log(slots);
 
@@ -47,12 +49,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
 
     async _getSettings() {
         // @ts-ignore
-        const {availabilitySlots} = yaml.load(await fs.readFile(path.resolve(process.cwd(), this.settingsPath), 'utf8'));
-
-        if (availabilitySlots) {
-            this.availabilitySlots = availabilitySlots;
-        } else {
-            this.availabilitySlots = [];
-        }
+        const {availabilitySlots, minimumSlotDuration} = yaml.load(await fs.readFile(path.resolve(process.cwd(), this.settingsPath), 'utf8'));
+        this.availabilitySlots = availabilitySlots ? availabilitySlots : this.availabilitySlots;
+        this.minimumSlotDuration = minimumSlotDuration ? minimumSlotDuration : this.minimumSlotDuration;
     }
 }
