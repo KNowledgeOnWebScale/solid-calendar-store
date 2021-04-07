@@ -1,0 +1,13 @@
+availabilitySlots:
+  - startTime:
+      hour: 9
+      minutes: 0
+    endTime:
+      hour: 12
+      minutes: 0
+  - startTime:
+      hour: 13
+      minutes: 0
+    endTime:
+      hour: 17
+      minutes: 0

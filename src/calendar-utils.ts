@@ -70,14 +70,23 @@ export function createCalendar(title: string, uid: string , events: any[]) {
     };
 }
 
-export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: any[], startDate?: Date, endDate?: Date) {
+/**
+ *
+ * @param baseUrl
+ * @param busyEvents
+ * @param slots
+ * @param startDate
+ * @param endDate
+ * @param availabilitySlots - Array of default availability slots.
+ */
+export function getAvailableSlots(baseUrl: string, busyEvents: any[], availabilitySlots: [], slots?: any[], startDate?: Date, endDate?: Date) {
     // Always consider a fixed range
     const now = new Date();
     startDate = startDate? startDate : nextDay(now, 0);
     endDate = endDate? endDate : nextDay(startDate, 14);
 
     if (!slots) {
-        slots = getSlots(startDate, endDate, baseUrl);
+        slots = getSlots(startDate, endDate, baseUrl, availabilitySlots);
     }
 
     // Subtract unavailabilities
@@ -96,8 +105,9 @@ export function getAvailableSlots(baseUrl: string, busyEvents: any[], slots?: an
  * @param startDate - Start date of the slots.
  * @param endDate - End date of the slots.
  * @param baseUrl - The url used to generate urls for the slots.
+ * @param availabilitySlots - Array of default availability slots.
  */
-export function getSlots(startDate: Date, endDate: Date, baseUrl: string) {
+export function getSlots(startDate: Date, endDate: Date, baseUrl: string, availabilitySlots: []) {
     const slots = [];
     startDate = setHours(startDate, 23);
     startDate = setMinutes(startDate, 59);
@@ -106,7 +116,7 @@ export function getSlots(startDate: Date, endDate: Date, baseUrl: string) {
     // endDate = new Date(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
 
     for (let date = startDate; date < endDate; date = nextDay(date)) {
-        slots.push(...createSlots(date, baseUrl));
+        slots.push(...createSlots(date, baseUrl, availabilitySlots));
     }
 
     return slots;
@@ -116,15 +126,18 @@ export function getSlots(startDate: Date, endDate: Date, baseUrl: string) {
  * This method generates slots for a given date.
  * @param date - The date for which slots are generated.
  * @param baseUrl - The url used to generate urls for the slots.
+ * @param availabilitySlots - Array of default availability slots.
  */
-export function createSlots(date: Date, baseUrl: string) {
-    const slots = [];
+export function createSlots(date: Date, baseUrl: string, availabilitySlots: []) {
+    const slots: any[] = [];
 
     if (!inWeekend(date)) {
-        slots.push(
-            createSlot(date, {hour: 9, minutes: 0}, {hour: 12, minutes: 0}, baseUrl),
-            createSlot(date, {hour: 13, minutes: 0}, {hour: 17, minutes: 0}, baseUrl),
-        );
+        availabilitySlots.forEach(slot => {
+            const {startTime, endTime} = slot;
+            slots.push(
+                createSlot(date, startTime, endTime, baseUrl),
+            );
+        });
     }
 
     return slots;

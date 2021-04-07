@@ -10,6 +10,10 @@
     {
       "@id": "solid-calendar:HttpGetStore",
       "HttpGetStore:_options_url": "https://calendar.google.com/calendar/ical/ihqfct3hddiiskgvujr3df2pe0%40group.calendar.google.com/public/basic.ics"
+    },
+    {
+      "@id": "solid-calendar:AvailabilityStore",
+      "AvailabilityStore:_options_settingsPath": "my-settings.yaml"
     }
   ]
 }

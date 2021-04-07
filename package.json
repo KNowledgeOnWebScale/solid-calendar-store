@@ -20,6 +20,8 @@
     "@solid/community-server": "^0.8.0",
     "@tsconfig/node14": "^1.0.0",
     "@types/chai": "^4.2.15",
+    "@types/fs-extra": "^9.0.10",
+    "@types/js-yaml": "^4.0.0",
     "@types/lodash": "^4.14.168",
     "@types/luxon": "^1.26.2",
     "@types/mocha": "^8.2.2",
@@ -44,6 +46,7 @@
     "date-fns": "^2.19.0",
     "fs-extra": "^9.1.0",
     "ical.js": "^1.4.0",
+    "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "luxon": "^1.26.0",
     "node-fetch": "^2.6.1"
