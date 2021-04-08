@@ -43,6 +43,10 @@
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:AvailabilityStore" }
         },
         {
+          "RegexRouterRule:_storeMap_key": "^/busy$",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:BusyStore" }
+        },
+        {
           "RegexRouterRule:_storeMap_key": ".*",
           "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
         }
@@ -72,6 +76,13 @@
         "@id": "solid-calendar:CalendarStore"
       },
       "AvailabilityStore:_options_baseUrl": "http://example.com/"
+    },
+    {
+      "@id": "solid-calendar:BusyStore",
+      "@type": "BusyStore",
+      "BusyStore:_source": {
+        "@id": "solid-calendar:CalendarStore"
+      }
     },
     {
       "@id": "solid-calendar:CalendarStore",
