@@ -1,5 +1,6 @@
 [
   "BaseResourceStore",
   "TypedRepresentationConverter",
-  "PassthroughStore"
+  "PassthroughStore",
+  "RepresentationConvertingStore"
 ]
