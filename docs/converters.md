@@ -18,13 +18,15 @@ _type: ChainedConverter_
 
 _type: WaterfallHandler_
 
-Handles data, using a handler, to transform it to a representation. (More information about representations: [page 3](https://rubenverborgh.github.io/solid-server-architecture/solid-architecture-v1-3-0.pdf))
+Converts data to a representation of the requested output. (More information about representations: [page 3](https://rubenverborgh.github.io/solid-server-architecture/solid-architecture-v1-3-0.pdf))
 
-The following converters are tried (in order):
+The following converters are tried (in order) to match the requested output:
 
-1. IndexConverter (CSS)
-2. IfNeededConverter (CSS)
-3. ContentTypeReplacer (CSS)
+1. IndexConverter (See CSS)
+2. IfNeededConverter (See CSS)
+3. ContentTypeReplacer (See CSS)
 4. JsonToRdfConverter
 5. IcsToJsonConverter
 6. RdfRepresentationConverter
+
+This converter follows the waterfall principle, i.e. if the Indexconverter can convert to a given output type, the converter will stop and those underneath won't be tried.
