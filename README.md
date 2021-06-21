@@ -2,6 +2,10 @@
 
 Solid Calendar is a plugin for [CSS](https://github.com/solid/community-server), it adds to possiblity to perform a list of calendar-based operations. For a concrete overview of all the possible transformations and conversions see `docs/`.
 
+## Initial setup
+
+Make sure to download [rmlmapper.jar](https://github.com/RMLio/rmlmapper-java/releases) and place it in the project root.
+
 ## How to run
 
 ```
