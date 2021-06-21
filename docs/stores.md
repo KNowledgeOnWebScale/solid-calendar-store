@@ -18,7 +18,8 @@ _type: AvailabilityStore_
 
 [![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEF2YWlsYWJpbGl0eVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/edit/##eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEF2YWlsYWJpbGl0eVN0b3JlfEMiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
 
-AvailibilityStore asks for a `JSON` representation and keeps only the available slots.
+AvailibilityStore asks for a `JSON` representation.  
+It first reads the yaml file specified in `config.json`, then generates the available timeslots in a 14-day period based upon the configurations specified in this yaml. The summary of each timeslot is: `Available for meetings`.
 
 ## BusyStore
 
