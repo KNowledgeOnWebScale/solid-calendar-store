@@ -6,5 +6,5 @@ mappings:
     po:
       - [a, schema:Date]
       - [schema:name, $(title)]
-      - [schema:startDate, $(start)]
-      - [schema:endDate, $(end)]
+      - [schema:startDate, $(startDate)]
+      - [schema:endDate, $(endDate)]

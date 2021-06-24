@@ -48,7 +48,7 @@
 :pm_002 rr:constant <http://schema.org/startDate>.
 :pom_002 rr:objectMap :om_002.
 :om_002 a rr:ObjectMap;
-    rml:reference "start";
+    rml:reference "startDate";
     rr:termType rr:Literal.
 :pom_003 a rr:PredicateObjectMap.
 :map_events_000 rr:predicateObjectMap :pom_003.
@@ -57,5 +57,5 @@
 :pm_003 rr:constant <http://schema.org/endDate>.
 :pom_003 rr:objectMap :om_003.
 :om_003 a rr:ObjectMap;
-    rml:reference "end";
+    rml:reference "endDate";
     rr:termType rr:Literal.
