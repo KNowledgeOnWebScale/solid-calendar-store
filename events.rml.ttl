@@ -1,61 +1,78 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix fnml: <http://semweb.mmlab.be/ns/fnml#>.
-@prefix fno: <https://w3id.org/function/ontology#>.
-@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#>.
-@prefix void: <http://rdfs.org/ns/void#>.
-@prefix dc: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
-@prefix : <http://mapping.example.com/>.
+@prefix map: <http://mapping.example.com/>.
 
-:rules_000 a void:Dataset;
-    void:exampleResource :map_events_000.
-:map_events_000 rml:logicalSource :source_000.
-:source_000 a rml:LogicalSource;
-    rml:source "data.json";
-    rml:iterator "$.[*]";
-    rml:referenceFormulation ql:JSONPath.
-:map_events_000 a rr:TriplesMap;
-    rdfs:label "events".
-:s_000 a rr:SubjectMap.
-:map_events_000 rr:subjectMap :s_000.
-:s_000 rr:template "http://example.com/event/{title}".
-:pom_000 a rr:PredicateObjectMap.
-:map_events_000 rr:predicateObjectMap :pom_000.
-:pm_000 a rr:PredicateMap.
-:pom_000 rr:predicateMap :pm_000.
-:pm_000 rr:constant rdf:type.
-:pom_000 rr:objectMap :om_000.
-:om_000 a rr:ObjectMap;
+map:map_calendar_000 rml:logicalSource map:source_000;
+    a rr:TriplesMap;
+    rdfs:label "calendar";
+    rr:subjectMap map:s_000;
+    rr:predicateObjectMap map:pom_000, map:pom_001.
+map:map_events_000 rml:logicalSource map:source_001;
+    a rr:TriplesMap;
+    rdfs:label "events";
+    rr:subjectMap map:s_001;
+    rr:predicateObjectMap map:pom_002, map:pom_003, map:pom_004, map:pom_005.
+map:om_000 a rr:ObjectMap;
+    rml:reference "name";
+    rr:termType rr:Literal.
+map:om_001 a rr:ObjectMap;
+    rr:parentTriplesMap map:map_events_000.
+map:om_002 a rr:ObjectMap;
     rr:constant "http://schema.org/Date";
     rr:termType rr:IRI.
-:pom_001 a rr:PredicateObjectMap.
-:map_events_000 rr:predicateObjectMap :pom_001.
-:pm_001 a rr:PredicateMap.
-:pom_001 rr:predicateMap :pm_001.
-:pm_001 rr:constant <http://schema.org/name>.
-:pom_001 rr:objectMap :om_001.
-:om_001 a rr:ObjectMap;
+map:om_003 a rr:ObjectMap;
     rml:reference "title";
     rr:termType rr:Literal.
-:pom_002 a rr:PredicateObjectMap.
-:map_events_000 rr:predicateObjectMap :pom_002.
-:pm_002 a rr:PredicateMap.
-:pom_002 rr:predicateMap :pm_002.
-:pm_002 rr:constant <http://schema.org/startDate>.
-:pom_002 rr:objectMap :om_002.
-:om_002 a rr:ObjectMap;
+map:om_004 a rr:ObjectMap;
     rml:reference "startDate";
     rr:termType rr:Literal.
-:pom_003 a rr:PredicateObjectMap.
-:map_events_000 rr:predicateObjectMap :pom_003.
-:pm_003 a rr:PredicateMap.
-:pom_003 rr:predicateMap :pm_003.
-:pm_003 rr:constant <http://schema.org/endDate>.
-:pom_003 rr:objectMap :om_003.
-:om_003 a rr:ObjectMap;
+map:om_005 a rr:ObjectMap;
     rml:reference "endDate";
     rr:termType rr:Literal.
+map:pm_000 a rr:PredicateMap;
+    rr:constant <http://schema.org/name>.
+map:pm_001 a rr:PredicateMap;
+    rr:constant <http://schema.org/event>.
+map:pm_002 a rr:PredicateMap;
+    rr:constant rdf:type.
+map:pm_003 a rr:PredicateMap;
+    rr:constant <http://schema.org/name>.
+map:pm_004 a rr:PredicateMap;
+    rr:constant <http://schema.org/startDate>.
+map:pm_005 a rr:PredicateMap;
+    rr:constant <http://schema.org/endDate>.
+map:pom_000 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_000;
+    rr:objectMap map:om_000.
+map:pom_001 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_001;
+    rr:objectMap map:om_001.
+map:pom_002 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_002;
+    rr:objectMap map:om_002.
+map:pom_003 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_003;
+    rr:objectMap map:om_003.
+map:pom_004 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_004;
+    rr:objectMap map:om_004.
+map:pom_005 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_005;
+    rr:objectMap map:om_005.
+map:rules_000 a <http://rdfs.org/ns/void#Dataset>;
+    <http://rdfs.org/ns/void#exampleResource> map:map_calendar_000, map:map_events_000.
+map:s_000 a rr:SubjectMap;
+    rr:template "http://example.com/calendar/{name}".
+map:s_001 a rr:SubjectMap;
+    rr:template "http://example.com/event/{title}".
+map:source_000 a rml:LogicalSource;
+    rml:source "data.json";
+    rml:iterator "$";
+    rml:referenceFormulation ql:JSONPath.
+map:source_001 a rml:LogicalSource;
+    rml:source "data.json";
+    rml:iterator "$.events[*]";
+    rml:referenceFormulation ql:JSONPath.

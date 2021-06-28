@@ -49,7 +49,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       conditions
     );
     const data = await readableToString(sourceRepresentation.data);
-    const events = JSON.parse(data);
+    const calendar = JSON.parse(data);
+    const events = calendar.events;
 
     events.forEach((event: { startDate: any; endDate: any }) => {
       event.startDate = new Date(event.startDate);

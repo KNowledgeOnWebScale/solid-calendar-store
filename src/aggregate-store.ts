@@ -30,7 +30,10 @@ export class AggregateStore extends BaseResourceStore {
     const events1 = await this._getJson(this.source1, identifier);
     const events2 = await this._getJson(this.source2, identifier);
 
-    const allEvents = events1.concat(events2);
+    this._addCalendarNameToTitle(events1);
+    this._addCalendarNameToTitle(events2);
+
+    const allEvents = events1.events.concat(events2.events);
 
     return new BasicRepresentation(JSON.stringify(allEvents), outputType);
   }
@@ -45,5 +48,18 @@ export class AggregateStore extends BaseResourceStore {
     );
     const data = await readableToString(sourceRepresentation.data);
     return JSON.parse(data);
+  }
+
+  /**
+   * Prepends the calendar name to each event
+   * @param calendar - The calendar whoms events to transform
+   */
+  _addCalendarNameToTitle(calendar: {
+    events: { title: string }[];
+    name: any;
+  }) {
+    calendar.events.map(
+      (ev: { title: string }) => (ev.title = `[${calendar.name}] ${ev.title}`)
+    );
   }
 }

@@ -1,7 +1,6 @@
 import {
   BasicRepresentation,
   Conditions,
-  NotFoundHttpError,
   PassthroughStore,
   readableToString,
   Representation,
@@ -16,7 +15,6 @@ export class BusyStore extends PassthroughStore<HttpGetStore> {
   constructor(source: HttpGetStore) {
     super(source);
   }
-
   async getRepresentation(
     identifier: ResourceIdentifier,
     preferences: RepresentationPreferences,
@@ -28,7 +26,8 @@ export class BusyStore extends PassthroughStore<HttpGetStore> {
       conditions
     );
     const data = await readableToString(sourceRepresentation.data);
-    const events = JSON.parse(data);
+    const calendar = JSON.parse(data);
+    const events = calendar.events;
 
     events.forEach((event: { title: string }) => {
       if (event.title.startsWith("*")) {

@@ -57,12 +57,12 @@ describe("stores", function () {
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
+          title: "[my first iCal] Example Event",
         },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
+          title: "[my first iCal] Example Event",
         },
       ];
 
@@ -80,13 +80,16 @@ describe("stores", function () {
     });
 
     it("Calendar should return the same iCal as the one from the url ", async () => {
-      const expectedResult = [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
-        },
-      ];
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            endDate: "2021-06-16T10:00:13.000Z",
+            startDate: "2021-06-16T10:00:10.000Z",
+            title: "Example Event",
+          },
+        ],
+      };
 
       const response = await getEndpoint("calendar");
       const stream = guardedStreamFrom(response[0]);

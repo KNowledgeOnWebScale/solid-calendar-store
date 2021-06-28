@@ -1,7 +1,7 @@
 import {
   BadRequestHttpError,
   BasicRepresentation,
-  NotFoundHttpError,
+  InternalServerError,
   readableToString,
   Representation,
   RepresentationConverterArgs,
@@ -23,7 +23,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     const data = await readableToString(representation.data);
     const events: Object[] = [];
 
-    if (!data.trim().length)
+    if (!data || !data.length)
       throw new BadRequestHttpError("Empty input is not allowed");
 
     const jcalData = ICAL.parse(data);
@@ -40,8 +40,16 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
       events.push({ title: summary, startDate, endDate });
     }
 
+    const calendar = {
+      name: vcalendar.getFirstPropertyValue("x-wr-calname"),
+      events,
+    };
+
+    if (!calendar || !calendar.name || !calendar.name.trim().length)
+      throw new InternalServerError("No calendar name found");
+
     return new BasicRepresentation(
-      JSON.stringify(events),
+      JSON.stringify(calendar),
       representation.metadata,
       outputType
     );
