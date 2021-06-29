@@ -17,6 +17,7 @@ import {
 import * as test_config_json from "./configs/test-config.json";
 
 const correctConfig = "./test/configs/test-config.json";
+const emptyConfig = "./test/configs/test-empty-config.json";
 const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 const weekendConfig = "./test/configs/test-weekend-config.json";
 
@@ -146,8 +147,8 @@ describe("stores", function () {
     });
   });
 
-  describe("BusyStore", () => {
-    it("Available events should still be shown as available", async () => {
+  describe("TransformationStore", () => {
+    it("Non-applying events should be left alone", async () => {
       const expectedResult = [
         {
           startDate: "2021-06-16T10:00:10.000Z",
@@ -156,6 +157,19 @@ describe("stores", function () {
         },
       ];
       const result = await getEndpoint("busy");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
+
+    it("By default all rules apply", async () => {
+      const expectedResult = [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Out of office",
+        },
+      ];
+      const result = await getEndpoint("transformation");
 
       expect(result).to.deep.equal(expectedResult);
     });
@@ -176,9 +190,19 @@ describe("alternate icalserver", () => {
     icalServer.stop();
   });
 
-  describe("BusyStore", () => {
-    it("Busy events should be marked as unavailable", async () => {
+  describe("TransformationStore", () => {
+    it("A definition can contain multiple rules", async () => {
       const expectedResult = [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Example Event",
+        },
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Available",
+        },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
@@ -189,6 +213,35 @@ describe("alternate icalserver", () => {
 
       expect(result).to.deep.equal(expectedResult);
     });
+  });
+});
+
+describe("empty config", () => {
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(emptyConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("TransformationStore - Data should be unchanged", async () => {
+    const expectedResult = [
+      {
+        startDate: "2021-06-16T10:00:10.000Z",
+        endDate: "2021-06-16T10:00:13.000Z",
+        title: "Example Event",
+      },
+    ];
+
+    const result = await getEndpoint("transformation");
+
+    expect(result).to.deep.equal(expectedResult);
   });
 });
 

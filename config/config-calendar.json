@@ -80,8 +80,12 @@
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:AggregateStore" }
         },
         {
-          "RegexRouterRule:_storeMap_key": ".*",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
+          "RegexRouterRule:_storeMap_key": "^/transformation$",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:TransformationStore" }
+        },
+        {
+          "RegexRouterRule:_storeMap_key": "^/(\\.acl)?$",
+          "RegexRouterRule:_storeMap_value": { "@id": "urn:solid-server:default:MemoryResourceStore" }
         }
       ]
     },
@@ -91,6 +95,14 @@
       "identifierStrategy": { "@id": "urn:solid-server:default:IdentifierStrategy" },
       "auxiliaryStrategy": { "@id": "urn:solid-server:default:AuxiliaryStrategy" },
       "accessor": { "@id": "urn:solid-server:default:MemoryDataAccessor" }
+    },
+    {
+      "@id": "solid-calendar:TransformationStore",
+      "@type": "TransformationStore",
+      "TransformationStore:_source": {
+        "@id": "solid-calendar:CalendarStore"
+      },
+      "TransformationStore:_options_settingsPaths": ["settings/busy.yaml"]
     },
     {
       "@id": "solid-calendar:RDFStore",
@@ -119,10 +131,12 @@
     },
     {
       "@id": "solid-calendar:BusyStore",
-      "@type": "BusyStore",
-      "BusyStore:_source": {
+      "@type": "TransformationStore",
+      "TransformationStore:_options_rules": ["busy"],
+      "TransformationStore:_source": {
         "@id": "solid-calendar:CalendarStore"
-      }
+      },
+      "TransformationStore:_options_settingsPaths": ["settings/busy.yaml"]
     },
     {
       "@id": "solid-calendar:AggregateStore",

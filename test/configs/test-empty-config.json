@@ -9,11 +9,16 @@
   "@graph": [
     {
       "@id": "solid-calendar:HttpGetStore",
-      "HttpGetStore:_options_url": "https://calendar.google.com/calendar/ical/ihqfct3hddiiskgvujr3df2pe0%40group.calendar.google.com/public/basic.ics"
+      "HttpGetStore:_options_url": "http://localhost:3001"
     },
     {
       "@id": "solid-calendar:AvailabilityStore",
-      "AvailabilityStore:_options_settingsPath": "settings/my-settings.yaml"
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
+      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
+    },
+    {
+      "@id": "solid-calendar:BusyStore",
+      "TransformationStore:_options_settingsPaths": ["test/configs/empty-settings.yaml"]
     }
   ]
 }

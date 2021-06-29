@@ -6,3 +6,12 @@ availabilitySlots:
       hour: 10
       minutes: 0
 minimumSlotDuration: 30
+transformation:
+  busy:
+    - match: '\* .*'
+      replace: "Unavailable"
+    - match: '\+ .*'
+      replace: "Available"
+  away:
+    - match: "Example .*"
+      replace: "Out of office"

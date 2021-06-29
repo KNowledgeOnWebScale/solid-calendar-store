@@ -22,9 +22,28 @@ See the [CSS documentation](https://github.com/solid/community-server#configurin
 
 ## Endpoints
 
-| Type | Name         | Used store        |
-| ---- | ------------ | ----------------- |
-| GET  | calendar     | CalendarStore     |
-| GET  | busy         | BusyStore         |
-| GET  | availability | AvailabilityStore |
-| GET  | aggregate    | AggregateStore    |
+| Type | Name           | Used store          |
+| ---- | -------------- | ------------------- |
+| GET  | calendar       | CalendarStore       |
+| GET  | busy           | TransformationStore |
+| GET  | availability   | AvailabilityStore   |
+| GET  | aggregate      | AggregateStore      |
+| GET  | transformation | TransformationStore |
+
+## my-settings.yaml
+
+A couple of things are defined in the `my-settings.yaml`. Firstly the `availabilitySlots` are defined, furthermore `minimumSlotDuration` defines the minimum slot dureation (in minutes) of a slot. Both are used in `AvailabilityStore`.
+
+`transformation` defines all the possible rules that can be applied. Each rule is of the following format:
+
+```yaml
+[name]:
+  match: [regex]
+  replace: [string]
+```
+
+The name is not unique, i.e. it is possible to define multiple rules with the name "busy" and let them all be applied when navigating to `/busy`.
+
+Match should be a valid JavaScript regex, excluding the `//`. It is important that when regex characters are escaped, e.g. `\*`, the match text is placed in `''` and not `""`.
+
+The string defined in `replace` will replace all the matched parts.

@@ -1,0 +1,4 @@
+transformation:
+  away:
+    - match: "🏕️ .*"
+      replace: "Out of office"

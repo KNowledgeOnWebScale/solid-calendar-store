@@ -21,13 +21,21 @@ _type: AvailabilityStore_
 AvailibilityStore asks for a `JSON` representation.  
 It first reads the yaml file specified in `config.json`, then generates the available timeslots in a 14-day period based upon the configurations specified in this yaml. The summary of each timeslot is: `Available for meetings`.
 
+## TransformationStore
+
+_type: TransformationStore_
+
+TransformationStore takes a list of allowed rules as an argument and applies these to each event's title.
+
+A list of all the possible rules are defined in `my-settings.yaml`.
+
 ## BusyStore
 
-_type: BusyStore_
+_type: TransformationStore_
 
 [![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEJ1c3lTdG9yZXxDKFJlcHJlc2VudGF0aW9uPEpTT04-KSIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2UsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)](https://mermaid-js.github.io/mermaid-live-editor/edit/##eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEF2YWlsYWJpbGl0eVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pIiwibWVybWFpZCI6IntcbiAgXCJ0aGVtZVwiOiBcImRlZmF1bHRcIlxufSIsInVwZGF0ZUVkaXRvciI6ZmFsc2UsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)
 
-Asks for a `JSON` representation and changes the title of each events that starts with a `*` to `Unavailable`.
+Asks for a `JSON` representation and applies the rules with the name `busy`.
 
 ## AggregateStore
 

@@ -1,0 +1,6 @@
+transformation:
+  busy:
+    - match: '\* .*'
+      replace: "Busy"
+    - match: '\+  .*'
+      replace: "Available"
