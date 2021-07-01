@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { constant } from "../default-holidays.json";
 
 export function nextDay(date: Date, days = 1) {
   const [year, month, day] = getUtcComponents(date || new Date());
@@ -16,6 +17,13 @@ export function utcDate(year: number, month: number, days: number) {
 export function inWeekend(date: Date) {
   const day = date.getUTCDay();
   return day === 6 || day === 0;
+}
+
+export function onHoliday(date: Date) {
+  const day = date.getUTCDate();
+  const month = date.getUTCMonth();
+
+  return constant.some((h) => h.date.day === day && h.date.month === month);
 }
 
 export function setZoneTime(

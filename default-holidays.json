@@ -1,0 +1,18 @@
+{
+    "constant": [
+        {
+            "name": "New Year",
+            "date": {
+                "day": 1,
+                "month": 0
+            }
+        },
+        {
+            "name": "New Year's Eve",
+            "date": {
+                "day": 31,
+                "month": 11
+            }
+        }
+    ]
+}
