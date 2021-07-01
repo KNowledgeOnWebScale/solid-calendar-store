@@ -14,7 +14,7 @@ map:map_events_000 rml:logicalSource map:source_001;
     a rr:TriplesMap;
     rdfs:label "events";
     rr:subjectMap map:s_001;
-    rr:predicateObjectMap map:pom_002, map:pom_003, map:pom_004, map:pom_005.
+    rr:predicateObjectMap map:pom_002, map:pom_003, map:pom_004, map:pom_005, map:pom_006, map:pom_007, map:pom_008.
 map:om_000 a rr:ObjectMap;
     rml:reference "name";
     rr:termType rr:Literal.
@@ -32,6 +32,15 @@ map:om_004 a rr:ObjectMap;
 map:om_005 a rr:ObjectMap;
     rml:reference "endDate";
     rr:termType rr:Literal.
+map:om_006 a rr:ObjectMap;
+    rml:reference "description";
+    rr:termType rr:Literal.
+map:om_007 a rr:ObjectMap;
+    rml:reference "url";
+    rr:termType rr:Literal.
+map:om_008 a rr:ObjectMap;
+    rml:reference "location";
+    rr:termType rr:Literal.
 map:pm_000 a rr:PredicateMap;
     rr:constant <http://schema.org/name>.
 map:pm_001 a rr:PredicateMap;
@@ -44,6 +53,12 @@ map:pm_004 a rr:PredicateMap;
     rr:constant <http://schema.org/startDate>.
 map:pm_005 a rr:PredicateMap;
     rr:constant <http://schema.org/endDate>.
+map:pm_006 a rr:PredicateMap;
+    rr:constant <http://schema.org/description>.
+map:pm_007 a rr:PredicateMap;
+    rr:constant <http://schema.org/url>.
+map:pm_008 a rr:PredicateMap;
+    rr:constant <http://schema.org/location>.
 map:pom_000 a rr:PredicateObjectMap;
     rr:predicateMap map:pm_000;
     rr:objectMap map:om_000.
@@ -62,6 +77,15 @@ map:pom_004 a rr:PredicateObjectMap;
 map:pom_005 a rr:PredicateObjectMap;
     rr:predicateMap map:pm_005;
     rr:objectMap map:om_005.
+map:pom_006 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_006;
+    rr:objectMap map:om_006.
+map:pom_007 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_007;
+    rr:objectMap map:om_007.
+map:pom_008 a rr:PredicateObjectMap;
+    rr:predicateMap map:pm_008;
+    rr:objectMap map:om_008.
 map:rules_000 a <http://rdfs.org/ns/void#Dataset>;
     <http://rdfs.org/ns/void#exampleResource> map:map_calendar_000, map:map_events_000.
 map:s_000 a rr:SubjectMap;

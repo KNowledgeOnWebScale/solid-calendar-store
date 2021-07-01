@@ -8,6 +8,15 @@ import {
   TypedRepresentationConverter,
 } from "@solid/community-server";
 
+interface Event {
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  description?: string;
+  url?: string;
+  location?: string;
+}
+
 const ICAL = require("ical.js");
 const outputType = "application/json";
 
@@ -21,7 +30,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     representation,
   }: RepresentationConverterArgs): Promise<Representation> {
     const data = await readableToString(representation.data);
-    const events: Object[] = [];
+    const events: Event[] = [];
 
     if (!data || !data.length)
       throw new BadRequestHttpError("Empty input is not allowed");
@@ -32,16 +41,37 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
 
     for (const vevent of vevents) {
       const summary = vevent.getFirstPropertyValue("summary");
+
+      if (!summary)
+        throw new BadRequestHttpError("Summary needs to be provided");
+
       let startDate = vevent.getFirstPropertyValue("dtstart");
+
+      if (!startDate)
+        throw new BadRequestHttpError("Dtstart needs to be provided");
+
       startDate = new Date(startDate).toISOString();
       let endDate = vevent.getFirstPropertyValue("dtend");
       endDate = new Date(endDate).toISOString();
 
-      events.push({ title: summary, startDate, endDate });
+      const event: Event = {
+        title: summary,
+        startDate,
+        endDate,
+      };
+
+      if (vevent.hasProperty("description"))
+        event.description = vevent.getFirstPropertyValue("description");
+      if (vevent.hasProperty("url"))
+        event.url = vevent.getFirstPropertyValue("url");
+      if (vevent.hasProperty("location"))
+        event.location = vevent.getFirstPropertyValue("location");
+
+      events.push(event);
     }
 
     const calendar = {
-      name: vcalendar.getFirstPropertyValue("x-wr-calname"),
+      name: vcalendar.getFirstPropertyValue("x-wr-calname") as string,
       events,
     };
 
