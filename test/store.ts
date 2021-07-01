@@ -20,6 +20,7 @@ const correctConfig = "./test/configs/test-config.json";
 const emptyConfig = "./test/configs/test-empty-config.json";
 const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 const weekendConfig = "./test/configs/test-weekend-config.json";
+const removeFieldsConfig = "./test/configs/test-remove-fields-config.json";
 
 /**
  * Performs a GET request on 1 of the endpoints and parses the response to JSON.
@@ -157,7 +158,7 @@ describe("stores", function () {
   });
 
   describe("TransformationStore", () => {
-    it("Non-applying events should be left alone", async () => {
+    it("Non-applying events should only contain insensitive fields", async () => {
       const expectedResult = [
         {
           description: "It works ;)",
@@ -240,6 +241,35 @@ describe("alternate icalserver", () => {
   });
 });
 
+describe("Alternate TransformationStore", () => {
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(removeFieldsConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("removeFieldsConfig overrides default", async () => {
+    const expectedResult = [
+      {
+        description: "It works ;)",
+        location: "my room",
+        url: "http://sebbo.net/",
+      },
+    ];
+
+    const result = await getEndpoint("transformation");
+
+    expect(result).to.deep.equal(expectedResult);
+  });
+});
+
 describe("empty config", () => {
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
@@ -254,7 +284,7 @@ describe("empty config", () => {
     icalServer.stop();
   });
 
-  it("TransformationStore - Data should be unchanged", async () => {
+  it("TransformationStore - Only insensitive data should remain", async () => {
     const expectedResult = [
       {
         startDate: "2021-06-16T10:00:10.000Z",
