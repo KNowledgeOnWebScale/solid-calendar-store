@@ -2,5 +2,6 @@ transformation:
   busy:
     - match: '\* .*'
       replace: "Busy"
+      removeFields: [description]
     - match: '\+  .*'
       replace: "Available"

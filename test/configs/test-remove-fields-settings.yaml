@@ -1,0 +1,13 @@
+availabilitySlots:
+  - startTime:
+      hour: 9
+      minutes: 0
+    endTime:
+      hour: 10
+      minutes: 0
+minimumSlotDuration: 30
+transformation:
+  busy:
+    - match: "Example Event"
+      replace: "Filtered"
+      removeFields: [title, endDate, startDate]

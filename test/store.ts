@@ -20,6 +20,7 @@ const correctConfig = "./test/configs/test-config.json";
 const emptyConfig = "./test/configs/test-empty-config.json";
 const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 const weekendConfig = "./test/configs/test-weekend-config.json";
+const removeFieldsConfig = "./test/configs/test-remove-fields-config.json";
 
 /**
  * Performs a GET request on 1 of the endpoints and parses the response to JSON.
@@ -56,14 +57,20 @@ describe("stores", function () {
     it("Aggregate should concat the events", async () => {
       const expectedResult = [
         {
+          description: "It works ;)",
+          location: "my room",
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "[my first iCal] Example Event",
+          url: "http://sebbo.net/",
         },
         {
+          description: "It works ;)",
+          location: "my room",
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "[my first iCal] Example Event",
+          url: "http://sebbo.net/",
         },
       ];
 
@@ -85,9 +92,12 @@ describe("stores", function () {
         name: "my first iCal",
         events: [
           {
-            endDate: "2021-06-16T10:00:13.000Z",
+            description: "It works ;)",
+            location: "my room",
             startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
             title: "Example Event",
+            url: "http://sebbo.net/",
           },
         ],
       };
@@ -148,12 +158,15 @@ describe("stores", function () {
   });
 
   describe("TransformationStore", () => {
-    it("Non-applying events should be left alone", async () => {
+    it("Non-applying events should only contain insensitive fields", async () => {
       const expectedResult = [
         {
+          description: "It works ;)",
+          location: "my room",
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Example Event",
+          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("busy");
@@ -167,6 +180,9 @@ describe("stores", function () {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Out of office",
+          description: "It works ;)",
+          location: "my room",
+          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("transformation");
@@ -197,22 +213,60 @@ describe("alternate icalserver", () => {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Example Event",
+          description: "It works ;)",
+          location: "my room",
+          url: "http://sebbo.net/",
         },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Available",
+          description: "It works ;)",
+          location: "my room",
+          url: "http://sebbo.net/",
         },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Unavailable",
+          description: "It works ;)",
+          location: "my room",
+          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("busy");
 
       expect(result).to.deep.equal(expectedResult);
     });
+  });
+});
+
+describe("Alternate TransformationStore", () => {
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(removeFieldsConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("removeFieldsConfig overrides default", async () => {
+    const expectedResult = [
+      {
+        description: "It works ;)",
+        location: "my room",
+        url: "http://sebbo.net/",
+      },
+    ];
+
+    const result = await getEndpoint("transformation");
+
+    expect(result).to.deep.equal(expectedResult);
   });
 });
 
@@ -230,12 +284,15 @@ describe("empty config", () => {
     icalServer.stop();
   });
 
-  it("TransformationStore - Data should be unchanged", async () => {
+  it("TransformationStore - Only insensitive data should remain", async () => {
     const expectedResult = [
       {
         startDate: "2021-06-16T10:00:10.000Z",
         endDate: "2021-06-16T10:00:13.000Z",
         title: "Example Event",
+        description: "It works ;)",
+        location: "my room",
+        url: "http://sebbo.net/",
       },
     ];
 

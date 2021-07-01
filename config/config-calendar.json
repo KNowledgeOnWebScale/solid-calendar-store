@@ -118,6 +118,10 @@
       "JsonToRdfConverter:_rmlRulesPath": "events.rml.ttl"
     },
     {
+      "@id": "solid-calendar:JsonToIcsConverter",
+      "@type": "JsonToIcsConverter"
+    },
+    {
       "@id": "solid-calendar:HttpGetStore",
       "@type": "HttpGetStore"
     },

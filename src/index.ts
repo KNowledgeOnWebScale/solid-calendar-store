@@ -4,3 +4,4 @@ export * from "./json-to-rdf-converter";
 export * from "./availability-store";
 export * from "./aggregate-store";
 export * from "./transformation-store";
+export * from "./json-to-ics-converter";

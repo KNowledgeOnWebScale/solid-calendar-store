@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
+    { "solid-calendar": "urn:solid-calendar:default:" }
+  ],
+  "import": [
+    "files-sc:config/config-calendar.json"
+  ],
+  "@graph": [
+    {
+      "@id": "solid-calendar:HttpGetStore",
+      "HttpGetStore:_options_url": "http://localhost:3001"
+    },
+    {
+      "@id": "solid-calendar:AvailabilityStore",
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
+      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
+    },
+    {
+      "@id": "solid-calendar:BusyStore",
+      "TransformationStore:_options_settingsPaths": ["test/configs/test-settings.yaml"]
+    },
+    {
+      "@id": "solid-calendar:TransformationStore",
+      "TransformationStore:_options_settingsPaths": ["test/configs/test-remove-fields-settings.yaml"]
+    }
+  ]
+}
