@@ -73,7 +73,7 @@
         },
         {
           "RegexRouterRule:_storeMap_key": "^/busy$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:BusyStore" }
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:ExtendedBusyStore" }
         },
         {
           "RegexRouterRule:_storeMap_key": "^/aggregate$",
@@ -132,6 +132,17 @@
         "@id": "solid-calendar:CalendarStore"
       },
       "AvailabilityStore:_options_baseUrl": "http://example.com/"
+    },
+    {
+      "@id": "solid-calendar:ExtendedBusyStore",
+      "@type": "AggregateStore",
+      "AggregateStore:_source1": { "@id": "solid-calendar:BusyStore" },
+      "AggregateStore:_source2": { "@id": "solid-calendar:HolidayStore"}
+    },
+    {
+      "@id": "solid-calendar:HolidayStore",
+      "@type": "HolidayStore",
+      "HolidayStore:_options_configPath": "./src/default-holidays.json"
     },
     {
       "@id": "solid-calendar:BusyStore",

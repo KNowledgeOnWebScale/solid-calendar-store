@@ -14,5 +14,18 @@
                 "month": 11
             }
         }
-    ]
+    ],
+    "shifting": [ 
+        {
+            "name": "Father's Day",
+            "date": {
+                "n": 2,
+                "weekday": 0,
+                "month": 5
+            }
+        }
+    ],
+    "fluid": {
+        "easter": "2021-04-04"
+    }
 }

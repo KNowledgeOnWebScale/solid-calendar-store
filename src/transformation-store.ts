@@ -84,7 +84,7 @@ export class TransformationStore extends PassthroughStore<HttpGetStore> {
     });
 
     return new BasicRepresentation(
-      JSON.stringify(events),
+      JSON.stringify({ name: calendar.name, events }),
       sourceRepresentation.metadata,
       outputType
     );
