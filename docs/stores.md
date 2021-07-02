@@ -21,6 +21,8 @@ _type: AvailabilityStore_
 AvailibilityStore asks for a `JSON` representation.  
 It first reads the yaml file specified in `config.json`, then generates the available timeslots in a 14-day period based upon the configurations specified in this yaml. The summary of each timeslot is: `Available for meetings`.
 
+No timeslots are generated on a weekend and on a holiday.
+
 ## TransformationStore
 
 _type: TransformationStore_
@@ -44,3 +46,9 @@ _type: AggregateStore_
 [![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEFnZ3JlZ2F0ZVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pXG4gICAgRFtSZXNvdXJjZUlkZW50aWZpZXJdIC0tPiB8Q2FsZW5kYXJTdG9yZXxFKFJlcHJlc2VudGF0aW9uPHRleHQvY2FsZW5kYXI-KVxuICAgIEUgLS0-IEMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6ZmFsc2V9)](https://mermaid-js.github.io/mermaid-live-editor/edit/##eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEFnZ3JlZ2F0ZVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pXG4gICAgRFtSZXNvdXJjZUlkZW50aWZpZXJdIC0tPiB8Q2FsZW5kYXJTdG9yZXxFKFJlcHJlc2VudGF0aW9uPHRleHQvY2FsZW5kYXI-KVxuICAgIEUgLS0-IENcbiAgICAiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
 
 Converts 2 representations to `JSON` and concats them. The title of each now also has the calendar name prepended to it, e.g. `[name] event`.
+
+## HolidayStore
+
+_type: HolidayStore_
+
+Generates a list of holidays from a given json file. These can then, for example, be used in conjunction with BusyStore to also show holidays on which the user isn't available.

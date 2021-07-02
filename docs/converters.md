@@ -4,6 +4,25 @@
 
 _type: IcsToJsonConverter_
 
+Converts an ics file to json file, only the following fields are kept:
+
+```
+interface Event {
+  summary: string;
+  start: Date;
+  end: Date;
+  description?: string;
+  url?: string;
+  location?: string;
+}
+```
+
+## JsonToIcsConverter
+
+_type: JsonToIcsConverter_
+
+Convert a json file to an ics file with events of the same format as IcsToJsonConverter.
+
 ## JsonToRdfConverter
 
 _type: JsonToRdfConverter_

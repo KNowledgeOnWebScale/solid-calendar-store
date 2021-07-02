@@ -4,7 +4,7 @@ Solid Calendar is a plugin for [CSS](https://github.com/solid/community-server),
 
 ## Initial setup
 
-Make sure to download [rmlmapper.jar](https://github.com/RMLio/rmlmapper-java/releases) and place it in the project root.
+Make sure to download [rmlmapper.jar](https://github.com/RMLio/rmlmapper-java/releases) and place it in the project root. This is not necessary, if the jar isn't there when it's needed it will be downloaded and placed there.
 
 ## How to run
 
@@ -40,6 +40,7 @@ A couple of things are defined in the `my-settings.yaml`. Firstly the `availabil
 [name]:
   match: [regex]
   replace: [string]
+  removeFields: [string array]
 ```
 
 The name is not unique, i.e. it is possible to define multiple rules with the name "busy" and let them all be applied when navigating to `/busy`.
@@ -47,3 +48,44 @@ The name is not unique, i.e. it is possible to define multiple rules with the na
 Match should be a valid JavaScript regex, excluding the `//`. It is important that when regex characters are escaped, e.g. `\*`, the match text is placed in `''` and not `""`.
 
 The string defined in `replace` will replace all the matched parts.
+
+RemoveFields is an optional string array that defines the to be removed fields of an event. If this line isn't provided only the title, start date and end date are kept.
+
+## Holidays
+
+Currently 3 types of holidays are defined:
+
+1. Constant: Holidays that are always on the same day (example: New Year)
+2. Shifting: Holidays that fall on the nth day of a month (example: Mothers Day)
+3. Fluid: Holidays that aren't exactly possible to be strictly defined (example: Easter)
+
+These are then structured in a json file like this:
+
+```json
+{
+    "constant": [
+        {
+            "name": [holiday name],
+            "date": {
+                "day": [UTC day],
+                "month": [UTC month]
+            }
+        },
+    ],
+    "shifting": [
+        {
+            "name": [holiday name],
+            "date": {
+                "n": [the nth it falls on],
+                "weekday": [which UTC weekday],
+                "month": [UTC month]
+            }
+        }
+    ],
+    "fluid": {
+        [holiday name]: [date (incl. year)]
+    }
+}
+```
+
+See `docs/stores.md` for places where the holidays are used.
