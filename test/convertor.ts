@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { IcsToJsonConverter } from "../src/ics-to-json-converter";
-import { JsonToRdfConverter } from "../src/json-to-rdf-converter";
 import { JsonToIcsConverter } from "../src/json-to-ics-converter";
+
 import {
   guardedStreamFrom,
   RepresentationMetadata,
@@ -9,6 +9,7 @@ import {
   BadRequestHttpError,
   InternalServerError,
 } from "@solid/community-server";
+import { AnyToRdfConverter } from "solid-store-rml";
 
 /**
  * Converts an input (typically JSON) to RDF and converts the stream to string
@@ -17,7 +18,10 @@ import {
  */
 const convertToRDF = async (input: any): Promise<any> => {
   const inputStream = guardedStreamFrom(JSON.stringify(input));
-  const outputStream = await new JsonToRdfConverter("./events.rml.ttl").handle({
+  const outputStream = await new AnyToRdfConverter(
+    "./events.rml.ttl",
+    "./rmlmapper.jar"
+  ).handle({
     identifier: { path: "json" },
     representation: {
       metadata: new RepresentationMetadata("json"),
@@ -290,105 +294,6 @@ END:VCALENDAR`;
     });
   });
 
-  describe("JsonToRdfConverter", () => {
-    it("Verify converter on correct input", async () => {
-      const input = {
-        name: "Test for Solid calendar",
-        events: [
-          {
-            title: "Correctly converted",
-            startDate: "2021-04-08T15:00:00.000Z",
-            endDate: "2021-04-08T17:00:00.000Z",
-            description: "An event",
-            location: "My room",
-            url: "http://example.com",
-          },
-        ],
-      };
-      const expectedResult = `
-<http://example.com/calendar/Test%20for%20Solid%20calendar> <http://schema.org/event>
-    <http://example.com/event/Correctly%20converted>;
-  <http://schema.org/name> "Test for Solid calendar" .
-
-<http://example.com/event/Correctly%20converted> a <http://schema.org/Date>;
-  <http://schema.org/description> "An event";
-  <http://schema.org/endDate> "2021-04-08T17:00:00.000Z";
-  <http://schema.org/location> "My room";
-  <http://schema.org/name> "Correctly converted";
-  <http://schema.org/startDate> "2021-04-08T15:00:00.000Z";
-  <http://schema.org/url> "http://example.com" .\n`;
-
-      const data = await convertToRDF(input);
-
-      expect(data).equal(expectedResult);
-    });
-
-    describe("Verify convertor on incorrect input", () => {
-      it("#1 - Partially correct input shouldn't crash the convertor", async () => {
-        const input = {
-          name: "Test for Solid calendar",
-          events: [
-            {
-              title: "Correctly converted",
-            },
-          ],
-          abcdef: "0123456",
-        };
-        const expectedResult = `
-<http://example.com/calendar/Test%20for%20Solid%20calendar> <http://schema.org/event>
-    <http://example.com/event/Correctly%20converted>;
-  <http://schema.org/name> "Test for Solid calendar" .
-
-<http://example.com/event/Correctly%20converted> a <http://schema.org/Date>;
-  <http://schema.org/name> "Correctly converted" .\n`;
-
-        const data = await convertToRDF(input);
-
-        expect(data).equal(expectedResult);
-      });
-
-      it("#2 - 500", async () => {
-        const input = [{}];
-
-        await expect(convertToRDF(input))
-          .to.eventually.be.rejectedWith(
-            "Could not convert the input to valid RDF"
-          )
-          .and.be.an.instanceOf(InternalServerError);
-      });
-
-      it("#3 - 500", async () => {
-        const input = [
-          {
-            abcdef: "Random field",
-          },
-        ];
-
-        await expect(convertToRDF(input))
-          .to.eventually.be.rejectedWith(
-            "Could not convert the input to valid RDF"
-          )
-          .and.be.an.instanceOf(InternalServerError);
-      });
-
-      it("#4 - 400", async () => {
-        await expect(
-          new JsonToRdfConverter("./events.rml.ttl").handle({
-            identifier: { path: "json" },
-            representation: {
-              metadata: new RepresentationMetadata("json"),
-              data: guardedStreamFrom(""),
-              binary: false,
-            },
-            preferences: {},
-          })
-        )
-          .to.eventually.be.rejectedWith("Empty input is not allowed")
-          .and.be.an.instanceOf(BadRequestHttpError);
-      });
-    });
-  });
-
   describe("IcsToRdfConverter", () => {
     it("Verify that the chain of conversions works", async () => {
       const event = `BEGIN:VCALENDAR
@@ -425,6 +330,7 @@ END:VCALENDAR`;
       const convertedRepresentation = await convertToJSON(event);
       const data = await readableToString(convertedRepresentation.data);
       const resultJSON = JSON.parse(data);
+
       const resultRDF = await convertToRDF(resultJSON);
 
       expect(resultRDF).equal(expectedResult);

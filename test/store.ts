@@ -39,7 +39,8 @@ const getEndpoint = async (endpoint: string): Promise<any> => {
 };
 
 describe("stores", function () {
-  this.timeout(3000);
+  this.timeout(4000);
+
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 
@@ -161,12 +162,9 @@ describe("stores", function () {
     it("Non-applying events should only contain insensitive fields", async () => {
       const expectedResult = [
         {
-          description: "It works ;)",
-          location: "my room",
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Example Event",
-          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("busy");
@@ -180,9 +178,6 @@ describe("stores", function () {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Out of office",
-          description: "It works ;)",
-          location: "my room",
-          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("transformation");
@@ -192,7 +187,9 @@ describe("stores", function () {
   });
 });
 
-describe("alternate icalserver", () => {
+describe("alternate icalserver", function () {
+  this.timeout(4000);
+
   const cssServer = new CssServer();
   const icalServer = new IcalServer(true);
 
@@ -213,25 +210,16 @@ describe("alternate icalserver", () => {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Example Event",
-          description: "It works ;)",
-          location: "my room",
-          url: "http://sebbo.net/",
         },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Available",
-          description: "It works ;)",
-          location: "my room",
-          url: "http://sebbo.net/",
         },
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Unavailable",
-          description: "It works ;)",
-          location: "my room",
-          url: "http://sebbo.net/",
         },
       ];
       const result = await getEndpoint("busy");
@@ -290,9 +278,6 @@ describe("empty config", () => {
         startDate: "2021-06-16T10:00:10.000Z",
         endDate: "2021-06-16T10:00:13.000Z",
         title: "Example Event",
-        description: "It works ;)",
-        location: "my room",
-        url: "http://sebbo.net/",
       },
     ];
 
@@ -302,7 +287,9 @@ describe("empty config", () => {
   });
 });
 
-describe("AvailabilityStore - No startDate", () => {
+describe("AvailabilityStore - No startDate", function () {
+  this.timeout(4000);
+
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 
@@ -338,7 +325,9 @@ describe("AvailabilityStore - No startDate", () => {
   });
 });
 
-describe("AvailabilityStore - Weekend", () => {
+describe("AvailabilityStore - Weekend", function () {
+  this.timeout(4000);
+
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 

@@ -8,6 +8,8 @@ _type: IcsToJsonConverter_
 
 _type: JsonToRdfConverter_
 
+Code for this convertor is hosted [here](https://gitlab.ilabt.imec.be/KNoWS/solid-store-rml).
+
 ## RdfRepresentationConverter
 
 _type: ChainedConverter_
