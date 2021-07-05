@@ -9,19 +9,25 @@ import {
 } from "@solid/community-server";
 
 const outputType = "application/json";
+const defaultCalendarName = (source1: string, source2: string) =>
+  `Aggregated calendar of ${source1} and ${source2}`;
 
 export class AggregateStore extends BaseResourceStore {
   private source1: RepresentationConvertingStore;
   private source2: RepresentationConvertingStore;
+  private readonly name?: string;
 
   constructor(
     source1: RepresentationConvertingStore,
-    source2: RepresentationConvertingStore
+    source2: RepresentationConvertingStore,
+    options: { name?: string }
   ) {
     super();
 
     this.source1 = source1;
     this.source2 = source2;
+
+    this.name = options.name;
   }
 
   public async getRepresentation(
@@ -35,7 +41,15 @@ export class AggregateStore extends BaseResourceStore {
 
     const allEvents = events1.events.concat(events2.events);
 
-    return new BasicRepresentation(JSON.stringify(allEvents), outputType);
+    return new BasicRepresentation(
+      JSON.stringify({
+        name: this.name
+          ? this.name
+          : defaultCalendarName(events1.name, events2.name),
+        events: allEvents,
+      }),
+      outputType
+    );
   }
 
   async _getJson(

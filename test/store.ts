@@ -21,6 +21,7 @@ const emptyConfig = "./test/configs/test-empty-config.json";
 const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 const weekendConfig = "./test/configs/test-weekend-config.json";
 const removeFieldsConfig = "./test/configs/test-remove-fields-config.json";
+const aggregateNameConfig = "./test/configs/test-aggregate-name-config.json";
 
 /**
  * Performs a GET request on 1 of the endpoints and parses the response to JSON.
@@ -56,28 +57,40 @@ describe("stores", function () {
 
   describe("AggregateStore", () => {
     it("Aggregate should concat the events", async () => {
-      const expectedResult = [
-        {
-          description: "It works ;)",
-          location: "my room",
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "[my first iCal] Example Event",
-          url: "http://sebbo.net/",
-        },
-        {
-          description: "It works ;)",
-          location: "my room",
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "[my first iCal] Example Event",
-          url: "http://sebbo.net/",
-        },
-      ];
+      const expectedResult = {
+        events: [
+          {
+            description: "It works ;)",
+            location: "my room",
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "[my first iCal] Example Event",
+            url: "http://sebbo.net/",
+          },
+          {
+            description: "It works ;)",
+            location: "my room",
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "[my first iCal] Example Event",
+            url: "http://sebbo.net/",
+          },
+        ],
+      };
 
       const result = await getEndpoint("aggregate");
 
-      expect(result).to.deep.equal(expectedResult);
+      expect(result).excluding("name").to.deep.equal(expectedResult);
+    });
+
+    it("Default name is used", async () => {
+      const expectedResult = {
+        name: "Aggregated calendar of my first iCal and my first iCal",
+      };
+
+      const result = await getEndpoint("aggregate");
+
+      expect(result).excluding("events").to.deep.equal(expectedResult);
     });
   });
 
@@ -128,7 +141,7 @@ describe("stores", function () {
       const expectedResult = "Available for meetings";
 
       const result = await getEndpoint("availability");
-      const resultSummary = result.map(
+      const resultSummary = result.events.map(
         ({ summary }: { summary: String }) => summary
       );
 
@@ -138,7 +151,7 @@ describe("stores", function () {
     it("Start date should be the date specified in the config", async () => {
       const result = await getEndpoint("availability");
       const resultTyped = getUtcComponents(
-        new Date(result[result.length - 1].startDate)
+        new Date(result.events[result.events.length - 1].startDate)
       );
 
       const startDate =
@@ -150,9 +163,10 @@ describe("stores", function () {
 
     it("Slots should be over a 14 day period", async () => {
       const result = await getEndpoint("availability");
+      const events = result.events;
 
-      const endDate = new Date(result[0].startDate);
-      const startDate = new Date(result[result.length - 1].startDate);
+      const endDate = new Date(events[0].startDate);
+      const startDate = new Date(events[events.length - 1].startDate);
 
       assert.deepStrictEqual(getDatesBetween(endDate, startDate), 14);
     });
@@ -160,26 +174,32 @@ describe("stores", function () {
 
   describe("TransformationStore", () => {
     it("Non-applying events should only contain insensitive fields", async () => {
-      const expectedResult = [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
-        },
-      ];
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Example Event",
+          },
+        ],
+      };
       const result = await getEndpoint("busy");
 
       expect(result).to.deep.equal(expectedResult);
     });
 
     it("By default all rules apply", async () => {
-      const expectedResult = [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Out of office",
-        },
-      ];
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Out of office",
+          },
+        ],
+      };
       const result = await getEndpoint("transformation");
 
       expect(result).to.deep.equal(expectedResult);
@@ -205,23 +225,26 @@ describe("alternate icalserver", function () {
 
   describe("TransformationStore", () => {
     it("A definition can contain multiple rules", async () => {
-      const expectedResult = [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
-        },
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Available",
-        },
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Unavailable",
-        },
-      ];
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Example Event",
+          },
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Available",
+          },
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Unavailable",
+          },
+        ],
+      };
       const result = await getEndpoint("busy");
 
       expect(result).to.deep.equal(expectedResult);
@@ -244,13 +267,16 @@ describe("Alternate TransformationStore", () => {
   });
 
   it("removeFieldsConfig overrides default", async () => {
-    const expectedResult = [
-      {
-        description: "It works ;)",
-        location: "my room",
-        url: "http://sebbo.net/",
-      },
-    ];
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          description: "It works ;)",
+          location: "my room",
+          url: "http://sebbo.net/",
+        },
+      ],
+    };
 
     const result = await getEndpoint("transformation");
 
@@ -273,13 +299,16 @@ describe("empty config", () => {
   });
 
   it("TransformationStore - Only insensitive data should remain", async () => {
-    const expectedResult = [
-      {
-        startDate: "2021-06-16T10:00:10.000Z",
-        endDate: "2021-06-16T10:00:13.000Z",
-        title: "Example Event",
-      },
-    ];
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Example Event",
+        },
+      ],
+    };
 
     const result = await getEndpoint("transformation");
 
@@ -306,7 +335,7 @@ describe("AvailabilityStore - No startDate", function () {
   it("startDate is now", async () => {
     const result = await getEndpoint("availability");
     const resultStartDateTyped = getUtcComponents(
-      new Date(result[result.length - 1].startDate)
+      new Date(result.events[result.events.length - 1].startDate)
     ).toString();
 
     const expectedResult = getUtcComponents().toString();
@@ -317,7 +346,7 @@ describe("AvailabilityStore - No startDate", function () {
   it("stampDate is now", async () => {
     const result = await getEndpoint("availability");
     const resultStampDateTyped = getUtcComponents(
-      new Date(result[result.length - 1].startDate)
+      new Date(result.events[result.events.length - 1].startDate)
     ).toString();
 
     const expectedResult = getUtcComponents().toString();
@@ -343,7 +372,7 @@ describe("AvailabilityStore - Weekend", function () {
 
   it("stampDate is in weekend", async () => {
     const result = await getEndpoint("availability");
-    const resultStampDate = result
+    const resultStampDate = result.events
       .map(({ stampDate }: { stampDate: Date }) =>
         inWeekend(new Date(stampDate))
       )
@@ -354,7 +383,7 @@ describe("AvailabilityStore - Weekend", function () {
 
   it("startDate is not in weekend", async () => {
     const result = await getEndpoint("availability");
-    const resultStartDate = result
+    const resultStartDate = result.events
       .map(
         ({ startDate }: { startDate: Date }) => !inWeekend(new Date(startDate))
       )
@@ -365,10 +394,37 @@ describe("AvailabilityStore - Weekend", function () {
 
   it("slots are over 11 day period", async () => {
     const result = await getEndpoint("availability");
-
-    const endDate = new Date(result[0].startDate);
-    const startDate = new Date(result[result.length - 1].startDate);
+    const events = result.events;
+    const endDate = new Date(events[0].startDate);
+    const startDate = new Date(events[events.length - 1].startDate);
 
     assert.deepStrictEqual(getDatesBetween(endDate, startDate), 11);
+  });
+});
+
+describe("AggregateStore - Alternate", function () {
+  this.timeout(4000);
+
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(aggregateNameConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("Calendar name is the custom defined name", async () => {
+    const expectedResult = {
+      name: "Custom calendar name",
+    };
+
+    const result = await getEndpoint("aggregate");
+
+    expect(result).excluding("events").to.deep.equal(expectedResult);
   });
 });

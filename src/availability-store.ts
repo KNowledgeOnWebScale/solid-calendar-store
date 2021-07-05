@@ -83,7 +83,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     );
 
     return new BasicRepresentation(
-      JSON.stringify(slots),
+      JSON.stringify({ name: calendar.name, events: slots }),
       identifier,
       outputType
     );
