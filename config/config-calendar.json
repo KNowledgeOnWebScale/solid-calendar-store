@@ -2,9 +2,11 @@
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-store-rml/^0.0.0/components/context.jsonld",
     {
       "solid-calendar": "urn:solid-calendar:default:",
-      "solid-server": "urn:solid-server:default:"
+      "solid-server": "urn:solid-server:default:",
+      "solid-store-rml": "urn:solid-store-rml:default:"
     }
   ],
   "import": [
@@ -37,21 +39,22 @@
     "files-scs:config/ldp/authentication/dpop-bearer.json",
     "files-scs:config/ldp/permissions/acl.json",
     "files-scs:config/ldp/handler/default.json",
-    "files-scs:config/ldp/authorization/webacl.json"
+    "files-scs:config/ldp/authorization/webacl.json",
+
+    "files-ssr:config/default.json"
   ],
   "@graph": [
     {
-      "comment": "A more complex example with 3 different stores being routed to.",
-      "@id": "urn:solid-server:default:ResourceStore",
+      "@id": "solid-server:ResourceStore",
       "@type": "MonitoringStore",
       "MonitoringStore:_source": {
-      "@id": "urn:solid-server:default:ResourceStore_Locking",
+      "@id": "solid-server:ResourceStore_Locking",
       "LockingResourceStore:_source": {
-        "@id": "urn:solid-server:default:ResourceStore_Patching",
+        "@id": "solid-server:ResourceStore_Patching",
         "PatchingStore:_source": {
-          "@id": "urn:solid-server:default:ResourceStore_Converting",
+          "@id": "solid-server:ResourceStore_Converting",
           "RepresentationConvertingStore:_source": {
-              "@id": "urn:solid-server:default:ResourceStore_Routing"
+              "@id": "solid-server:ResourceStore_Routing"
             }
           }
         }
@@ -59,9 +62,9 @@
     },
 
     {
-      "@id": "urn:solid-server:default:RouterRule",
+      "@id": "solid-server:RouterRule",
       "@type": "RegexRouterRule",
-      "base": { "@id": "urn:solid-server:default:variable:baseUrl" },
+      "base": { "@id": "solid-server:variable:baseUrl" },
       "storeMap": [
         {
           "RegexRouterRule:_storeMap_key": "^/holidays/busy$",
@@ -89,16 +92,16 @@
         },
         {
           "RegexRouterRule:_storeMap_key": "^/(\\.acl)?$",
-          "RegexRouterRule:_storeMap_value": { "@id": "urn:solid-server:default:MemoryResourceStore" }
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
         }
       ]
     },
     {
-      "@id": "urn:solid-server:default:MemoryResourceStore",
+      "@id": "solid-server:MemoryResourceStore",
       "@type": "DataAccessorBasedStore",
-      "identifierStrategy": { "@id": "urn:solid-server:default:IdentifierStrategy" },
-      "auxiliaryStrategy": { "@id": "urn:solid-server:default:AuxiliaryStrategy" },
-      "accessor": { "@id": "urn:solid-server:default:MemoryDataAccessor" }
+      "identifierStrategy": { "@id": "solid-server:IdentifierStrategy" },
+      "auxiliaryStrategy": { "@id": "solid-server:AuxiliaryStrategy" },
+      "accessor": { "@id": "solid-server:MemoryDataAccessor" }
     },
     {
       "@id": "solid-calendar:TransformationStore",
@@ -113,13 +116,13 @@
       "@type": "RDFStore"
     },
     {
-      "@id": "solid-calendar:IcsToJsonConverter",
-      "@type": "IcsToJsonConverter"
+      "@id": "solid-store-rml:AnyToRdfConverter",
+      "AnyToRdfConverter:_rmlRulesPath": "events.rml.ttl",
+      "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
     },
     {
-      "@id": "solid-calendar:JsonToRdfConverter",
-      "@type": "JsonToRdfConverter",
-      "JsonToRdfConverter:_rmlRulesPath": "events.rml.ttl"
+      "@id": "solid-calendar:IcsToJsonConverter",
+      "@type": "IcsToJsonConverter"
     },
     {
       "@id": "solid-calendar:JsonToIcsConverter",
@@ -185,7 +188,7 @@
           "@id": "solid-calendar:IcsToJsonConverter"
         },
         {
-          "@id": "solid-calendar:JsonToRdfConverter"
+          "@id": "solid-store-rml:AnyToRdfConverter"
         }
       ]
     },
@@ -204,7 +207,7 @@
           "@id": "solid-server:ContentTypeReplacer"
         },
         {
-          "@id": "solid-calendar:JsonToRdfConverter"
+          "@id": "solid-store-rml:AnyToRdfConverter"
         },
         {
           "@id": "solid-calendar:IcsToJsonConverter"

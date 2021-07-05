@@ -27,6 +27,8 @@ Convert a json file to an ics file with events of the same format as IcsToJsonCo
 
 _type: JsonToRdfConverter_
 
+Code for this convertor is hosted [here](https://gitlab.ilabt.imec.be/KNoWS/solid-store-rml).
+
 ## RdfRepresentationConverter
 
 _type: ChainedConverter_
