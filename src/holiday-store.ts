@@ -4,6 +4,7 @@ import {
   ResourceIdentifier,
   RepresentationPreferences,
   BaseResourceStore,
+  InternalServerError,
 } from "@solid/community-server";
 import { readJson } from "fs-extra";
 import { processShiftingHoliday } from "./date-utils";
@@ -26,7 +27,11 @@ export class HolidayStore extends BaseResourceStore {
     const holidays: { title: string; startDate: Date; endDate: Date }[] = [];
     const currentYear = new Date().getFullYear();
     const { constant, fluid, shifting } = await readJson(this.configPath).catch(
-      (e) => console.log(e)
+      (e) => {
+        if (e.code === "ENOENT")
+          throw new InternalServerError("Holiday config file is not found");
+        else throw e;
+      }
     );
 
     if (constant !== undefined) {
@@ -73,7 +78,7 @@ export class HolidayStore extends BaseResourceStore {
   }
 
   /**
-   * 
+   *
    * @param date - date, time doesn't matter
    * @returns startDate and endDate of the given date
    */

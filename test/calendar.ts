@@ -55,6 +55,7 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
+        undefined,
         allSlots
       );
       //console.log(slots);
@@ -114,6 +115,7 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
+        undefined,
         allSlots
       );
       //console.log(slots);
@@ -201,6 +203,7 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
+        undefined,
         undefined,
         startDate,
         endDate

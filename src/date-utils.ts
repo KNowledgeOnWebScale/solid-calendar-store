@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { constant, fluid, shifting } from "./default-holidays.json";
 
 export function nextDay(date: Date, days = 1) {
   const [year, month, day] = getUtcComponents(date || new Date());
@@ -19,14 +18,17 @@ export function inWeekend(date: Date) {
   return day === 6 || day === 0;
 }
 
-function onConstantHoliday(date: Date) {
+function onConstantHoliday(date: Date, constant: any[]) {
   const day = date.getUTCDate();
   const month = date.getUTCMonth();
 
-  return constant.some((h) => h.date.day === day && h.date.month === month);
+  return constant.some(
+    (h: { date: { day: number; month: number } }) =>
+      h.date.day === day && h.date.month === month
+  );
 }
 
-function onFluidHoliday(date: Date) {
+function onFluidHoliday(date: Date, fluid: { [s: string]: string }) {
   return Object.values(fluid).forEach(
     (f: string) => getUtcComponents(date) === getUtcComponents(new Date(f))
   );
@@ -45,20 +47,28 @@ export function processShiftingHoliday(shiftingHoliday: {
   return date;
 }
 
-function onShiftingHoliday(date: Date) {
-  return shifting.some((h) => {
-    if (h.date.month === date.getUTCMonth()) {
-      return (
-        getUtcComponents(processShiftingHoliday(h.date)) ===
-        getUtcComponents(date)
-      );
+function onShiftingHoliday(date: Date, shifting: any[]) {
+  return shifting.some(
+    (h: { date: { month: number; weekday: number; n: number } }) => {
+      if (h.date.month === date.getUTCMonth()) {
+        return (
+          getUtcComponents(processShiftingHoliday(h.date)) ===
+          getUtcComponents(date)
+        );
+      }
     }
-  });
+  );
 }
 
-export function onHoliday(date: Date) {
+export function onHoliday(
+  date: Date,
+  holidays: { constant: any; fluid: any; shifting: any }
+) {
+  const { constant, fluid, shifting } = holidays;
   return (
-    onConstantHoliday(date) || onFluidHoliday(date) || onShiftingHoliday(date)
+    onConstantHoliday(date, constant) ||
+    onFluidHoliday(date, fluid) ||
+    onShiftingHoliday(date, shifting)
   );
 }
 
