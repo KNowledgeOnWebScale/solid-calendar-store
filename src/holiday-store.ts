@@ -7,7 +7,7 @@ import {
   InternalServerError,
 } from "@solid/community-server";
 import { readJson } from "fs-extra";
-import { processShiftingHoliday } from "./date-utils";
+import { processShiftingHoliday, utcDate } from "./date-utils";
 
 const outputType = "application/json";
 
@@ -40,7 +40,7 @@ export class HolidayStore extends BaseResourceStore {
           holidays.push({
             title: h.name,
             ...this._getStartAndEndDate(
-              new Date(currentYear, h.date.month, h.date.day)
+              utcDate(currentYear, h.date.month, h.date.day)
             ),
           })
       );
@@ -84,9 +84,9 @@ export class HolidayStore extends BaseResourceStore {
    */
   _getStartAndEndDate(date: Date) {
     const start = new Date(date);
-    start.setHours(0, 0);
+    start.setUTCHours(0, 0);
     const end = new Date(date);
-    end.setHours(23, 59);
+    end.setUTCHours(23, 59);
 
     return { startDate: start, endDate: end };
   }

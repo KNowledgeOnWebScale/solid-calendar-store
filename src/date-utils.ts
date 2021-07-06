@@ -84,7 +84,7 @@ export function setZoneTime(
     .toJSDate();
 }
 
-export function getDatesBetween(fstDate: Date, sndDate: Date): Number {
+export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
   return DateTime.fromJSDate(fstDate).diff(DateTime.fromJSDate(sndDate), [
     "days",
   ]).days;

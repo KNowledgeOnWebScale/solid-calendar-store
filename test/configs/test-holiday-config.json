@@ -15,7 +15,11 @@
       "@id": "solid-calendar:AvailabilityStore",
       "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
       "AvailabilityStore:_options_startDate": "2021-12-31T07:47:29.182Z",
-      "AvailabilityStore:_options_holidayConfigPath": "test/configs/holidays.json"
+      "AvailabilityStore:_options_holidaySource": { "@id": "solid-calendar:HolidayStore" }
+    },
+    {
+      "@id": "solid-calendar:HolidayStore",
+      "HolidayStore:_options_configPath": "test/configs/holidays.json"
     }
   ]
 }

@@ -5,6 +5,7 @@ import {
   PassthroughStore,
   readableToString,
   Representation,
+  RepresentationConvertingStore,
   RepresentationPreferences,
   ResourceIdentifier,
 } from "@solid/community-server";
@@ -14,6 +15,7 @@ import { HttpGetStore } from "./http-get-store";
 import yaml from "js-yaml";
 import fs, { readJson } from "fs-extra";
 import path from "path";
+import { getUtcComponents } from "./date-utils";
 
 const outputType: string = "application/json";
 
@@ -21,7 +23,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
   private readonly baseUrl: string;
   private availabilitySlots: [];
   private readonly settingsPath: string;
-  private readonly holidayConfigPath?: string;
+  private readonly holidaySource?: RepresentationConvertingStore;
   private minimumSlotDuration: number;
   private startDate: Date;
 
@@ -30,7 +32,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     options: {
       baseUrl: string;
       settingsPath: string;
-      holidayConfigPath?: string;
+      holidaySource?: RepresentationConvertingStore;
       startDate?: string;
     }
   ) {
@@ -42,7 +44,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     this.startDate = options.startDate
       ? new Date(options.startDate)
       : new Date();
-    this.holidayConfigPath = options.holidayConfigPath;
+    this.holidaySource = options.holidaySource;
     this._getSettings();
   }
 
@@ -65,22 +67,34 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       event.endDate = new Date(event.endDate);
     });
 
-    let holidays: any = undefined;
-    if (this.holidayConfigPath)
-      holidays = await readJson(this.holidayConfigPath).catch((e) => {
-        if (e.code === "ENOENT")
-          throw new InternalServerError("Holiday config file is not found");
-        else throw e;
-      });
-
-    const slots = getAvailableSlots(
+    let slots = getAvailableSlots(
       this.baseUrl,
       events,
       this.availabilitySlots,
       this.minimumSlotDuration,
-      this.startDate,
-      holidays
+      this.startDate
     );
+
+    if (this.holidaySource) {
+      const sourceRepresentation: Representation =
+        await this.holidaySource.getRepresentation(identifier, {
+          type: { "application/json": 1 },
+        });
+      const data = await readableToString(sourceRepresentation.data);
+      const calendar = JSON.parse(data);
+      const events = calendar.events;
+
+      slots = slots.filter(
+        (s) =>
+          !events.some(
+            (ev: { startDate: Date; endDate: Date }) =>
+              getUtcComponents(new Date(ev.startDate)) <=
+                getUtcComponents(new Date(s.startDate)) &&
+              getUtcComponents(new Date(ev.endDate)) >=
+                getUtcComponents(new Date(s.endDate))
+          )
+      );
+    }
 
     return new BasicRepresentation(
       JSON.stringify({ name: calendar.name, events: slots }),

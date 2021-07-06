@@ -90,7 +90,6 @@ export function getAvailableSlots(
   availabilitySlots: any[],
   minimumSlotDuration: number,
   now: Date,
-  holidays?: any,
   slots?: any[],
   startDate?: Date,
   endDate?: Date
@@ -100,14 +99,7 @@ export function getAvailableSlots(
   endDate = endDate ? endDate : nextDay(startDate, 14);
 
   if (!slots) {
-    slots = getSlots(
-      startDate,
-      endDate,
-      baseUrl,
-      availabilitySlots,
-      now,
-      holidays
-    );
+    slots = getSlots(startDate, endDate, baseUrl, availabilitySlots, now);
   }
 
   // Subtract unavailabilities
@@ -134,8 +126,7 @@ export function getSlots(
   endDate: Date,
   baseUrl: string,
   availabilitySlots: any[],
-  stampDate: Date,
-  holidays?: any
+  stampDate: Date
 ) {
   const slots = [];
   startDate = setHours(startDate, 23);
@@ -145,9 +136,7 @@ export function getSlots(
   // endDate = new Date(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
 
   for (let date = startDate; date < endDate; date = nextDay(date)) {
-    slots.push(
-      ...createSlots(date, baseUrl, availabilitySlots, stampDate, holidays)
-    );
+    slots.push(...createSlots(date, baseUrl, availabilitySlots, stampDate));
   }
 
   return slots;
@@ -164,12 +153,11 @@ export function createSlots(
   date: Date,
   baseUrl: string,
   availabilitySlots: any[],
-  stampDate: Date,
-  holidays?: any
+  stampDate: Date
 ) {
   const slots: any[] = [];
 
-  if (!inWeekend(date) && (!holidays || !onHoliday(date, holidays))) {
+  if (!inWeekend(date)) {
     availabilitySlots.forEach((slot) => {
       const { startTime, endTime } = slot;
       slots.push(createSlot(date, startTime, endTime, baseUrl, stampDate));

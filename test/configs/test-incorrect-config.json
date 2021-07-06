@@ -13,8 +13,7 @@
     },
     {
       "@id": "solid-calendar:AvailabilityStore",
-      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
-      "AvailabilityStore:_options_holidayConfigPath": "not-existing.json"
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml"
     },
     {
       "@id": "solid-calendar:HolidayStore",

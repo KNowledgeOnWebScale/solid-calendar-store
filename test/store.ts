@@ -1,7 +1,7 @@
 import { CssServer } from "./servers/test-css-server";
 import { IcalServer } from "./servers/test-ical-server";
 import {
-  getDatesBetween,
+  getDaysBetween,
   getUtcComponents,
   inWeekend,
   onHoliday,
@@ -176,7 +176,7 @@ describe("stores", function () {
       const endDate = new Date(events[0].startDate);
       const startDate = new Date(events[events.length - 1].startDate);
 
-      assert.deepStrictEqual(getDatesBetween(endDate, startDate), 14);
+      assert.deepStrictEqual(getDaysBetween(endDate, startDate), 14);
     });
   });
 
@@ -220,23 +220,23 @@ describe("stores", function () {
         name: "Holiday",
         events: [
           {
-            endDate: "2021-01-01T22:59:00.000Z",
-            startDate: "2020-12-31T23:00:00.000Z",
+            endDate: "2021-01-01T23:59:00.000Z",
+            startDate: "2021-01-01T00:00:00.000Z",
             title: "New Year",
           },
           {
-            endDate: "2021-12-31T22:59:00.000Z",
-            startDate: "2021-12-30T23:00:00.000Z",
+            endDate: "2021-12-31T23:59:00.000Z",
+            startDate: "2021-12-31T00:00:00.000Z",
             title: "New Year's Eve",
           },
           {
-            endDate: "2021-04-04T21:59:00.000Z",
-            startDate: "2021-04-03T22:00:00.000Z",
+            endDate: "2021-04-04T23:59:00.000Z",
+            startDate: "2021-04-04T00:00:00.000Z",
             title: "easter",
           },
           {
-            endDate: "2021-06-13T21:59:00.000Z",
-            startDate: "2021-06-12T22:00:00.000Z",
+            endDate: "2021-06-12T23:59:00.000Z",
+            startDate: "2021-06-12T00:00:00.000Z",
             title: "Father's Day",
           },
         ],
@@ -384,10 +384,6 @@ describe("incorrect config", function () {
     icalServer.stop();
   });
 
-  it("AvailabilityStore - 500", async () => {
-    await expect(getEndpoint("availability")).to.eventually.equal(500);
-  });
-
   it("HolidayStore - 500", async () => {
     await expect(getEndpoint("holidays")).to.eventually.equal(500);
   });
@@ -475,7 +471,7 @@ describe("AvailabilityStore - Weekend", function () {
     const endDate = new Date(events[0].startDate);
     const startDate = new Date(events[events.length - 1].startDate);
 
-    assert.deepStrictEqual(getDatesBetween(endDate, startDate), 11);
+    assert.deepStrictEqual(getDaysBetween(endDate, startDate), 11);
   });
 });
 

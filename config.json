@@ -14,7 +14,7 @@
     {
       "@id": "solid-calendar:AvailabilityStore",
       "AvailabilityStore:_options_settingsPath": "settings/my-settings.yaml",
-      "AvailabilityStore:_options_holidayConfigPath": "settings/default-holidays.json"
+      "AvailabilityStore:_options_holidaySource": { "@id": "solid-calendar:HolidayStore" }
     }
   ]
 }
