@@ -71,6 +71,10 @@
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:ExtendedBusyStore" }
         },
         {
+          "RegexRouterRule:_storeMap_key": "^/holidays(/)?$",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:HolidayStore" }
+        },
+        {
           "RegexRouterRule:_storeMap_key": "^/calendar$",
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar:CalendarStore" }
         },

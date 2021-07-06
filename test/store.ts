@@ -4,6 +4,7 @@ import {
   getDatesBetween,
   getUtcComponents,
   inWeekend,
+  onHoliday,
 } from "../src/date-utils";
 import fetch from "node-fetch";
 import { expect } from "chai";
@@ -15,6 +16,7 @@ import {
   readableToString,
 } from "@solid/community-server";
 import * as test_config_json from "./configs/test-config.json";
+import * as holiday_config_json from "./configs/holidays.json";
 
 const correctConfig = "./test/configs/test-config.json";
 const emptyConfig = "./test/configs/test-empty-config.json";
@@ -22,6 +24,8 @@ const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 const weekendConfig = "./test/configs/test-weekend-config.json";
 const removeFieldsConfig = "./test/configs/test-remove-fields-config.json";
 const aggregateNameConfig = "./test/configs/test-aggregate-name-config.json";
+const holidayConfig = "./test/configs/test-holiday-config.json";
+const incorrectConfig = "./test/configs/test-incorrect-config.json";
 
 /**
  * Performs a GET request on 1 of the endpoints and parses the response to JSON.
@@ -31,6 +35,8 @@ const aggregateNameConfig = "./test/configs/test-aggregate-name-config.json";
 const getEndpoint = async (endpoint: string): Promise<any> => {
   const response = await fetch(`http://localhost:3000/${endpoint}`);
   const text = await response.text();
+
+  if (response.status !== 200) return response.status;
 
   if (response.headers.get("content-type") !== "text/calendar") {
     return JSON.parse(text);
@@ -145,7 +151,9 @@ describe("stores", function () {
         ({ summary }: { summary: String }) => summary
       );
 
-      expect(resultSummary.every((s: string) => s === expectedResult));
+      expect(resultSummary.every((s: string) => s === expectedResult)).to.equal(
+        true
+      );
     });
 
     it("Start date should be the date specified in the config", async () => {
@@ -201,6 +209,39 @@ describe("stores", function () {
         ],
       };
       const result = await getEndpoint("transformation");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe("HolidayStore", () => {
+    it("Output should match expected output", async () => {
+      const expectedResult = {
+        name: "Holiday",
+        events: [
+          {
+            endDate: "2021-01-01T22:59:00.000Z",
+            startDate: "2020-12-31T23:00:00.000Z",
+            title: "New Year",
+          },
+          {
+            endDate: "2021-12-31T22:59:00.000Z",
+            startDate: "2021-12-30T23:00:00.000Z",
+            title: "New Year's Eve",
+          },
+          {
+            endDate: "2021-04-04T21:59:00.000Z",
+            startDate: "2021-04-03T22:00:00.000Z",
+            title: "easter",
+          },
+          {
+            endDate: "2021-06-13T21:59:00.000Z",
+            startDate: "2021-06-12T22:00:00.000Z",
+            title: "Father's Day",
+          },
+        ],
+      };
+      const result = await getEndpoint("holidays");
 
       expect(result).to.deep.equal(expectedResult);
     });
@@ -314,6 +355,42 @@ describe("empty config", () => {
 
     expect(result).to.deep.equal(expectedResult);
   });
+
+  it("HolidayStore - No events should be returned", async () => {
+    const expectedResult = {
+      name: "Holiday",
+      events: [],
+    };
+
+    const result = await getEndpoint("holidays");
+
+    expect(result).to.deep.equal(expectedResult);
+  });
+});
+
+describe("incorrect config", function () {
+  this.timeout(4000);
+
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(incorrectConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("AvailabilityStore - 500", async () => {
+    await expect(getEndpoint("availability")).to.eventually.equal(500);
+  });
+
+  it("HolidayStore - 500", async () => {
+    await expect(getEndpoint("holidays")).to.eventually.equal(500);
+  });
 });
 
 describe("AvailabilityStore - No startDate", function () {
@@ -378,18 +455,18 @@ describe("AvailabilityStore - Weekend", function () {
       )
       .every(Boolean);
 
-    expect(resultStampDate);
+    expect(resultStampDate).to.equal(true);
   });
 
   it("startDate is not in weekend", async () => {
     const result = await getEndpoint("availability");
     const resultStartDate = result.events
-      .map(
-        ({ startDate }: { startDate: Date }) => !inWeekend(new Date(startDate))
+      .map(({ startDate }: { startDate: Date }) =>
+        inWeekend(new Date(startDate))
       )
       .every(Boolean);
 
-    expect(resultStartDate);
+    expect(resultStartDate).to.equal(false);
   });
 
   it("slots are over 11 day period", async () => {
@@ -399,6 +476,45 @@ describe("AvailabilityStore - Weekend", function () {
     const startDate = new Date(events[events.length - 1].startDate);
 
     assert.deepStrictEqual(getDatesBetween(endDate, startDate), 11);
+  });
+});
+
+describe("AvailabilityStore - Holiday", function () {
+  this.timeout(4000);
+
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(holidayConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("stampDate is on a holiday", async () => {
+    const result = await getEndpoint("availability");
+    const resultStampDate = result.events
+      .map(({ stampDate }: { stampDate: Date }) =>
+        onHoliday(new Date(stampDate), holiday_config_json)
+      )
+      .every(Boolean);
+
+    expect(resultStampDate).to.equal(true);
+  });
+
+  it("startDate is not on a holiday", async () => {
+    const result = await getEndpoint("availability");
+    const resultStartDate = result.events
+      .map(({ startDate }: { startDate: Date }) =>
+        onHoliday(new Date(startDate), holiday_config_json)
+      )
+      .every(Boolean);
+
+    expect(resultStartDate).to.equal(false);
   });
 });
 

@@ -19,6 +19,10 @@
     {
       "@id": "solid-calendar:BusyStore",
       "TransformationStore:_options_settingsPaths": ["test/configs/empty-settings.yaml"]
+    },
+    {
+      "@id": "solid-calendar:HolidayStore",
+      "HolidayStore:_options_configPath": "test/configs/empty-holidays.json"
     }
   ]
 }
