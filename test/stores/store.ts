@@ -120,11 +120,9 @@ describe("stores", function () {
       const expectedResult = "Available for meetings";
 
       const result = await getEndpoint("availability");
-      const resultSummary = result.events.map(
-        ({ summary }: { summary: String }) => summary
-      );
+      const resultTitle = result.map(({ title }: { title: String }) => title);
 
-      expect(resultSummary.every((s: string) => s === expectedResult)).to.equal(
+      expect(resultTitle.every((s: string) => s === expectedResult)).to.equal(
         true
       );
     });

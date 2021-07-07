@@ -145,28 +145,28 @@ describe("calendar", () => {
           uid: "http://example.com/slots#f43a85579151272ad7c30f2fd91c1a78",
           startDate: new Date("2021-03-22T08:00:00.000Z"),
           endDate: new Date("2021-03-22T11:00:00.000Z"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
         {
           uid: "http://example.com/slots#32f94323b9e1be3cb3b2f1279d524554",
           startDate: new Date("2021-03-22T12:00:00.000Z"),
           endDate: new Date("2021-03-22T16:00:00.000Z"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
         {
           uid: "http://example.com/slots#e1e2394e3307ab1d9e578ee7f2202670",
           startDate: new Date("2021-03-24T12:00:00.000Z"),
           endDate: new Date("2021-03-24T16:00:00.000Z"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
         {
           uid: "http://example.com/slots#d3d9fb9cec0903b0a77b9e7dc72ffd29",
           startDate: new Date("2021-03-24T08:00:00.000Z"),
           endDate: new Date("2021-03-24T11:00:00.000Z"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
       ];
@@ -210,13 +210,13 @@ describe("calendar", () => {
         {
           startDate: new Date("2021-03-31T13:00:00.000+02:00"),
           endDate: new Date("2021-03-31T17:00:00.000+02:00"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
         {
           startDate: new Date("2021-03-31T09:00:00.000+02:00"),
           endDate: new Date("2021-03-31T12:00:00.000+02:00"),
-          summary: "Available for meetings",
+          title: "Available for meetings",
           stampDate: now,
         },
       ];
