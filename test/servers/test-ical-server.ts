@@ -8,7 +8,7 @@ const event = {
   summary: "Example Event",
   description: "It works ;)",
   location: "my room",
-  url: "http://sebbo.net/",
+  url: "http://example.com/",
 };
 
 // An example available event
@@ -18,7 +18,7 @@ const availableEvent = {
   summary: "+ Available Event",
   description: "It works ;)",
   location: "my room",
-  url: "http://sebbo.net/",
+  url: "http://example.com/",
 };
 
 // An example busy event
@@ -28,7 +28,7 @@ const busyEvent = {
   summary: "* Busy Event",
   description: "It works ;)",
   location: "my room",
-  url: "http://sebbo.net/",
+  url: "http://example.com/",
 };
 
 // Represents an ICal server

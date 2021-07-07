@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { inWeekend, nextDay, onHoliday, setZoneTime } from "./date-utils";
+import { inWeekend, nextDay, setZoneTime } from "./date-utils";
 import { setHours, setMinutes } from "date-fns";
 import { hash } from "./string-utils";
 

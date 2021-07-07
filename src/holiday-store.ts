@@ -26,13 +26,19 @@ export class HolidayStore extends BaseResourceStore {
   ): Promise<Representation> {
     const holidays: { title: string; startDate: Date; endDate: Date }[] = [];
     const currentYear = new Date().getFullYear();
-    const { constant, fluid, shifting } = await readJson(this.configPath).catch(
-      (e) => {
-        if (e.code === "ENOENT")
-          throw new InternalServerError("Holiday config file is not found");
-        else throw e;
-      }
-    );
+
+    let constant, fluid, shifting;
+    try {
+      const json = await readJson(this.configPath);
+
+      constant = json.constant;
+      fluid = json.fluid;
+      shifting = json.shifting;
+    } catch (e) {
+      if (e.code === "ENOENT")
+        throw new InternalServerError("Holiday config file is not found");
+      else throw e;
+    }
 
     if (constant !== undefined) {
       constant.forEach(

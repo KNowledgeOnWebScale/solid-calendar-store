@@ -18,6 +18,12 @@ export function inWeekend(date: Date) {
   return day === 6 || day === 0;
 }
 
+/**
+ *
+ * @param date - The date to check
+ * @param constant - List of constant holidays
+ * @returns Frue if the date falls on any constant holiday
+ */
 function onConstantHoliday(date: Date, constant: any[]) {
   const day = date.getUTCDate();
   const month = date.getUTCMonth();
@@ -28,12 +34,23 @@ function onConstantHoliday(date: Date, constant: any[]) {
   );
 }
 
+/**
+ *
+ * @param date - The date to check
+ * @param fluid - List of fluid holidays
+ * @returns True if the date falls on any fluid holiday
+ */
 function onFluidHoliday(date: Date, fluid: { [s: string]: string }) {
   return Object.values(fluid).forEach(
     (f: string) => getUtcComponents(date) === getUtcComponents(new Date(f))
   );
 }
 
+/**
+ *
+ * @param shiftingHoliday - The shifting holiday
+ * @returns The holiday converted to a date
+ */
 export function processShiftingHoliday(shiftingHoliday: {
   month: number;
   weekday: number;
@@ -47,6 +64,12 @@ export function processShiftingHoliday(shiftingHoliday: {
   return date;
 }
 
+/**
+ *
+ * @param date - The date to check
+ * @param shifting - List of shifting holidays
+ * @returns True if the date falls on any shifting holiday
+ */
 function onShiftingHoliday(date: Date, shifting: any[]) {
   return shifting.some(
     (h: { date: { month: number; weekday: number; n: number } }) => {
@@ -60,6 +83,12 @@ function onShiftingHoliday(date: Date, shifting: any[]) {
   );
 }
 
+/**
+ *
+ * @param date - The date to check
+ * @param holidays - All the holidays
+ * @returns True if the date falls on any holiday
+ */
 export function onHoliday(
   date: Date,
   holidays: { constant: any; fluid: any; shifting: any }
