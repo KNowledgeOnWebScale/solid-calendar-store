@@ -182,6 +182,6 @@ export function createSlot(
     stampDate,
     startDate,
     endDate,
-    summary: "Available for meetings",
+    title: "Available for meetings",
   };
 }

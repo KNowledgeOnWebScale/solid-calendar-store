@@ -124,15 +124,15 @@ describe("stores", function () {
   });
 
   describe("AvailabilityStore", () => {
-    it("Summary of each event should be: 'Available for meetings'", async () => {
+    it("Title of each event should be: 'Available for meetings'", async () => {
       const expectedResult = "Available for meetings";
 
       const result = await getEndpoint("availability");
-      const resultSummary = result.map(
-        ({ summary }: { summary: String }) => summary
-      );
+      const resultTitle = result.map(({ title }: { title: String }) => title);
 
-      expect(resultSummary.every((s: string) => s === expectedResult));
+      expect(resultTitle.every((s: string) => s === expectedResult)).to.equal(
+        true
+      );
     });
 
     it("Start date should be the date specified in the config", async () => {
