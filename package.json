@@ -45,6 +45,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
+    "@rmlio/solid-rml-store": "^0.0.1",
     "@solid/community-server": "github:solid/community-server",
     "@types/ical": "^0.6.2",
     "@types/node-fetch": "^2.5.8",
@@ -56,8 +57,7 @@
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "luxon": "^1.26.0",
-    "node-fetch": "^2.6.1",
-    "solid-store-rml": "git+https://gitlab.ilabt.imec.be/KNoWS/solid-store-rml.git"
+    "node-fetch": "^2.6.1"
   },
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar",
   "lsd:components": "dist/components/components.jsonld",
