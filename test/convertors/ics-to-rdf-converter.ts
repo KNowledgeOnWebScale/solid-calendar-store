@@ -20,7 +20,7 @@ const convertToRDF = async (input: any): Promise<any> => {
   ).handle({
     identifier: { path: "json" },
     representation: {
-      metadata: new RepresentationMetadata("json"),
+      metadata: new RepresentationMetadata("application/json"),
       data: inputStream,
       binary: false,
     },
@@ -29,7 +29,9 @@ const convertToRDF = async (input: any): Promise<any> => {
   return await readableToString(outputStream.data);
 };
 
-describe("IcsToRdfConverter", () => {
+describe("IcsToRdfConverter", function () {
+  this.timeout(4000);
+
   it("Verify that the chain of conversions works", async () => {
     const event = `BEGIN:VCALENDAR
 PRODID:-//Google Inc//Google Calendar 70.9054//EN

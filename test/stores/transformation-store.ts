@@ -14,82 +14,111 @@ describe("TransformationStore", function () {
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 
-  before(async () => {
-    await cssServer.start(correctConfig);
-    icalServer.start();
+  describe("Default", () => {
+    before(async () => {
+      await cssServer.start(correctConfig);
+      icalServer.start();
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("Non-applying events should only contain insensitive fields", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Example Event",
+          },
+        ],
+      };
+      const result = await getEndpoint("busy");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
+
+    it("By default all rules apply", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Out of office",
+          },
+        ],
+      };
+      const result = await getEndpoint("transformation");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
   });
 
-  after(async () => {
-    await cssServer.stop();
-    icalServer.stop();
+  describe("TransformationStore - Alternate", () => {
+    before(async () => {
+      await cssServer.start(removeFieldsConfig);
+      icalServer.start();
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("removeFieldsConfig overrides default", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            description: "It works ;)",
+            location: "my room",
+            url: "http://example.com/",
+          },
+        ],
+      };
+
+      const result = await getEndpoint("transformation");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
   });
 
-  it("Non-applying events should only contain insensitive fields", async () => {
-    const expectedResult = {
-      name: "my first iCal",
-      events: [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
-        },
-      ],
-    };
-    const result = await getEndpoint("busy");
+  describe("Empty config", () => {
+    before(async () => {
+      await cssServer.start(emptyConfig);
+      icalServer.start();
+    });
 
-    expect(result).to.deep.equal(expectedResult);
-  });
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
 
-  it("By default all rules apply", async () => {
-    const expectedResult = {
-      name: "my first iCal",
-      events: [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Out of office",
-        },
-      ],
-    };
-    const result = await getEndpoint("transformation");
+    it("Only insensitive data should remain", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Example Event",
+          },
+        ],
+      };
 
-    expect(result).to.deep.equal(expectedResult);
+      const result = await getEndpoint("transformation");
+
+      expect(result).to.deep.equal(expectedResult);
+    });
   });
 });
 
-describe("TransformationStore - empty config", () => {
-  const cssServer = new CssServer();
-  const icalServer = new IcalServer();
-
-  before(async () => {
-    await cssServer.start(emptyConfig);
-    icalServer.start();
-  });
-
-  after(async () => {
-    await cssServer.stop();
-    icalServer.stop();
-  });
-
-  it("Only insensitive data should remain", async () => {
-    const expectedResult = {
-      name: "my first iCal",
-      events: [
-        {
-          startDate: "2021-06-16T10:00:10.000Z",
-          endDate: "2021-06-16T10:00:13.000Z",
-          title: "Example Event",
-        },
-      ],
-    };
-
-    const result = await getEndpoint("transformation");
-
-    expect(result).to.deep.equal(expectedResult);
-  });
-});
-
-describe("TransformationStore - alternate icalserver", function () {
+// As we're using a different icalServer we can't combine this one with the others
+describe("TransformationStore - Alternate icalserver", function () {
   this.timeout(4000);
 
   const cssServer = new CssServer();
@@ -127,38 +156,6 @@ describe("TransformationStore - alternate icalserver", function () {
       ],
     };
     const result = await getEndpoint("busy");
-
-    expect(result).to.deep.equal(expectedResult);
-  });
-});
-
-describe("TransformationStore - Alternate", () => {
-  const cssServer = new CssServer();
-  const icalServer = new IcalServer();
-
-  before(async () => {
-    await cssServer.start(removeFieldsConfig);
-    icalServer.start();
-  });
-
-  after(async () => {
-    await cssServer.stop();
-    icalServer.stop();
-  });
-
-  it("removeFieldsConfig overrides default", async () => {
-    const expectedResult = {
-      name: "my first iCal",
-      events: [
-        {
-          description: "It works ;)",
-          location: "my room",
-          url: "http://example.com/",
-        },
-      ],
-    };
-
-    const result = await getEndpoint("transformation");
 
     expect(result).to.deep.equal(expectedResult);
   });
