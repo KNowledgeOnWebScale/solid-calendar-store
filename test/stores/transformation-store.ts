@@ -1,9 +1,95 @@
 import { expect } from "chai";
 import { CssServer } from "../servers/test-css-server";
 import { IcalServer } from "../servers/test-ical-server";
-import { correctConfig, getEndpoint, removeFieldsConfig } from "./common";
+import {
+  correctConfig,
+  emptyConfig,
+  getEndpoint,
+  removeFieldsConfig,
+} from "./common";
 
-describe("alternate icalserver", function () {
+describe("TransformationStore", function () {
+  this.timeout(4000);
+
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(correctConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("Non-applying events should only contain insensitive fields", async () => {
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Example Event",
+        },
+      ],
+    };
+    const result = await getEndpoint("busy");
+
+    expect(result).to.deep.equal(expectedResult);
+  });
+
+  it("By default all rules apply", async () => {
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Out of office",
+        },
+      ],
+    };
+    const result = await getEndpoint("transformation");
+
+    expect(result).to.deep.equal(expectedResult);
+  });
+});
+
+describe("TransformationStore - empty config", () => {
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(emptyConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("Only insensitive data should remain", async () => {
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Example Event",
+        },
+      ],
+    };
+
+    const result = await getEndpoint("transformation");
+
+    expect(result).to.deep.equal(expectedResult);
+  });
+});
+
+describe("TransformationStore - alternate icalserver", function () {
   this.timeout(4000);
 
   const cssServer = new CssServer();
@@ -19,36 +105,34 @@ describe("alternate icalserver", function () {
     icalServer.stop();
   });
 
-  describe("TransformationStore", () => {
-    it("A definition can contain multiple rules", async () => {
-      const expectedResult = {
-        name: "my first iCal",
-        events: [
-          {
-            startDate: "2021-06-16T10:00:10.000Z",
-            endDate: "2021-06-16T10:00:13.000Z",
-            title: "Example Event",
-          },
-          {
-            startDate: "2021-06-16T10:00:10.000Z",
-            endDate: "2021-06-16T10:00:13.000Z",
-            title: "Available",
-          },
-          {
-            startDate: "2021-06-16T10:00:10.000Z",
-            endDate: "2021-06-16T10:00:13.000Z",
-            title: "Unavailable",
-          },
-        ],
-      };
-      const result = await getEndpoint("busy");
+  it("A definition can contain multiple rules", async () => {
+    const expectedResult = {
+      name: "my first iCal",
+      events: [
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Example Event",
+        },
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Available",
+        },
+        {
+          startDate: "2021-06-16T10:00:10.000Z",
+          endDate: "2021-06-16T10:00:13.000Z",
+          title: "Unavailable",
+        },
+      ],
+    };
+    const result = await getEndpoint("busy");
 
-      expect(result).to.deep.equal(expectedResult);
-    });
+    expect(result).to.deep.equal(expectedResult);
   });
 });
 
-describe("Alternate TransformationStore", () => {
+describe("TransformationStore - Alternate", () => {
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 

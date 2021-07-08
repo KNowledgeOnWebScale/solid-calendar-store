@@ -10,11 +10,64 @@ import { expect } from "chai";
 import * as assert from "assert";
 import * as holiday_config_json from "../configs/holidays.json";
 import {
+  correctConfig,
   getEndpoint,
   holidayConfig,
   noStartDateConfig,
   weekendConfig,
 } from "./common";
+import * as test_config_json from "../configs/test-config.json";
+
+describe("AvailabilityStore", function () {
+  this.timeout(4000);
+
+  const cssServer = new CssServer();
+  const icalServer = new IcalServer();
+
+  before(async () => {
+    await cssServer.start(correctConfig);
+    icalServer.start();
+  });
+
+  after(async () => {
+    await cssServer.stop();
+    icalServer.stop();
+  });
+
+  it("Summary of each event should be: 'Available for meetings'", async () => {
+    const expectedResult = "Available for meetings";
+
+    const result = await getEndpoint("availability");
+    const resultTitle = result.map(({ title }: { title: String }) => title);
+
+    expect(resultTitle.every((s: string) => s === expectedResult)).to.equal(
+      true
+    );
+  });
+
+  it("Start date should be the date specified in the config", async () => {
+    const result = await getEndpoint("availability");
+    const resultTyped = getUtcComponents(
+      new Date(result.events[result.events.length - 1].startDate)
+    );
+
+    const startDate =
+      test_config_json["@graph"][1]["AvailabilityStore:_options_startDate"]!!;
+    const startDateTyped = getUtcComponents(new Date(startDate));
+
+    expect(resultTyped).to.deep.equal(startDateTyped);
+  });
+
+  it("Slots should be over a 14 day period", async () => {
+    const result = await getEndpoint("availability");
+    const events = result.events;
+
+    const endDate = new Date(events[0].startDate);
+    const startDate = new Date(events[events.length - 1].startDate);
+
+    assert.deepStrictEqual(getDaysBetween(endDate, startDate), 14);
+  });
+});
 
 describe("AvailabilityStore - No startDate", function () {
   this.timeout(4000);

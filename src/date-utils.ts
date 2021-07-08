@@ -19,6 +19,7 @@ export function inWeekend(date: Date) {
 }
 
 /**
+ * Checks whether the date is on a constant holiday
  *
  * @param date - The date to check
  * @param constant - List of constant holidays
@@ -35,6 +36,7 @@ function onConstantHoliday(date: Date, constant: any[]) {
 }
 
 /**
+ * Checks whether the date is on a fluid holiday
  *
  * @param date - The date to check
  * @param fluid - List of fluid holidays
@@ -47,6 +49,7 @@ function onFluidHoliday(date: Date, fluid: { [s: string]: string }) {
 }
 
 /**
+ * Converts a shifting holiday to a date
  *
  * @param shiftingHoliday - The shifting holiday
  * @returns The holiday converted to a date
@@ -65,6 +68,7 @@ export function processShiftingHoliday(shiftingHoliday: {
 }
 
 /**
+ * Checks whether the date is on a shifting holiday
  *
  * @param date - The date to check
  * @param shifting - List of shifting holidays
@@ -84,6 +88,7 @@ function onShiftingHoliday(date: Date, shifting: any[]) {
 }
 
 /**
+ * Checks if a certain date is on a constant, fluid or shifting holiday.
  *
  * @param date - The date to check
  * @param holidays - All the holidays

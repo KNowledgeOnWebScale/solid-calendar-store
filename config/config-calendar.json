@@ -2,11 +2,11 @@
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-store-rml/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
     {
       "solid-calendar": "urn:solid-calendar:default:",
       "solid-server": "urn:solid-server:default:",
-      "solid-store-rml": "urn:solid-store-rml:default:"
+      "solid-rml-store": "urn:solid-rml-store:default:"
     }
   ],
   "import": [
@@ -41,7 +41,7 @@
     "files-scs:config/ldp/handler/default.json",
     "files-scs:config/ldp/authorization/webacl.json",
 
-    "files-ssr:config/default.json"
+    "files-rsrs:config/default.json"
   ],
   "@graph": [
     {
@@ -120,7 +120,7 @@
       "@type": "RDFStore"
     },
     {
-      "@id": "solid-store-rml:AnyToRdfConverter",
+      "@id": "solid-rml-store:AnyToRdfConverter",
       "AnyToRdfConverter:_rmlRulesPath": "events.rml.ttl",
       "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
     },
@@ -192,7 +192,7 @@
           "@id": "solid-calendar:IcsToJsonConverter"
         },
         {
-          "@id": "solid-store-rml:AnyToRdfConverter"
+          "@id": "solid-rml-store:AnyToRdfConverter"
         }
       ]
     },
@@ -211,7 +211,7 @@
           "@id": "solid-server:ContentTypeReplacer"
         },
         {
-          "@id": "solid-store-rml:AnyToRdfConverter"
+          "@id": "solid-rml-store:AnyToRdfConverter"
         },
         {
           "@id": "solid-calendar:IcsToJsonConverter"
