@@ -10,13 +10,18 @@ import { expect } from "chai";
 import * as assert from "assert";
 import * as holiday_config_json from "../configs/holidays.json";
 import {
+  alternateConfig,
   correctConfig,
+  emptyConfig,
   getEndpoint,
   holidayConfig,
   noStartDateConfig,
   weekendConfig,
 } from "./common";
 import * as test_config_json from "../configs/test-config.json";
+import yaml from "js-yaml";
+import fs from "fs-extra";
+import path from "path";
 
 describe("AvailabilityStore", function () {
   this.timeout(4000);
@@ -69,6 +74,40 @@ describe("AvailabilityStore", function () {
       const startDate = new Date(events[events.length - 1].startDate);
 
       assert.deepStrictEqual(getDaysBetween(endDate, startDate), 14);
+    });
+  });
+
+  describe("Alternate", () => {
+    before(async () => {
+      await cssServer.start(alternateConfig);
+      icalServer.start();
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("Hours should be 3 less than the ones in the settings", async () => {
+      const result = await getEndpoint("availability");
+      const events = result.events;
+      // @ts-ignore
+      const { availabilitySlots } = yaml.load(
+        await fs.readFile(
+          path.resolve("test/configs/test-timezone-settings.yaml"),
+          "utf8"
+        )
+      );
+
+      expect(
+        events.every(
+          (ev: { startDate: string; endDate: string }) =>
+            new Date(ev.startDate).getUTCHours() ===
+              availabilitySlots[0].startTime.hour &&
+            new Date(ev.endDate).getUTCHours() ===
+              availabilitySlots[0].endTime.hour
+        )
+      );
     });
   });
 
@@ -145,6 +184,25 @@ describe("AvailabilityStore", function () {
       const startDate = new Date(events[events.length - 1].startDate);
 
       assert.deepStrictEqual(getDaysBetween(endDate, startDate), 11);
+    });
+  });
+
+  describe("Alternate weekend", () => {
+    before(async () => {
+      await cssServer.start(emptyConfig);
+      icalServer.start();
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("Setting every day to be weekend should result in no slots", async () => {
+      const result = await getEndpoint("availability");
+      const events = result.events;
+
+      expect(events.length).equal(0);
     });
   });
 

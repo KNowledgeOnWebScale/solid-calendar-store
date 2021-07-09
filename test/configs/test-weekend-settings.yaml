@@ -1,0 +1,9 @@
+availabilitySlots:
+  - startTime:
+      hour: 9
+      minutes: 0
+    endTime:
+      hour: 10
+      minutes: 0
+minimumSlotDuration: 30
+weekend: [0, 1, 2, 3, 4, 5, 6]

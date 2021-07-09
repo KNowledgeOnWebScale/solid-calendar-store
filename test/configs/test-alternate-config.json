@@ -13,15 +13,20 @@
     },
     {
       "@id": "solid-calendar-store:AvailabilityStore",
-      "AvailabilityStore:_options_settingsPath": "test/configs/test-weekend-settings.yaml"
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-timezone-settings.yaml",
+      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
     },
     {
       "@id": "solid-calendar-store:BusyStore",
-      "TransformationStore:_options_settingsPaths": ["test/configs/empty-settings.yaml"]
+      "TransformationStore:_options_settingsPaths": ["test/configs/test-settings.yaml"]
+    },
+    {
+      "@id": "solid-calendar-store:TransformationStore",
+      "TransformationStore:_options_settingsPaths": ["test/configs/test-settings.yaml"]
     },
     {
       "@id": "solid-calendar-store:HolidayStore",
-      "HolidayStore:_options_configPath": "test/configs/empty-holidays.json"
+      "HolidayStore:_options_configPath": "test/configs/holidays.json"
     }
   ]
 }

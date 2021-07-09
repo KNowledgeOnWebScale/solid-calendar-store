@@ -1,7 +1,6 @@
 import {
   BasicRepresentation,
   Conditions,
-  InternalServerError,
   PassthroughStore,
   readableToString,
   Representation,
@@ -13,7 +12,7 @@ import {
 import { getAvailableSlots } from "./calendar-utils";
 import { HttpGetStore } from "./http-get-store";
 import yaml from "js-yaml";
-import fs, { readJson } from "fs-extra";
+import fs from "fs-extra";
 import path from "path";
 import { getUtcComponents } from "./date-utils";
 
@@ -26,6 +25,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
   private readonly holidaySource?: RepresentationConvertingStore;
   private minimumSlotDuration: number;
   private startDate: Date;
+  private timezone: string;
+  private weekend: number[];
 
   constructor(
     source: HttpGetStore,
@@ -41,6 +42,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
     this.settingsPath = options.settingsPath;
     this.availabilitySlots = [];
     this.minimumSlotDuration = 30;
+    this.timezone = "Europe/Brussels";
+    this.weekend = [0, 6];
     this.startDate = options.startDate
       ? new Date(options.startDate)
       : new Date();
@@ -72,7 +75,8 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       events,
       this.availabilitySlots,
       this.minimumSlotDuration,
-      this.startDate
+      this.startDate,
+      { weekend: this.weekend, timezone: this.timezone }
     );
 
     if (this.holidaySource) {
@@ -105,14 +109,16 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
 
   async _getSettings() {
     // @ts-ignore
-    const { availabilitySlots, minimumSlotDuration } = yaml.load(
-      await fs.readFile(path.resolve(process.cwd(), this.settingsPath), "utf8")
-    );
-    this.availabilitySlots = availabilitySlots
-      ? availabilitySlots
-      : this.availabilitySlots;
-    this.minimumSlotDuration = minimumSlotDuration
-      ? minimumSlotDuration
-      : this.minimumSlotDuration;
+    const { availabilitySlots, minimumSlotDuration, timezone, weekend } =
+      yaml.load(
+        await fs.readFile(
+          path.resolve(process.cwd(), this.settingsPath),
+          "utf8"
+        )
+      );
+    this.availabilitySlots = availabilitySlots ?? this.availabilitySlots;
+    this.minimumSlotDuration = minimumSlotDuration ?? this.minimumSlotDuration;
+    this.timezone = timezone ?? this.timezone;
+    this.weekend = weekend ?? this.weekend;
   }
 }

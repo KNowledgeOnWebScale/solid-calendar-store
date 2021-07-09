@@ -55,7 +55,9 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
-        allSlots
+        {
+          slots: allSlots,
+        }
       );
       //console.log(slots);
       assert.deepStrictEqual(slots.length, 4);
@@ -114,7 +116,9 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
-        allSlots
+        {
+          slots: allSlots,
+        }
       );
       //console.log(slots);
       assert.deepStrictEqual(slots.length, 4);
@@ -201,9 +205,10 @@ describe("calendar", () => {
         availabilitySlots,
         minimumSlotDuration,
         now,
-        undefined,
-        startDate,
-        endDate
+        {
+          startDate,
+          endDate,
+        }
       );
 
       const expectedResult = [

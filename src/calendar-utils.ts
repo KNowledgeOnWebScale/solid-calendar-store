@@ -90,17 +90,21 @@ export function getAvailableSlots(
   availabilitySlots: any[],
   minimumSlotDuration: number,
   now: Date,
-  slots?: any[],
-  startDate?: Date,
-  endDate?: Date
+  options?: {
+    slots?: any[];
+    startDate?: Date;
+    endDate?: Date;
+    weekend?: number[];
+    timezone?: string;
+  }
 ) {
   // Always consider a fixed range
-  startDate = startDate ? startDate : nextDay(now, 0);
-  endDate = endDate ? endDate : nextDay(startDate, 14);
+  const startDate = options?.startDate ?? nextDay(now, 0);
+  const endDate = options?.endDate ?? nextDay(startDate, 14);
 
-  if (!slots) {
-    slots = getSlots(startDate, endDate, baseUrl, availabilitySlots, now);
-  }
+  const slots =
+    options?.slots ??
+    getSlots(startDate, endDate, baseUrl, availabilitySlots, now, options);
 
   // Subtract unavailabilities
   let available = subtractEvents(slots, busyEvents);
@@ -126,7 +130,11 @@ export function getSlots(
   endDate: Date,
   baseUrl: string,
   availabilitySlots: any[],
-  stampDate: Date
+  stampDate: Date,
+  options?: {
+    weekend?: number[];
+    timezone?: string;
+  }
 ) {
   const slots = [];
   startDate = setHours(startDate, 23);
@@ -136,7 +144,9 @@ export function getSlots(
   // endDate = new Date(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
 
   for (let date = startDate; date < endDate; date = nextDay(date)) {
-    slots.push(...createSlots(date, baseUrl, availabilitySlots, stampDate));
+    slots.push(
+      ...createSlots(date, baseUrl, availabilitySlots, stampDate, options)
+    );
   }
 
   return slots;
@@ -153,14 +163,27 @@ export function createSlots(
   date: Date,
   baseUrl: string,
   availabilitySlots: any[],
-  stampDate: Date
+  stampDate: Date,
+  options?: {
+    weekend?: number[];
+    timezone?: string;
+  }
 ) {
   const slots: any[] = [];
 
-  if (!inWeekend(date)) {
+  if (!inWeekend(date, options?.weekend)) {
     availabilitySlots.forEach((slot) => {
       const { startTime, endTime } = slot;
-      slots.push(createSlot(date, startTime, endTime, baseUrl, stampDate));
+      slots.push(
+        createSlot(
+          date,
+          startTime,
+          endTime,
+          baseUrl,
+          stampDate,
+          options?.timezone
+        )
+      );
     });
   }
 
@@ -172,9 +195,10 @@ export function createSlot(
   startTime: { hour: number; minutes: number },
   endTime: { hour: number; minutes: number },
   baseUrl: string,
-  stampDate: Date
+  stampDate: Date,
+  timezone?: string
 ) {
-  const zone = "Europe/Brussels";
+  const zone = timezone ?? "Europe/Brussels";
   const startDate = setZoneTime(zone, date, startTime.hour, startTime.minutes);
   const endDate = setZoneTime(zone, date, endTime.hour, endTime.minutes);
   return {
