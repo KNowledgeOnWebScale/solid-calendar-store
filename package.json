@@ -1,6 +1,6 @@
 {
   "name": "solid-calendar-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Access calendars via your Solid POD.",
   "scripts": {
     "build": "npm run build:ts && npm run build:components",
