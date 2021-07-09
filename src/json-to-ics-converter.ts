@@ -18,6 +18,9 @@ interface Event {
   location?: string;
 }
 
+/**
+ * Converts a JSON representation to ICS
+ */
 export class JsonToIcsConverter extends TypedRepresentationConverter {
   public constructor() {
     super("application/json", outputType);

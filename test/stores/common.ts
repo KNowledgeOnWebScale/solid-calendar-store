@@ -29,3 +29,4 @@ export const incorrectConfig = "./test/configs/test-incorrect-config.json";
 export const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
 export const weekendConfig = "./test/configs/test-weekend-config.json";
 export const holidayConfig = "./test/configs/test-holiday-config.json";
+export const alternateConfig = "./test/configs/test-alternate-config.json";

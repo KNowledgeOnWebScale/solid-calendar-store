@@ -13,7 +13,7 @@
     },
     {
       "@id": "solid-calendar-store:AvailabilityStore",
-      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-timezone-settings.yaml",
       "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
     },
     {

@@ -13,9 +13,10 @@ export function utcDate(year: number, month: number, days: number) {
   return new Date(Date.UTC(year, month, days));
 }
 
-export function inWeekend(date: Date) {
+export function inWeekend(date: Date, weekend?: number[]) {
+  const wnd = weekend ?? [0, 6];
   const day = date.getUTCDay();
-  return day === 6 || day === 0;
+  return wnd.some((w) => w === day);
 }
 
 /**

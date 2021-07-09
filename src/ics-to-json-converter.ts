@@ -20,6 +20,9 @@ interface Event {
 const ICAL = require("ical.js");
 const outputType = "application/json";
 
+/**
+ * Converts an ICS representation to JSON
+ */
 export class IcsToJsonConverter extends TypedRepresentationConverter {
   public constructor() {
     super("text/calendar", outputType);
@@ -32,7 +35,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     const data = await readableToString(representation.data);
     const events: Event[] = [];
 
-    if (!data || !data.length)
+    if (!data?.length)
       throw new BadRequestHttpError("Empty input is not allowed");
 
     const jcalData = ICAL.parse(data);
@@ -75,7 +78,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
       events,
     };
 
-    if (!calendar || !calendar.name || !calendar.name.trim().length)
+    if (!calendar?.name?.trim().length)
       throw new InternalServerError("No calendar name found");
 
     return new BasicRepresentation(

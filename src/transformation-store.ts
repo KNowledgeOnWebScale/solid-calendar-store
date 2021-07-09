@@ -14,6 +14,9 @@ import { HttpGetStore } from "./http-get-store";
 
 const outputType = "application/json";
 
+/**
+ * Transforms the events of a calendar based upon a YAML settings file.
+ */
 export class TransformationStore extends PassthroughStore<HttpGetStore> {
   private rules: string[];
   private readonly settingsPaths: string[];
@@ -24,7 +27,7 @@ export class TransformationStore extends PassthroughStore<HttpGetStore> {
   ) {
     super(source);
 
-    this.rules = options.rules ? options.rules : [];
+    this.rules = options.rules ?? [];
     this.settingsPaths = options.settingsPaths;
   }
 
@@ -111,11 +114,10 @@ export class TransformationStore extends PassthroughStore<HttpGetStore> {
       await fs.readFile(path.resolve(process.cwd(), settingPath), "utf8")
     );
 
-    if (transformation) {
-      if (!this.rules.length)
-        transformation = this._allRulesObjectToArray(transformation);
-      else transformation = this._selectedRulesObjectToArray(transformation);
-    }
+    if (transformation)
+      transformation = !this.rules.length
+        ? this._allRulesObjectToArray(transformation)
+        : this._selectedRulesObjectToArray(transformation);
 
     return transformation || [];
   }

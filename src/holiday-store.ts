@@ -11,6 +11,9 @@ import { processShiftingHoliday, utcDate } from "./date-utils";
 
 const outputType = "application/json";
 
+/**
+ * Generates a calendar of holidays based upon a JSON configuration file
+ */
 export class HolidayStore extends BaseResourceStore {
   private readonly configPath: string;
 
@@ -27,7 +30,12 @@ export class HolidayStore extends BaseResourceStore {
     const holidays: { title: string; startDate: Date; endDate: Date }[] = [];
     const currentYear = new Date().getFullYear();
 
-    let constant, fluid, shifting;
+    let constant: { name: any; date: { month: number; day: number } }[],
+      fluid: { [s: string]: Date } | ArrayLike<Date>,
+      shifting: {
+        name: any;
+        date: { month: number; weekday: number; n: number };
+      }[];
     try {
       const json = await readJson(this.configPath);
 
@@ -40,17 +48,15 @@ export class HolidayStore extends BaseResourceStore {
       else throw e;
     }
 
-    if (constant !== undefined) {
-      constant.forEach(
-        (h: { name: any; date: { month: number; day: number } }) =>
-          holidays.push({
-            title: h.name,
-            ...this._getStartAndEndDate(
-              utcDate(currentYear, h.date.month, h.date.day)
-            ),
-          })
-      );
-    }
+    constant?.forEach(
+      (h: { name: any; date: { month: number; day: number } }) =>
+        holidays.push({
+          title: h.name,
+          ...this._getStartAndEndDate(
+            utcDate(currentYear, h.date.month, h.date.day)
+          ),
+        })
+    );
 
     if (fluid !== undefined) {
       (Object.entries(fluid) as [string, Date][]).forEach(([name, date]) => {
@@ -63,18 +69,13 @@ export class HolidayStore extends BaseResourceStore {
       });
     }
 
-    if (shifting !== undefined) {
-      shifting.forEach(
-        (h: {
-          name: any;
-          date: { month: number; weekday: number; n: number };
-        }) =>
-          holidays.push({
-            title: h.name,
-            ...this._getStartAndEndDate(processShiftingHoliday(h.date)),
-          })
-      );
-    }
+    shifting?.forEach(
+      (h: { name: any; date: { month: number; weekday: number; n: number } }) =>
+        holidays.push({
+          title: h.name,
+          ...this._getStartAndEndDate(processShiftingHoliday(h.date)),
+        })
+    );
 
     return new BasicRepresentation(
       JSON.stringify({ name: "Holiday", events: holidays }),

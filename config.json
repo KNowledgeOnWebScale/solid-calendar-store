@@ -1,20 +1,20 @@
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
-    { "solid-calendar": "urn:solid-calendar:default:" }
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
+    { "solid-calendar-store": "urn:solid-calendar-store:default:" }
   ],
   "import": [
-    "files-sc:config/config-calendar.json"
+    "files-scs:config/config-calendar.json"
   ],
   "@graph": [
     {
-      "@id": "solid-calendar:HttpGetStore",
+      "@id": "solid-calendar-store:HttpGetStore",
       "HttpGetStore:_options_url": "https://calendar.google.com/calendar/ical/ihqfct3hddiiskgvujr3df2pe0%40group.calendar.google.com/public/basic.ics"
     },
     {
-      "@id": "solid-calendar:AvailabilityStore",
+      "@id": "solid-calendar-store:AvailabilityStore",
       "AvailabilityStore:_options_settingsPath": "settings/my-settings.yaml",
-      "AvailabilityStore:_options_holidaySource": { "@id": "solid-calendar:HolidayStore" }
+      "AvailabilityStore:_options_holidaySource": { "@id": "solid-calendar-store:HolidayStore" }
     }
   ]
 }

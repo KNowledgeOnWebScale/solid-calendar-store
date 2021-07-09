@@ -23,6 +23,11 @@ It first reads the yaml file specified in `config.json`, then generates the avai
 
 No timeslots are generated on a weekend and on a holiday.
 
+### Internalisation
+
+There are 2 optional fields, `weekend` and `timezone`. Their default values are resp. `[0, 6]` (Sunday and Saturday in UTC) and `Europe/Brussels`.
+The times written in `availabilitySlots` are written in the specified timezone, these will then be converted to UTC. See [this](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of all the possible timezones.
+
 ## TransformationStore
 
 _type: TransformationStore_
@@ -46,6 +51,7 @@ _type: AggregateStore_
 [![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEFnZ3JlZ2F0ZVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pXG4gICAgRFtSZXNvdXJjZUlkZW50aWZpZXJdIC0tPiB8Q2FsZW5kYXJTdG9yZXxFKFJlcHJlc2VudGF0aW9uPHRleHQvY2FsZW5kYXI-KVxuICAgIEUgLS0-IEMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6ZmFsc2V9)](https://mermaid-js.github.io/mermaid-live-editor/edit/##eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW1Jlc291cmNlSWRlbnRpZmllcl0gLS0-IHxDYWxlbmRhclN0b3JlfEIoUmVwcmVzZW50YXRpb248dGV4dC9jYWxlbmRhcj4pXG4gICAgQiAtLT4gfEFnZ3JlZ2F0ZVN0b3JlfEMoUmVwcmVzZW50YXRpb248SlNPTj4pXG4gICAgRFtSZXNvdXJjZUlkZW50aWZpZXJdIC0tPiB8Q2FsZW5kYXJTdG9yZXxFKFJlcHJlc2VudGF0aW9uPHRleHQvY2FsZW5kYXI-KVxuICAgIEUgLS0-IENcbiAgICAiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
 
 Converts 2 representations to `JSON` and concats them. The title of each now also has the calendar name prepended to it, e.g. `[name] event`.
+Default aggregated calendar name is: `Aggregated calendar of ${source1} and ${source2}`, but this can be overwritten.
 
 ## HolidayStore
 

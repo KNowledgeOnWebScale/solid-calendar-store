@@ -62,15 +62,15 @@
     "luxon": "^1.26.0",
     "node-fetch": "^2.6.1"
   },
-  "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar",
+  "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store",
   "lsd:components": "dist/components/components.jsonld",
   "lsd:contexts": {
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld": "dist/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld": "dist/components/context.jsonld"
   },
   "lsd:importPaths": {
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/": "dist/components/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/config/": "config/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/dist/": "dist/"
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/": "dist/components/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/config/": "config/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/dist/": "dist/"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -1,22 +1,22 @@
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar/^0.0.0/components/context.jsonld",
-    { "solid-calendar": "urn:solid-calendar:default:" }
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
+    { "solid-calendar-store": "urn:solid-calendar-store:default:" }
   ],
   "import": [
-    "files-sc:config/config-calendar.json"
+    "files-scs:config/config-calendar.json"
   ],
   "@graph": [
     {
-      "@id": "solid-calendar:HttpGetStore",
+      "@id": "solid-calendar-store:HttpGetStore",
       "HttpGetStore:_options_url": "http://localhost:3001"
     },
     {
-      "@id": "solid-calendar:AggregateStore",
+      "@id": "solid-calendar-store:AggregateStore",
       "AggregateStore:_options_name": "Custom calendar name"
     },
     {
-      "@id": "solid-calendar:AvailabilityStore",
+      "@id": "solid-calendar-store:AvailabilityStore",
       "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml"
     }
   ]
