@@ -1,5 +1,5 @@
 {
-  "name": "solid-calendar",
+  "name": "solid-calendar-store",
   "version": "0.0.1",
   "description": "Access calendars via your Solid POD.",
   "scripts": {
@@ -12,9 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.ilabt.imec.be:KNoWS/solid-calendar.git"
+    "url": "git@github.com:KNowledgeOnWebScale/solid-calendar-store.git"
   },
   "author": "Pieter Heyvaert (https://pieterheyvaert.com)",
+  "contributors": [
+    "Friedrich Vandenberghe <friedrich.vandenberghe@ugent.be>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
