@@ -5,7 +5,6 @@ import {
   Representation,
   RepresentationConvertingStore,
   ResourceIdentifier,
-  NotFoundHttpError,
 } from "@solid/community-server";
 
 const outputType = "application/json";
@@ -43,9 +42,7 @@ export class AggregateStore extends BaseResourceStore {
 
     return new BasicRepresentation(
       JSON.stringify({
-        name: this.name
-          ? this.name
-          : defaultCalendarName(events1.name, events2.name),
+        name: this.name ?? defaultCalendarName(events1.name, events2.name),
         events: allEvents,
       }),
       outputType
