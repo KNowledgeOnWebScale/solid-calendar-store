@@ -1,4 +1,4 @@
-# Solid Calendar
+# Solid Calendar Store
 
 Solid Calendar is a plugin for [CSS](https://github.com/solid/community-server), it adds to possiblity to perform a list of calendar-based operations. For a concrete overview of all the possible transformations and conversions see `docs/`.
 
