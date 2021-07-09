@@ -11,6 +11,9 @@ import { processShiftingHoliday, utcDate } from "./date-utils";
 
 const outputType = "application/json";
 
+/**
+ * Generates a calendar of holidays based upon a JSON configuration file
+ */
 export class HolidayStore extends BaseResourceStore {
   private readonly configPath: string;
 

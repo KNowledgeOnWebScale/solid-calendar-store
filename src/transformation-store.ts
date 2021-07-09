@@ -14,6 +14,9 @@ import { HttpGetStore } from "./http-get-store";
 
 const outputType = "application/json";
 
+/**
+ * Transforms the events of a calendar based upon a YAML settings file.
+ */
 export class TransformationStore extends PassthroughStore<HttpGetStore> {
   private rules: string[];
   private readonly settingsPaths: string[];

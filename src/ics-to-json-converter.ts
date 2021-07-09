@@ -20,6 +20,9 @@ interface Event {
 const ICAL = require("ical.js");
 const outputType = "application/json";
 
+/**
+ * Converts an ICS representation to JSON
+ */
 export class IcsToJsonConverter extends TypedRepresentationConverter {
   public constructor() {
     super("text/calendar", outputType);

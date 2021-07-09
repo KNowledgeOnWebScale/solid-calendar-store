@@ -78,11 +78,9 @@ export function createCalendar(title: string, uid: string, events: any[]) {
  *
  * @param baseUrl
  * @param busyEvents
- * @param slots
- * @param startDate
- * @param endDate
  * @param availabilitySlots - Array of default availability slots.
  * @param minimumSlotDuration - Minimum duration of a slot.
+ * @param options - Optional options that can be set
  */
 export function getAvailableSlots(
   baseUrl: string,
@@ -124,6 +122,7 @@ export function getAvailableSlots(
  * @param baseUrl - The url used to generate urls for the slots.
  * @param availabilitySlots - Array of default availability slots.
  * @param stampDate - The date at which the slots are generated.
+ * @param options - Optional options that can be set
  */
 export function getSlots(
   startDate: Date,
@@ -158,6 +157,7 @@ export function getSlots(
  * @param baseUrl - The url used to generate urls for the slots.
  * @param availabilitySlots - Array of default availability slots.
  * @param stampDate - The date at which the slots are generated.
+ * @param options - Optional options that can be set
  */
 export function createSlots(
   date: Date,

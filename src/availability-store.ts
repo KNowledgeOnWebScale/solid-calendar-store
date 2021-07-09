@@ -18,6 +18,9 @@ import { getUtcComponents } from "./date-utils";
 
 const outputType: string = "application/json";
 
+/**
+ * Generates availability slots based upon a YAML settings file
+ */
 export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
   private readonly baseUrl: string;
   private availabilitySlots: [];

@@ -11,6 +11,9 @@ const outputType = "application/json";
 const defaultCalendarName = (source1: string, source2: string) =>
   `Aggregated calendar of ${source1} and ${source2}`;
 
+/**
+ * Aggregates 2 calendar sources together
+ */
 export class AggregateStore extends BaseResourceStore {
   private source1: RepresentationConvertingStore;
   private source2: RepresentationConvertingStore;

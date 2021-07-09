@@ -1,6 +1,6 @@
 # Solid Calendar Store
 
-Solid Calendar is a plugin for [CSS](https://github.com/solid/community-server). 
+Solid Calendar is a plugin for [CSS](https://github.com/solid/community-server).
 It adds the possibility to perform a list of calendar-based operations.
 For a concrete overview of all the possible transformations and conversions see `docs/`.
 
@@ -24,6 +24,8 @@ See the [CSS documentation](https://github.com/solid/community-server#configurin
 
 ## Endpoints
 
+These endpoints are the default provided ones, see `config/config-calendar.json` to see how they're set up and to add your own.
+
 | Type | Name           | Used store          |
 | ---- | -------------- | ------------------- |
 | GET  | calendar       | CalendarStore       |
@@ -31,6 +33,8 @@ See the [CSS documentation](https://github.com/solid/community-server#configurin
 | GET  | availability   | AvailabilityStore   |
 | GET  | aggregate      | AggregateStore      |
 | GET  | transformation | TransformationStore |
+| GET  | holidays       | HolidayStore        |
+| GET  | holidays/busy  | ExtendedBusyStore   |
 
 ## my-settings.yaml
 
@@ -91,3 +95,25 @@ These are then structured in a json file like this:
 ```
 
 See `docs/stores.md` for places where the holidays are used.
+
+## Calendar JSON format
+
+For the calendar name the `X-WR-CALNAME` field is used.  
+Not all possible event fields of an ICS calendar are used. The following are required: `summary`, `dtstart` and `dtend`, these are optional: `description` and `location`.
+
+This results in the following format:
+
+```ts
+{
+    name: string,
+    events: [
+        {
+            title: string,
+            startDate: Date,
+            endDate: Date,
+            location?: string,
+            description?: string
+        }
+    ]
+}
+```
