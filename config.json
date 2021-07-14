@@ -13,7 +13,7 @@
     },
     {
       "@id": "solid-calendar-store:AvailabilityStore",
-      "AvailabilityStore:_options_settingsPath": "settings/my-settings.yaml",
+      "AvailabilityStore:_options_settingsPath": "examples/availability-store-settings.yaml",
       "AvailabilityStore:_options_holidaySource": { "@id": "solid-calendar-store:HolidayStore" }
     }
   ]

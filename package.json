@@ -8,7 +8,7 @@
     "build:ts": "tsc",
     "lint": "eslint . --cache --ignore-path .gitignore",
     "prepare": "npm run build",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts' --require 'test/common.ts'"
+    "test": "npm run prepare; env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts' --require 'test/common.ts'"
   },
   "repository": {
     "type": "git",

@@ -113,7 +113,7 @@
       "TransformationStore:_source": {
         "@id": "solid-calendar-store:CalendarStore"
       },
-      "TransformationStore:_options_settingsPaths": ["settings/busy.yaml"]
+      "TransformationStore:_options_settingsPaths": ["examples/busy.yaml"]
     },
     {
       "@id": "solid-calendar-store:RDFStore",
@@ -153,7 +153,7 @@
     {
       "@id": "solid-calendar-store:HolidayStore",
       "@type": "HolidayStore",
-      "HolidayStore:_options_configPath": "./settings/default-holidays.json"
+      "HolidayStore:_options_configPath": "./examples/holiday-store-settings.json"
     },
     {
       "@id": "solid-calendar-store:BusyStore",
@@ -162,7 +162,7 @@
       "TransformationStore:_source": {
         "@id": "solid-calendar-store:CalendarStore"
       },
-      "TransformationStore:_options_settingsPaths": ["settings/busy.yaml"]
+      "TransformationStore:_options_settingsPaths": ["examples/busy.yaml"]
     },
     {
       "@id": "solid-calendar-store:AggregateStore",

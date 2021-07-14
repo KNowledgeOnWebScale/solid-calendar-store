@@ -6,8 +6,10 @@ import {
   BaseResourceStore,
   InternalServerError,
 } from "@solid/community-server";
-import { readJson } from "fs-extra";
+import fs, { readJson } from "fs-extra";
 import { processShiftingHoliday, utcDate } from "./date-utils";
+import yaml from "js-yaml";
+import path from "path";
 
 const outputType = "application/json";
 
@@ -37,10 +39,23 @@ export class HolidayStore extends BaseResourceStore {
         date: { month: number; weekday: number; n: number };
       }[];
     try {
-      const json = await readJson(this.configPath);
+      const yamlStr =  await fs.readFile(
+          path.resolve(process.cwd(), this.configPath),
+          "utf8"
+      )
 
+      let json = {};
+
+      if (yamlStr.trim() !== '') {
+        // @ts-ignore
+        json = yaml.load(yamlStr);
+      }
+
+      // @ts-ignore
       constant = json.constant;
+      // @ts-ignore
       fluid = json.fluid;
+      // @ts-ignore
       shifting = json.shifting;
     } catch (e) {
       if (e.code === "ENOENT")

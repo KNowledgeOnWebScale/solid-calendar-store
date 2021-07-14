@@ -26,7 +26,7 @@
     },
     {
       "@id": "solid-calendar-store:HolidayStore",
-      "HolidayStore:_options_configPath": "test/configs/holidays.json"
+      "HolidayStore:_options_configPath": "test/configs/holidays.yaml"
     }
   ]
 }

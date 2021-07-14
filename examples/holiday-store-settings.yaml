@@ -1,0 +1,17 @@
+constant:
+  - name: New Year
+    date:
+      day: 1
+      month: 0
+  - name: New Year's Eve
+    date:
+      day: 31
+      month: 11
+shifting:
+  - name: Father's Day
+    date:
+      n: 2
+      weekday: 0
+      month: 5
+fluid:
+  easter: '2021-04-04'
