@@ -1,8 +1,8 @@
 # Solid Calendar Store
 
-This library offers stores for [Community Solid Server](https://github.com/solid/community-server).
-It adds the possibility to perform a list of calendar-based operations.
-For a concrete overview of all possible transformations and 
+This library allows users to perform a list of calendar-based operations via the [Community Solid Server](https://github.com/solid/community-server) (CSS).
+This is achieved by offering stores and converters for CSS.
+For an overview of all possible transformations and 
 conversions see [the documentation](`docs`).
 
 ## How to run
