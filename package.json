@@ -4,7 +4,7 @@
   "description": "Access calendars via your Solid POD.",
   "scripts": {
     "build": "npm run build:ts && npm run build:components",
-    "build:components": "componentsjs-generator -s src -c dist/components -i .componentsignore",
+    "build:components": "componentsjs-generator -s src -c dist/components -i .componentsignore -r knows-scs",
     "build:ts": "tsc",
     "lint": "eslint . --cache --ignore-path .gitignore",
     "prepare": "npm run build",
@@ -33,7 +33,7 @@
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.0.2",
-    "componentsjs-generator": "^2.1.0",
+    "componentsjs-generator": "^2.6.0",
     "eslint": "^7.28.0",
     "eslint-config-es": "^3.28.16",
     "eslint-config-standard": "^16.0.3",
