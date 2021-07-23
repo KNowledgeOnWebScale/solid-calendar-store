@@ -4,7 +4,7 @@
     { "solid-calendar-store": "urn:solid-calendar-store:default:" }
   ],
   "import": [
-    "files-scs:config/config-calendar.json"
+    "files-knows-scs:config/config-calendar.json"
   ],
   "@graph": [
     {
