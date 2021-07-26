@@ -45,11 +45,11 @@
     "eslint-plugin-unused-imports": "^1.1.0",
     "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "@solid/community-server": "github:solid/community-server"
   },
   "dependencies": {
-    "@rmlio/solid-rml-store": "^0.0.3",
-    "@solid/community-server": "github:solid/community-server",
+    "@rmlio/solid-rml-store": "^0.0.4",
     "@types/ical": "^0.6.2",
     "@types/node-fetch": "^2.5.8",
     "content-type": "^1.0.4",
