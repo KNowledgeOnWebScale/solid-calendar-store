@@ -1,7 +1,12 @@
-import { expect } from "chai";
+import * as chai from "chai";
+import chaiExclude from 'chai-exclude';
+
 import { CssServer } from "../servers/test-css-server";
 import { IcalServer } from "../servers/test-ical-server";
 import { correctConfig, getEndpoint, aggregateNameConfig } from "./common";
+
+chai.use(chaiExclude);
+const expect = chai.expect;
 
 describe("AggregateStore", function () {
   this.timeout(4000);
@@ -43,6 +48,8 @@ describe("AggregateStore", function () {
       };
 
       const result = await getEndpoint("aggregate");
+
+      console.log(result);
 
       expect(result).excluding("name").to.deep.equal(expectedResult);
     });
