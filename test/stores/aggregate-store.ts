@@ -49,8 +49,6 @@ describe("AggregateStore", function () {
 
       const result = await getEndpoint("aggregate");
 
-      console.log(result);
-
       expect(result).excluding("name").to.deep.equal(expectedResult);
     });
 

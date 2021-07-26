@@ -14,7 +14,6 @@
     "files-scs:config/app/init/default.json",
 
     "files-scs:config/storage/backend/data-accessors/memory.json",
-    "files-scs:config/storage/backend/memory.json",
     "files-scs:config/storage/middleware/default.json",
     "files-scs:config/storage/key-value/memory.json",
 
@@ -41,6 +40,12 @@
     "files-rsrs:config/default.json"
   ],
   "@graph": [
+    {
+      "comment": "A more complex example with 3 different stores being routed to.",
+      "@id": "urn:solid-server:default:ResourceStore_Backend",
+      "@type": "RoutingResourceStore",
+      "rule": { "@id": "solid-server:RouterRule" }
+    },
     {
       "@id": "solid-server:RouterRule",
       "@type": "RegexRouterRule",
@@ -180,9 +185,6 @@
       "@id": "solid-calendar-store:RepresentationConverter",
       "@type": "WaterfallHandler",
       "WaterfallHandler:_handlers": [
-        {
-          "@id": "solid-server:IndexConverter"
-        },
         {
           "@type": "IfNeededConverter",
           "comment": "Only continue converting if the requester cannot accept the available content type"
