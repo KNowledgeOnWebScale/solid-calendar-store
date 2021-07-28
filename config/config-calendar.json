@@ -138,7 +138,7 @@
     {
       "@id": "solid-calendar-store:HolidayStore",
       "@type": "HolidayStore",
-      "HolidayStore:_options_configPath": "./examples/holiday-store-settings.json"
+      "HolidayStore:_options_configPath": "./examples/holiday-store-settings.yaml"
     },
     {
       "@id": "solid-calendar-store:BusyStore",
