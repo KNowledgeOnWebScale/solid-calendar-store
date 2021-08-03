@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
+    {
+      "solid-calendar-store": "urn:solid-calendar-store:default:",
+      "solid-server": "urn:solid-server:default:",
+      "solid-rml-store": "urn:solid-rml-store:default:"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "solid-calendar-store:RdfRepresentationConverter",
+      "@type": "ChainedConverter",
+      "ChainedConverter:_converters": [
+        {
+          "@id": "solid-calendar-store:IcsToJsonConverter"
+        },
+        {
+          "@id": "solid-rml-store:AnyToRdfConverter"
+        }
+      ]
+    },
+    {
+      "@id": "solid-calendar-store:RepresentationConverter",
+      "@type": "WaterfallHandler",
+      "WaterfallHandler:_handlers": [
+        {
+          "@type": "IfNeededConverter",
+          "comment": "Only continue converting if the requester cannot accept the available content type"
+        },
+        {
+          "@id": "solid-server:ContentTypeReplacer"
+        },
+        {
+          "@id": "solid-rml-store:AnyToRdfConverter"
+        },
+        {
+          "@id": "solid-calendar-store:IcsToJsonConverter"
+        },
+        {
+          "@id": "solid-calendar-store:RdfRepresentationConverter"
+        }
+      ]
+    }
+  ]
+}

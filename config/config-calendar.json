@@ -37,7 +37,9 @@
     "files-scs:config/ldp/handler/default.json",
     "files-scs:config/ldp/authorization/webacl.json",
 
-    "files-rsrs:config/default.json"
+    "files-rsrs:config/default.json",
+
+    "files-knows-scs:config/converters.json"
   ],
   "@graph": [
     {
@@ -168,40 +170,6 @@
       "RepresentationConvertingStore:_options_outConverter": {
         "@id": "solid-calendar-store:RepresentationConverter"
       }
-    },
-    {
-      "@id": "solid-calendar-store:RdfRepresentationConverter",
-      "@type": "ChainedConverter",
-      "ChainedConverter:_converters": [
-        {
-          "@id": "solid-calendar-store:IcsToJsonConverter"
-        },
-        {
-          "@id": "solid-rml-store:AnyToRdfConverter"
-        }
-      ]
-    },
-    {
-      "@id": "solid-calendar-store:RepresentationConverter",
-      "@type": "WaterfallHandler",
-      "WaterfallHandler:_handlers": [
-        {
-          "@type": "IfNeededConverter",
-          "comment": "Only continue converting if the requester cannot accept the available content type"
-        },
-        {
-          "@id": "solid-server:ContentTypeReplacer"
-        },
-        {
-          "@id": "solid-rml-store:AnyToRdfConverter"
-        },
-        {
-          "@id": "solid-calendar-store:IcsToJsonConverter"
-        },
-        {
-          "@id": "solid-calendar-store:RdfRepresentationConverter"
-        }
-      ]
     }
   ]
 }
