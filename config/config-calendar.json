@@ -112,14 +112,6 @@
       "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
     },
     {
-      "@id": "solid-calendar-store:IcsToJsonConverter",
-      "@type": "IcsToJsonConverter"
-    },
-    {
-      "@id": "solid-calendar-store:JsonToIcsConverter",
-      "@type": "JsonToIcsConverter"
-    },
-    {
       "@id": "solid-calendar-store:HttpGetStore",
       "@type": "HttpGetStore"
     },

@@ -11,6 +11,14 @@
   ],
   "@graph": [
     {
+      "@id": "solid-calendar-store:IcsToJsonConverter",
+      "@type": "IcsToJsonConverter"
+    },
+    {
+      "@id": "solid-calendar-store:JsonToIcsConverter",
+      "@type": "JsonToIcsConverter"
+    },
+    {
       "@id": "solid-calendar-store:RdfRepresentationConverter",
       "@type": "ChainedConverter",
       "ChainedConverter:_converters": [
