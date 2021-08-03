@@ -1,7 +1,6 @@
 import {
   absoluteFilePath,
   AppRunner,
-  ConfigVariables,
   App,
 } from "@solid/community-server";
 import type { IComponentsManagerBuilderOptions } from "componentsjs";
@@ -16,7 +15,7 @@ const loaderProperties: IComponentsManagerBuilderOptions<App> = {
   mainModulePath: absoluteFilePath("."),
 };
 
-const configVariables: ConfigVariables = {
+const configVariables = {
   showStackTrace: true,
   loggingLevel: "Info",
   port: 3000,
@@ -29,7 +28,7 @@ export class CssServer {
   private app: any;
 
   public async start(configFile: string) {
-    this.app = await appRunner.getApp(
+    this.app = await appRunner.createApp(
       loaderProperties,
       configFile,
       configVariables
