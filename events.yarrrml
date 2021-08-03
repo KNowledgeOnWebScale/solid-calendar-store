@@ -12,7 +12,7 @@ mappings:
   events:
     sources:
       - [data.json~jsonpath, "$.events[*]"]
-    s: http://example.com/event/$(title)
+    s: http://example.com/event/$(hash)
     po:
       - [a, schema:Date]
       - [schema:name, $(title)]

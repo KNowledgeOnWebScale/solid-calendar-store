@@ -56,10 +56,10 @@ END:VCALENDAR`;
 
     const expectedResult = `
 <http://example.com/calendar/Test%20for%20Solid%20calendar> <http://schema.org/event>
-    <http://example.com/event/Correctly%20converted>;
+    <http://example.com/event/2d4bb875c6c9f10695ea238e952c6e67>;
   <http://schema.org/name> "Test for Solid calendar" .
 
-<http://example.com/event/Correctly%20converted> a <http://schema.org/Date>;
+<http://example.com/event/2d4bb875c6c9f10695ea238e952c6e67> a <http://schema.org/Date>;
   <http://schema.org/endDate> "2021-04-08T17:00:00.000Z";
   <http://schema.org/name> "Correctly converted";
   <http://schema.org/startDate> "2021-04-08T15:00:00.000Z" .\n`;

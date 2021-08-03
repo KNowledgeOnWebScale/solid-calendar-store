@@ -21,6 +21,7 @@ describe("IcsToJsonConverter", function () {
             description: "",
             location: "",
             url: "http://example.com",
+            hash: "2d4bb875c6c9f10695ea238e952c6e67"
           },
         ],
       };
@@ -64,6 +65,7 @@ END:VCALENDAR`;
             title: "Correctly converted",
             startDate: "2021-04-08T15:00:00.000Z",
             endDate: "2021-04-08T17:00:00.000Z",
+            hash: "2d4bb875c6c9f10695ea238e952c6e67"
           },
         ],
       };

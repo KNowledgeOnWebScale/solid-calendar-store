@@ -35,6 +35,7 @@ describe("AggregateStore", function () {
             endDate: "2021-06-16T10:00:13.000Z",
             title: "[my first iCal] Example Event",
             url: "http://example.com/",
+            hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
           },
           {
             description: "It works ;)",
@@ -43,6 +44,7 @@ describe("AggregateStore", function () {
             endDate: "2021-06-16T10:00:13.000Z",
             title: "[my first iCal] Example Event",
             url: "http://example.com/",
+            hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
           },
         ],
       };
