@@ -11,7 +11,8 @@
   ],
   "@graph": [
     {
-      "@id": "solid-rml-store:AnyToRdfConverter",
+      "@id": "solid-calendar-store:json-to-rdf-converter",
+      "@type": "AnyToRdfConverter",
       "AnyToRdfConverter:_rmlRulesPath": "events.rml.ttl",
       "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
     },
@@ -31,7 +32,7 @@
           "@id": "solid-calendar-store:IcsToJsonConverter"
         },
         {
-          "@id": "solid-rml-store:AnyToRdfConverter"
+          "@id": "solid-calendar-store:json-to-rdf-converter"
         }
       ]
     },
@@ -47,7 +48,7 @@
           "@id": "solid-server:ContentTypeReplacer"
         },
         {
-          "@id": "solid-rml-store:AnyToRdfConverter"
+          "@id": "solid-calendar-store:json-to-rdf-converter"
         },
         {
           "@id": "solid-calendar-store:IcsToJsonConverter"
