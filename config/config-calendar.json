@@ -107,11 +107,6 @@
       "@type": "RDFStore"
     },
     {
-      "@id": "solid-rml-store:AnyToRdfConverter",
-      "AnyToRdfConverter:_rmlRulesPath": "events.rml.ttl",
-      "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
-    },
-    {
       "@id": "solid-calendar-store:HttpGetStore",
       "@type": "HttpGetStore"
     },
