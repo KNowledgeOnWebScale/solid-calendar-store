@@ -56,7 +56,7 @@
 :pm_002 rr:constant rdf:type.
 :pom_002 rr:objectMap :om_002.
 :om_002 a rr:ObjectMap;
-    rr:constant "http://schema.org/Date";
+    rr:constant "http://schema.org/Event";
     rr:termType rr:IRI.
 :pom_003 a rr:PredicateObjectMap.
 :map_events_000 rr:predicateObjectMap :pom_003.

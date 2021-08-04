@@ -14,7 +14,7 @@ mappings:
       - [data.json~jsonpath, "$.events[*]"]
     s: http://example.com/event/$(hash)
     po:
-      - [a, schema:Date]
+      - [a, schema:Event]
       - [schema:name, $(title)]
       - [schema:startDate, $(startDate)]
       - [schema:endDate, $(endDate)]
