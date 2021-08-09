@@ -59,7 +59,7 @@ END:VCALENDAR`;
     <http://example.com/event/2d4bb875c6c9f10695ea238e952c6e67>;
   <http://schema.org/name> "Test for Solid calendar" .
 
-<http://example.com/event/2d4bb875c6c9f10695ea238e952c6e67> a <http://schema.org/Date>;
+<http://example.com/event/2d4bb875c6c9f10695ea238e952c6e67> a <http://schema.org/Event>;
   <http://schema.org/endDate> "2021-04-08T17:00:00.000Z";
   <http://schema.org/name> "Correctly converted";
   <http://schema.org/startDate> "2021-04-08T15:00:00.000Z" .\n`;
