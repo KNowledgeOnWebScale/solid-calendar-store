@@ -77,7 +77,7 @@ You find an example of the settings for this store in `/examples/holiday-store-s
 You can define 3 types of holidays:
 
 - `constant`: Holidays that are always on the same day (example: New Year)
--`shifting`: Holidays that fall on the nth day of a month (example: Mothers Day)
+- `shifting`: Holidays that fall on the nth day of a month (example: Mothers Day)
 - `fluid`: Holidays that are not exactly possible to be strictly defined (example: Easter)
 
 You structure them in a JSON file like this:

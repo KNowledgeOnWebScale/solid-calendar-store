@@ -8,6 +8,7 @@ import {RepresentationPreferences} from "@solid/community-server/dist/ldp/repres
 import fs from "fs-extra";
 import {google, Common} from "googleapis";
 import {Event} from './event';
+import md5 from "md5";
 
 /**
  * Fetches the resource at an URL
@@ -19,12 +20,14 @@ export class GoogleCalendarGetStore extends BaseResourceStore {
   private oAuth2Client: Common.OAuth2Client;
   private calendarId: string;
   private amountOfDays: number;
+  private name: string;
 
-  public constructor(options : {calendarId: string, amountOfDays: number}) {
+  public constructor(options : {calendarId?: string, amountOfDays?: number, name?: string}) {
     super();
 
-    this.calendarId = options.calendarId;
-    this.amountOfDays = options.amountOfDays;
+    this.calendarId = options.calendarId || 'primary';
+    this.amountOfDays = options.amountOfDays || 30;
+    this.name = options.name || this.calendarId;
   }
 
   /**
@@ -42,7 +45,7 @@ export class GoogleCalendarGetStore extends BaseResourceStore {
 
     const events = await this.getEvents(this.oAuth2Client);
 
-    return new BasicRepresentation(JSON.stringify(events), identifier, contentType);
+    return new BasicRepresentation(JSON.stringify({name: this.name, events}), identifier, contentType);
   }
 
   private async setUpClient() {
@@ -87,7 +90,8 @@ export class GoogleCalendarGetStore extends BaseResourceStore {
           results.push({
             endDate: new Date(end),
             startDate: new Date(start),
-            title: event.summary || ''
+            title: event.summary || '',
+            hash: md5( event.summary + start + end)
           });
         });
       } else {

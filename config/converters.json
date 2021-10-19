@@ -54,6 +54,9 @@
           "@id": "solid-calendar-store:IcsToJsonConverter"
         },
         {
+          "@id": "solid-calendar-store:JsonToIcsConverter"
+        },
+        {
           "@id": "solid-calendar-store:RdfRepresentationConverter"
         }
       ]

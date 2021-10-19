@@ -36,6 +36,12 @@ TransformationStore takes a list of allowed rules as an argument and applies the
 
 A list of all the possible rules are defined in `my-settings.yaml`.
 
+## KeepStore
+
+_type: KeepStore_
+
+KeepStore keeps all events of which their titles matches a given regex.
+
 ## BusyStore
 
 _type: TransformationStore_

@@ -6,3 +6,5 @@ export * from "./transformation-store";
 export * from "./json-to-ics-converter";
 export * from "./holiday-store";
 export * from "./google-calendar-get-store";
+export * from "./keep-events-store";
+export * from "./AbstractManipulationStore";

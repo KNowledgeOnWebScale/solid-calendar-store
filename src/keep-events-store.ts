@@ -6,14 +6,18 @@ import {
   RepresentationPreferences,
   Conditions, BaseResourceStore,
 } from "@solid/community-server";
+import yaml from "js-yaml";
+import fs from "fs-extra";
+import path from "path";
+import {Event} from "./event";
 import {AbstractManipulationStore} from "./AbstractManipulationStore";
 
 const outputType = "application/json";
 
 /**
- * Transforms the events of a calendar based upon a YAML settings file.
+ * Keep events of a calendar based upon a YAML settings file.
  */
-export class TransformationStore extends AbstractManipulationStore {
+export class KeepEventsStore extends AbstractManipulationStore {
 
   constructor(
     source: BaseResourceStore,
@@ -38,50 +42,30 @@ export class TransformationStore extends AbstractManipulationStore {
     const data = await readableToString(sourceRepresentation.data);
     const calendar = JSON.parse(data);
     let events = calendar.events;
-    const transformations = await this._getManipulations();
+    const filters = await this._getManipulations();
 
-    events.forEach((event: { [x: string]: any }) => {
-      let noTransformationsMatch = true;
+    const keptEvents: Event[] = [];
 
-      transformations.forEach(
+    events.forEach((event: Event) => {
+      filters.forEach(
         ({
-          match,
-          replace,
-          removeFields,
+          match
         }: {
-          match: RegExp;
-          replace: string;
-          removeFields: string[];
+          match: RegExp
         }) => {
           const regex = new RegExp(match, "g");
 
           if (regex.test(event.title)) {
-            noTransformationsMatch = false;
-            event.title = event.title.replace(regex, replace);
-
-            if (removeFields) removeFields.forEach((key) => delete event[key]);
-            else this._keepOnlyInsensitiveFields(event);
+            keptEvents.push(event);
           }
         }
       );
-
-      if (noTransformationsMatch) this._keepOnlyInsensitiveFields(event);
     });
 
     return new BasicRepresentation(
-      JSON.stringify({ name: calendar.name, events }),
+      JSON.stringify({ name: calendar.name, events: keptEvents }),
       sourceRepresentation.metadata,
       outputType
     );
-  }
-
-  /**
-   * Keeps only the `title`, `startDate` and `endDate` keys of an event
-   * @param event - The event whose keys to filter
-   */
-  _keepOnlyInsensitiveFields(event: { [x: string]: any }) {
-    Object.keys(event).forEach((key) => {
-      if (!["title", "startDate", "endDate"].includes(key)) delete event[key];
-    });
   }
 }

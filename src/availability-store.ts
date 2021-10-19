@@ -1,4 +1,5 @@
 import {
+  BaseResourceStore,
   BasicRepresentation,
   Conditions,
   PassthroughStore,
@@ -15,13 +16,14 @@ import yaml from "js-yaml";
 import fs from "fs-extra";
 import path from "path";
 import { getUtcComponents } from "./date-utils";
+import md5 from "md5";
 
 const outputType: string = "application/json";
 
 /**
  * Generates availability slots based upon a YAML settings file
  */
-export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
+export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
   private readonly baseUrl: string;
   private availabilitySlots: [];
   private readonly settingsPath: string;
@@ -30,6 +32,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
   private startDate: Date;
   private timezone: string;
   private weekend: number[];
+  private name: string | undefined;
 
   constructor(
     source: HttpGetStore,
@@ -38,6 +41,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       settingsPath: string;
       holidaySource?: RepresentationConvertingStore;
       startDate?: string;
+      name?: string;
     }
   ) {
     super(source);
@@ -51,6 +55,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       ? new Date(options.startDate)
       : new Date();
     this.holidaySource = options.holidaySource;
+    this.name = options.name;
     this._getSettings();
   }
 
@@ -87,6 +92,7 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
         await this.holidaySource.getRepresentation(identifier, {
           type: { "application/json": 1 },
         });
+
       const data = await readableToString(sourceRepresentation.data);
       const calendar = JSON.parse(data);
       const events = calendar.events;
@@ -103,8 +109,12 @@ export class AvailabilityStore extends PassthroughStore<HttpGetStore> {
       );
     }
 
+    slots.forEach(slot => {
+      slot.hash = md5( slot.title + slot.startDate + slot.endDate);
+    })
+
     return new BasicRepresentation(
-      JSON.stringify({ name: calendar.name, events: slots }),
+      JSON.stringify({ name: this.name || calendar.name, events: slots }),
       identifier,
       outputType
     );

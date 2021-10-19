@@ -34,7 +34,7 @@ export class JsonToIcsConverter extends TypedRepresentationConverter {
     const dataTyped = JSON.parse(data);
 
     if (!dataTyped.name)
-      throw new BadRequestHttpError("Calendar name needs to be provided");
+      throw new BadRequestHttpError("JsonToIcsConverter: Calendar name needs to be provided");
 
     const calendar = ical({ name: dataTyped.name });
 
