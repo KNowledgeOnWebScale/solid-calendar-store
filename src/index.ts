@@ -5,3 +5,4 @@ export * from "./aggregate-store";
 export * from "./transformation-store";
 export * from "./json-to-ics-converter";
 export * from "./holiday-store";
+export * from "./google-calendar-get-store";

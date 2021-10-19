@@ -82,6 +82,10 @@
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:TransformationStore" }
         },
         {
+          "RegexRouterRule:_storeMap_key": "^/gcal$",
+          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:GoogleCalendarGetStore" }
+        },
+        {
           "RegexRouterRule:_storeMap_key": "^/(\\.acl)?$",
           "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
         }
@@ -157,6 +161,12 @@
       "RepresentationConvertingStore:_options_outConverter": {
         "@id": "solid-calendar-store:RepresentationConverter"
       }
+    },
+    {
+      "@id": "solid-calendar-store:GoogleCalendarGetStore",
+      "@type": "GoogleCalendarGetStore",
+      "GoogleCalendarGetStore:_options_calendarId": "TODO",
+      "GoogleCalendarGetStore:_options_amountOfDays": 5
     }
   ]
 }

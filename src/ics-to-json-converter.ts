@@ -9,16 +9,7 @@ import {
 } from "@solid/community-server";
 
 const md5 = require('md5');
-
-interface Event {
-  title: string;
-  startDate: Date;
-  endDate: Date;
-  description?: string;
-  url?: string;
-  location?: string;
-  hash?: string;
-}
+import { Event } from './event';
 
 const ICAL = require("ical.js");
 const outputType = "application/json";

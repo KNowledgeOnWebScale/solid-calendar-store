@@ -4,3 +4,6 @@ dist
 *-error-state.json
 rmlmapper.jar
 tmp
+token.json
+credentials.json
+config/config-calendar.json

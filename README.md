@@ -7,10 +7,11 @@ conversions see [the documentation](`docs`).
 
 ## How to run
 
-```
-$ npm i
-$ node node_modules/@solid/community-server/bin/server.js -c config.json -m .
-```
+1. Install dependencies via `npm i`.
+2. Rename `config/config-calendar-example.json` to `config/config-calendar.json`.
+3. Optional: update calendar id of Google Calendar in `config/config-calendar.json`.
+If you do not do this, calls involving Calendar will fail. 
+4. Run server via `node node_modules/@solid/community-server/bin/server.js -c config.json -m .`.
 
 See the [Community Solid Server documentation](https://github.com/solid/community-server#configuring-the-server) 
 for more information on what each parameter does.
@@ -38,6 +39,7 @@ how you can customize them.
 | GET  | transformation | TransformationStore |
 | GET  | holidays       | HolidayStore        |
 | GET  | holidays/busy  | ExtendedBusyStore   |
+| GET  | gcal           | GoogleCalendarGetStore |
 
 ## Examples
 
