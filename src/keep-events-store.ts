@@ -10,7 +10,7 @@ import yaml from "js-yaml";
 import fs from "fs-extra";
 import path from "path";
 import {Event} from "./event";
-import {AbstractManipulationStore} from "./AbstractManipulationStore";
+import {AbstractManipulationStore} from "./abstract-manipulation-store";
 
 const outputType = "application/json";
 

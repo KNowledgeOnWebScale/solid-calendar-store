@@ -6,7 +6,7 @@ import {
   RepresentationPreferences,
   Conditions, BaseResourceStore,
 } from "@solid/community-server";
-import {AbstractManipulationStore} from "./AbstractManipulationStore";
+import {AbstractManipulationStore} from "./abstract-manipulation-store";
 
 const outputType = "application/json";
 
