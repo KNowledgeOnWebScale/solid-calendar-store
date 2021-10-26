@@ -20,13 +20,19 @@ export const getEndpoint = async (endpoint: string): Promise<any> => {
 
 // Configs
 export const correctConfig = "./test/configs/test-config.json";
-export const emptyConfig = "./test/configs/test-empty-config.json";
-export const removeFieldsConfig =
-  "./test/configs/test-remove-fields-config.json";
+export const transformationStoreRemoveFieldsConfig =
+  "./test/configs/test-transformation-store-remove-fields-config.json";
 export const aggregateNameConfig =
   "./test/configs/test-aggregate-name-config.json";
-export const incorrectConfig = "./test/configs/test-incorrect-config.json";
-export const noStartDateConfig = "./test/configs/test-no-startDate-config.json";
-export const weekendConfig = "./test/configs/test-weekend-config.json";
-export const holidayConfig = "./test/configs/test-holiday-config.json";
 export const alternateConfig = "./test/configs/test-alternate-config.json";
+export const keepEventsStoreConfig = "./test/configs/keep-events-store-config.json";
+export const holidayStoreEmptyConfig = "./test/configs/test-holiday-store-empty-config.json";
+export const holidayStoreIncorrectConfig = "./test/configs/test-holiday-store-incorrect-config.json";
+export const aggregateStoreConfig = "./test/configs/test-aggregate-store-config.json"
+export const transformationStoreEmptyConfig = "./test/configs/test-transformation-store-empty-config.json";
+export const availabilityStoreConfig = "./test/configs/test-availability-store-config.json";
+export const availabilityStoreAlternateConfig = "./test/configs/test-availability-store-alternate-config.json";
+export const availabilityStoreNoStartDateConfig = "./test/configs/test-availability-store-no-start-date-config.json";
+export const availabilityStoreWeekendConfig = "./test/configs/test-availability-store-weekend-config.json";
+export const availabilityStoreAlternateWeekendConfig = "./test/configs/test-availability-store-alternate-weekend-config.json";
+export const availabilityStoreHolidayConfig = "./test/configs/test-availability-store-holiday-config.json";

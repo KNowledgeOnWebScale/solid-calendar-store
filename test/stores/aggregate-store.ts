@@ -3,20 +3,20 @@ import chaiExclude from 'chai-exclude';
 
 import { CssServer } from "../servers/test-css-server";
 import { IcalServer } from "../servers/test-ical-server";
-import { correctConfig, getEndpoint, aggregateNameConfig } from "./common";
+import { getEndpoint, aggregateNameConfig, aggregateStoreConfig } from "./common";
 
 chai.use(chaiExclude);
 const expect = chai.expect;
 
 describe("AggregateStore", function () {
-  this.timeout(4000);
+  this.timeout(20000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 
   describe("Default", () => {
     before(async () => {
-      await cssServer.start(correctConfig);
+      await cssServer.start(aggregateStoreConfig);
       icalServer.start();
     });
 

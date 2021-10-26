@@ -3,13 +3,13 @@ import { IcalServer } from "../servers/test-ical-server";
 import { expect } from "chai";
 import {
   correctConfig,
-  emptyConfig,
+  holidayStoreEmptyConfig,
+  holidayStoreIncorrectConfig,
   getEndpoint,
-  incorrectConfig,
 } from "./common";
 
 describe("HolidayStore", function () {
-  this.timeout(4000);
+  this.timeout(20000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
@@ -59,7 +59,7 @@ describe("HolidayStore", function () {
 
   describe("Empty config", () => {
     before(async () => {
-      await cssServer.start(emptyConfig);
+      await cssServer.start(holidayStoreEmptyConfig);
       icalServer.start();
     });
 
@@ -82,7 +82,7 @@ describe("HolidayStore", function () {
 
   describe("Incorrect config", function () {
     before(async () => {
-      await cssServer.start(incorrectConfig);
+      await cssServer.start(holidayStoreIncorrectConfig);
       icalServer.start();
     });
 
@@ -92,7 +92,8 @@ describe("HolidayStore", function () {
     });
 
     it("500", async () => {
-      await expect(getEndpoint("holidays")).to.eventually.equal(500);
+      const result = await getEndpoint("holidays");
+      expect(result).to.equal(500);
     });
   });
 });

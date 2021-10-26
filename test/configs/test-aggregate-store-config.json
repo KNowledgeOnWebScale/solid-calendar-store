@@ -78,7 +78,6 @@
     {
       "@id": "solid-calendar-store:AggregateStore",
       "@type": "AggregateStore",
-      "AggregateStore:_options_name": "Custom calendar name",
       "AggregateStore:_source1": {
         "@id": "solid-calendar-store:CalendarStore"
       },

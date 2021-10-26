@@ -6,9 +6,6 @@ import {
   RepresentationPreferences,
   Conditions, BaseResourceStore,
 } from "@solid/community-server";
-import yaml from "js-yaml";
-import fs from "fs-extra";
-import path from "path";
 import {Event} from "./event";
 import {AbstractManipulationStore} from "./abstract-manipulation-store";
 

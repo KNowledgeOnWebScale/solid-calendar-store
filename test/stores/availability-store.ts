@@ -10,28 +10,27 @@ import { expect } from "chai";
 import * as assert from "assert";
 import * as holiday_config_json from "../configs/holidays.json";
 import {
-  alternateConfig,
-  correctConfig,
-  emptyConfig,
+  availabilityStoreAlternateConfig,
+  availabilityStoreAlternateWeekendConfig,
   getEndpoint,
-  holidayConfig,
-  noStartDateConfig,
-  weekendConfig,
+  availabilityStoreConfig,
+  availabilityStoreNoStartDateConfig,
+  availabilityStoreWeekendConfig,
+  availabilityStoreHolidayConfig
 } from "./common";
-import * as test_config_json from "../configs/test-config.json";
 import yaml from "js-yaml";
 import fs from "fs-extra";
 import path from "path";
 
 describe("AvailabilityStore", function () {
-  this.timeout(4000);
+  this.timeout(20000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
 
   describe("Default", () => {
     before(async () => {
-      await cssServer.start(correctConfig);
+      await cssServer.start(availabilityStoreConfig);
       icalServer.start();
     });
 
@@ -59,8 +58,7 @@ describe("AvailabilityStore", function () {
         new Date(result.events[result.events.length - 1].startDate)
       );
 
-      const startDate =
-        test_config_json["@graph"][1]["AvailabilityStore:_options_startDate"]!!;
+      const startDate = "2021-06-24T07:47:29.182Z";
       const startDateTyped = getUtcComponents(new Date(startDate));
 
       expect(resultTyped).to.deep.equal(startDateTyped);
@@ -79,7 +77,7 @@ describe("AvailabilityStore", function () {
 
   describe("Alternate", () => {
     before(async () => {
-      await cssServer.start(alternateConfig);
+      await cssServer.start(availabilityStoreAlternateConfig);
       icalServer.start();
     });
 
@@ -113,7 +111,7 @@ describe("AvailabilityStore", function () {
 
   describe("No startDate", function () {
     before(async () => {
-      await cssServer.start(noStartDateConfig);
+      await cssServer.start(availabilityStoreNoStartDateConfig);
       icalServer.start();
     });
 
@@ -146,7 +144,7 @@ describe("AvailabilityStore", function () {
 
   describe("Weekend", function () {
     before(async () => {
-      await cssServer.start(weekendConfig);
+      await cssServer.start(availabilityStoreWeekendConfig);
       icalServer.start();
     });
 
@@ -189,7 +187,7 @@ describe("AvailabilityStore", function () {
 
   describe("Alternate weekend", () => {
     before(async () => {
-      await cssServer.start(emptyConfig);
+      await cssServer.start(availabilityStoreAlternateWeekendConfig);
       icalServer.start();
     });
 
@@ -208,7 +206,7 @@ describe("AvailabilityStore", function () {
 
   describe("Holiday", function () {
     before(async () => {
-      await cssServer.start(holidayConfig);
+      await cssServer.start(availabilityStoreHolidayConfig);
       icalServer.start();
     });
 

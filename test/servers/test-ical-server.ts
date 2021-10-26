@@ -41,14 +41,17 @@ export class IcalServer {
   );
 
   /**
-   * The calendar only has 1 event to make testing easier.
-   * @param isBusy - Indicates whether the calendar should be initialised with a plain example event, or a busy example event
+   * @param options
    */
-  constructor(isBusy: boolean = false, noEvents: boolean = false) {
-    if (!noEvents) {
+  constructor(options : {isBusy?: boolean, noEvents?: boolean, events?: {}[]} = {isBusy: false, noEvents: false, events: []}) {
+    if (options.events && options.events.length > 0) {
+      options.events.forEach(event => {
+        this.calendar.createEvent(event);
+      });
+    } else if (!options.noEvents) {
       this.calendar.createEvent(event);
 
-      if (isBusy) {
+      if (options.isBusy) {
         this.calendar.createEvent(availableEvent);
         this.calendar.createEvent(busyEvent);
       }

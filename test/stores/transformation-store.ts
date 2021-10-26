@@ -3,9 +3,9 @@ import { CssServer } from "../servers/test-css-server";
 import { IcalServer } from "../servers/test-ical-server";
 import {
   correctConfig,
-  emptyConfig,
+  transformationStoreEmptyConfig,
   getEndpoint,
-  removeFieldsConfig,
+  transformationStoreRemoveFieldsConfig,
 } from "./common";
 
 describe("TransformationStore", function () {
@@ -60,7 +60,7 @@ describe("TransformationStore", function () {
 
   describe("TransformationStore - Alternate", () => {
     before(async () => {
-      await cssServer.start(removeFieldsConfig);
+      await cssServer.start(transformationStoreRemoveFieldsConfig);
       icalServer.start();
     });
 
@@ -90,7 +90,7 @@ describe("TransformationStore", function () {
 
   describe("Empty config", () => {
     before(async () => {
-      await cssServer.start(emptyConfig);
+      await cssServer.start(transformationStoreEmptyConfig);
       icalServer.start();
     });
 
@@ -123,7 +123,7 @@ describe("TransformationStore - Alternate icalserver", function () {
   this.timeout(4000);
 
   const cssServer = new CssServer();
-  const icalServer = new IcalServer(true);
+  const icalServer = new IcalServer({isBusy: true});
 
   before(async () => {
     await cssServer.start(correctConfig);
