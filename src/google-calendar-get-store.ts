@@ -48,6 +48,11 @@ export class GoogleCalendarGetStore extends BaseResourceStore {
     return new BasicRepresentation(JSON.stringify({name: this.name, events}), identifier, contentType);
   }
 
+  /**
+   * This method sets up the Google API client using the credentials in "credentials.json" and
+   * the tokens.
+   * @private
+   */
   private async setUpClient() {
     const credentials = await fs.readJSON('credentials.json');
     const {client_secret, client_id, redirect_uris} = credentials.installed;
@@ -64,6 +69,11 @@ export class GoogleCalendarGetStore extends BaseResourceStore {
     }
   }
 
+  /**
+   * This method returns a list of events.
+   * @param client - The Google API client.
+   * @private
+   */
   private async getEvents(client: Common.OAuth2Client) {
     const calendar = google.calendar({version: 'v3', auth: client});
     try {
