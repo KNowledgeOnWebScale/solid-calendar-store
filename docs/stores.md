@@ -40,7 +40,7 @@ A list of all the possible rules are defined in `my-settings.yaml`.
 
 _type: KeepEventsStore_
 
-KeepStore keeps all events of which their titles matches a given regex.
+KeepEventsStore keeps all events of which their titles matches a given regex.
 
 ## BusyStore
 
@@ -64,3 +64,7 @@ Default aggregated calendar name is: `Aggregated calendar of ${source1} and ${so
 _type: HolidayStore_
 
 Generates a list of holidays from a given json file. These can then, for example, be used in conjunction with BusyStore to also show holidays on which the user isn't available.
+
+## GoogleCalendarGetStore
+
+GoogleCalendarGetStore gets the events of a Google Calendar of an authenticated user.
