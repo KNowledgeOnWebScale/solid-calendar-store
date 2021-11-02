@@ -3,7 +3,7 @@
 This library allows users to perform a list of calendar operations via the [Community Solid Server](https://github.com/solid/community-server) (CSS).
 This is achieved by offering stores and converters for CSS.
 For an overview of all possible transformations and 
-conversions see [the documentation](`docs`).
+conversions see [the documentation](docs).
 
 ## How to run
 
