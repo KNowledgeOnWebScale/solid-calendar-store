@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
-## [0.0.6] - 2021-11-02
+## [0.0.14] - 2021-11-02
 
 ### Added
 - Support for authenticated Google Calendars
 
 
-[0.0.6]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.5...v0.0.6
+[0.0.14]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.5...v0.0.14
