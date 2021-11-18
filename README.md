@@ -12,7 +12,7 @@ conversions see [the documentation](docs).
 3. Optional: configure use of Google Calendar. If you do not do this, calls involving Calendar will fail.
    1. Update calendar id of Google Calendar in `config/config-calendar.json`.
    2. Give Solid Calendar Store access to Google Calendar API via `node scripts/get-google-access-token.js`. 
-4. Run server via `node node_modules/@solid/community-server/bin/server.js -c config.json -m .`.
+4. Run server via `npx community-solid-server -c config.json -m .`.
 
 See the [Community Solid Server documentation](https://github.com/solid/community-server#configuring-the-server) 
 for more information on what each parameter does.
@@ -23,7 +23,7 @@ You have the option to provide a custom version by putting it in the project and
 ### Remarks
 
 1. Make sure you have the required packages to support typescript compiling installed on your machine.
-2. It is important to run the server from the node module and not from a local version. This is because certain files can only be accessed local (due to how semver works for versions below 1.0.0).
+2. Run the server via `npx` to ensure you are running local packages as opposed to global packages.
 
 ## Endpoints
 
