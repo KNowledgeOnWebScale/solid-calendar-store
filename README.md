@@ -9,9 +9,7 @@ conversions see [the documentation](docs).
 
 1. Install dependencies via `npm i`.
 2. Rename `config/config-calendar-example.json` to `config/config-calendar.json`.
-3. Optional: configure use of Google Calendar. If you do not do this, calls involving Calendar will fail.
-   1. Update calendar id of Google Calendar in `config/config-calendar.json`.
-   2. Give Solid Calendar Store access to Google Calendar API via `node scripts/get-google-access-token.js`. 
+3. Update `config/config-calendar.json` to your calendar settings.
 4. Run server via `npx community-solid-server -c config.json -m .`.
 
 See the [Community Solid Server documentation](https://github.com/solid/community-server#configuring-the-server) 
@@ -24,6 +22,15 @@ You have the option to provide a custom version by putting it in the project and
 
 1. Make sure you have the required packages to support typescript compiling installed on your machine.
 2. Run the server via `npx` to ensure you are running local packages as opposed to global packages.
+3. You can use Google Calendars via two methods:
+   1. Using a [private URL for your Google Calendar](https://support.google.com/calendar/answer/37648?hl=en#zippy=%2Cget-your-calendar-view-only) 
+      combined with the HTTP Get Store. 
+   2. Using the Google Calendar Get Store `config/config-calendar.json`
+      1. Update calendar id of Google Calendar in `config/config-calendar.json`.
+      2. Give Solid Calendar Store access to Google Calendar API via
+         ```shell
+         node scripts/get-google-access-token.js`
+         ```
 
 ## Endpoints
 
