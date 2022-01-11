@@ -23,6 +23,7 @@ const convertToRDF = async (input: any): Promise<any> => {
       metadata: new RepresentationMetadata("application/json"),
       data: inputStream,
       binary: false,
+      isEmpty: false
     },
     preferences: {},
   });

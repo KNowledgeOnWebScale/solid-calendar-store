@@ -16,6 +16,7 @@ export const convertToJSON = async (ics: string | Iterable<any>) => {
       metadata: new RepresentationMetadata("text/calendar"),
       data: guardedStreamFrom(ics),
       binary: false,
+      isEmpty: false
     },
     preferences: {},
   });

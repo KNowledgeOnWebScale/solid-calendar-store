@@ -9,7 +9,7 @@ import {
 } from "./common";
 
 describe("TransformationStore", function () {
-  this.timeout(4000);
+  this.timeout(60000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
@@ -69,7 +69,7 @@ describe("TransformationStore", function () {
       icalServer.stop();
     });
 
-    it("removeFieldsConfig overrides default", async () => {
+    it.only("removeFieldsConfig overrides default", async () => {
       const expectedResult = {
         name: "my first iCal",
         events: [

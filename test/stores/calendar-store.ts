@@ -56,6 +56,7 @@ describe("CalendarStore", function () {
         metadata: new RepresentationMetadata("text/calendar"),
         data: stream,
         binary: false,
+        isEmpty: false
       },
       preferences: {},
     });

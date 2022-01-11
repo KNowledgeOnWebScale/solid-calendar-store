@@ -57,7 +57,7 @@ export class HolidayStore extends BaseResourceStore {
       fluid = json.fluid;
       // @ts-ignore
       shifting = json.shifting;
-    } catch (e) {
+    } catch (e: any) {
       if (e.code === "ENOENT")
         throw new InternalServerError("Holiday config file is not found");
       else throw e;

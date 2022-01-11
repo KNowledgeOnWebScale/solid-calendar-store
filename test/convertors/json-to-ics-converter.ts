@@ -16,6 +16,7 @@ const convertToIcs = async (input: object) => {
       metadata: new RepresentationMetadata("text/calendar"),
       data: inputStream,
       binary: false,
+      isEmpty: false
     },
     preferences: {},
   });
