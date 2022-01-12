@@ -23,7 +23,7 @@ import fs from "fs-extra";
 import path from "path";
 
 describe("AvailabilityStore", function () {
-  this.timeout(20000);
+  this.timeout(60000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();
@@ -109,7 +109,7 @@ describe("AvailabilityStore", function () {
     });
   });
 
-  describe("No startDate", function () {
+  describe.only("No startDate", function () {
     before(async () => {
       await cssServer.start(availabilityStoreNoStartDateConfig);
       icalServer.start();

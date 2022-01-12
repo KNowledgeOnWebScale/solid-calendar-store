@@ -6,6 +6,7 @@ import {
   transformationStoreEmptyConfig,
   getEndpoint,
   transformationStoreRemoveFieldsConfig,
+  transformationStoreConfig,
 } from "./common";
 
 describe("TransformationStore", function () {
@@ -16,7 +17,7 @@ describe("TransformationStore", function () {
 
   describe("Default", () => {
     before(async () => {
-      await cssServer.start(correctConfig);
+      await cssServer.start(transformationStoreConfig);
       icalServer.start();
     });
 
@@ -69,7 +70,7 @@ describe("TransformationStore", function () {
       icalServer.stop();
     });
 
-    it.only("removeFieldsConfig overrides default", async () => {
+    it("removeFieldsConfig overrides default", async () => {
       const expectedResult = {
         name: "my first iCal",
         events: [

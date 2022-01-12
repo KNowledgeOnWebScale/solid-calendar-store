@@ -3,11 +3,11 @@ import {
   RepresentationMetadata,
   readableToString,
 } from "@solid/community-server";
-import { expect } from "chai";
-import { CssServer } from "../servers/test-css-server";
-import { IcalServer } from "../servers/test-ical-server";
-import { correctConfig, getEndpoint } from "./common";
-import { IcsToJsonConverter } from "../../src/ics-to-json-converter";
+import {expect} from "chai";
+import {CssServer} from "../servers/test-css-server";
+import {IcalServer} from "../servers/test-ical-server";
+import {calendarStoreConfig, getEndpoint} from "./common";
+import {IcsToJsonConverter} from "../../src";
 
 describe("CalendarStore", function () {
   this.timeout(4000);
@@ -16,7 +16,7 @@ describe("CalendarStore", function () {
   const icalServer = new IcalServer();
 
   before(async () => {
-    await cssServer.start(correctConfig);
+    await cssServer.start(calendarStoreConfig);
     icalServer.start();
   });
 
@@ -51,7 +51,7 @@ describe("CalendarStore", function () {
     const stream = guardedStreamFrom(response[0]);
 
     const resultStream = await new IcsToJsonConverter().handle({
-      identifier: { path: "text/calendar" },
+      identifier: {path: "text/calendar"},
       representation: {
         metadata: new RepresentationMetadata("text/calendar"),
         data: stream,

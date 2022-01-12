@@ -19,20 +19,23 @@ export const getEndpoint = async (endpoint: string): Promise<any> => {
 };
 
 // Configs
-export const correctConfig = "./test/configs/test-config.json";
+export const correctConfig = "./test/configs/config.json";
+export const calendarStoreConfig = "./test/configs/calendar-store-config.json";
+export const transformationStoreConfig = "./test/configs/transformation-store.json";
 export const transformationStoreRemoveFieldsConfig =
-  "./test/configs/test-transformation-store-remove-fields-config.json";
+  "./test/configs/transformation-store-remove-fields-config.json";
 export const aggregateNameConfig =
-  "./test/configs/test-aggregate-name-config.json";
-export const alternateConfig = "./test/configs/test-alternate-config.json";
+  "./test/configs/aggregate-name-config.json";
+export const alternateConfig = "./test/configs/alternate-config.json";
 export const keepEventsStoreConfig = "./test/configs/keep-events-store-config.json";
-export const holidayStoreEmptyConfig = "./test/configs/test-holiday-store-empty-config.json";
-export const holidayStoreIncorrectConfig = "./test/configs/test-holiday-store-incorrect-config.json";
-export const aggregateStoreConfig = "./test/configs/test-aggregate-store-config.json"
-export const transformationStoreEmptyConfig = "./test/configs/test-transformation-store-empty-config.json";
-export const availabilityStoreConfig = "./test/configs/test-availability-store-config.json";
-export const availabilityStoreAlternateConfig = "./test/configs/test-availability-store-alternate-config.json";
-export const availabilityStoreNoStartDateConfig = "./test/configs/test-availability-store-no-start-date-config.json";
-export const availabilityStoreWeekendConfig = "./test/configs/test-availability-store-weekend-config.json";
-export const availabilityStoreAlternateWeekendConfig = "./test/configs/test-availability-store-alternate-weekend-config.json";
-export const availabilityStoreHolidayConfig = "./test/configs/test-availability-store-holiday-config.json";
+export const holidayStoreEmptyConfig = "./test/configs/holiday-store-empty-config.json";
+export const holidayStoreIncorrectConfig = "./test/configs/holiday-store-incorrect-config.json";
+export const holidayStoreConfig = "./test/configs/holiday-store-config.json";
+export const aggregateStoreConfig = "./test/configs/aggregate-store-config.json"
+export const transformationStoreEmptyConfig = "./test/configs/transformation-store-empty-config.json";
+export const availabilityStoreConfig = "./test/configs/availability-store-config.json";
+export const availabilityStoreAlternateConfig = "./test/configs/availability-store-alternate-config.json";
+export const availabilityStoreNoStartDateConfig = "./test/configs/availability-store-no-start-date-config.json";
+export const availabilityStoreWeekendConfig = "./test/configs/availability-store-weekend-config.json";
+export const availabilityStoreAlternateWeekendConfig = "./test/configs/availability-store-alternate-weekend-config.json";
+export const availabilityStoreHolidayConfig = "./test/configs/availability-store-holiday-config.json";

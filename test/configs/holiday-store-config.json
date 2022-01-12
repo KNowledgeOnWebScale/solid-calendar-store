@@ -6,13 +6,14 @@
     {
       "solid-calendar-store": "urn:solid-calendar-store:default:",
       "solid-server": "urn:solid-server:default:",
-      "solid-rml-store": "urn:solid-rml-store:default:"
+      "solid-rml-store": "urn:solid-rml-store:default:",
+      "my": "urn:example:"
     }
   ],
   "import": [
     "files-scs:config/app/main/default.json",
     "files-scs:config/app/init/default.json",
-    "files-scs:config/app/setup/required.json",
+    "files-scs:config/app/setup/disabled.json",
     "files-scs:config/http/handler/default.json",
     "files-scs:config/http/middleware/websockets.json",
     "files-scs:config/http/server-factory/websockets.json",
@@ -24,7 +25,7 @@
     "files-scs:config/identity/pod/static.json",
     "files-scs:config/identity/registration/enabled.json",
     "files-scs:config/ldp/authentication/dpop-bearer.json",
-    "files-scs:config/ldp/authorization/webacl.json",
+    "files-scs:config/ldp/authorization/allow-all.json",
     "files-scs:config/ldp/handler/default.json",
     "files-scs:config/ldp/metadata-parser/default.json",
     "files-scs:config/ldp/metadata-writer/default.json",
@@ -41,7 +42,6 @@
     "files-scs:config/storage/backend/data-accessors/memory.json",
 
     "files-rsrs:config/default.json",
-
     "files-knows-scs:config/converters.json"
   ],
   "@graph": [
@@ -49,20 +49,28 @@
       "comment": "A more complex example with 3 different stores being routed to.",
       "@id": "urn:solid-server:default:ResourceStore_Backend",
       "@type": "RoutingResourceStore",
-      "rule": { "@id": "solid-server:RouterRule" }
+      "rule": {
+        "@id": "solid-server:RouterRule"
+      }
     },
     {
       "@id": "solid-server:RouterRule",
       "@type": "RegexRouterRule",
-      "base": { "@id": "solid-server:variable:baseUrl" },
+      "base": {
+        "@id": "solid-server:variable:baseUrl"
+      },
       "storeMap": [
         {
-          "RegexRouterRule:_storeMap_key": "^/transformation$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:TransformationStore" }
+          "RegexRouterRule:_storeMap_key": "^/holidays$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-calendar-store:HolidayStore"
+          }
         },
         {
-          "RegexRouterRule:_storeMap_key": "^/(?!transformation$).*",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
+          "RegexRouterRule:_storeMap_key": "^/(?!holidays).*$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-server:MemoryResourceStore"
+          }
         }
       ]
     },
@@ -74,27 +82,9 @@
       "accessor": { "@id": "solid-server:MemoryDataAccessor" }
     },
     {
-      "@id": "solid-calendar-store:TransformationStore",
-      "@type": "TransformationStore",
-      "TransformationStore:_source": {
-        "@id": "solid-calendar-store:CalendarStore"
-      },
-      "TransformationStore:_options_settingsPaths": ["test/configs/test-remove-fields-settings.yaml"]
-    },
-    {
-      "@id": "solid-calendar-store:HttpGetStore",
-      "@type": "HttpGetStore",
-      "HttpGetStore:_options_url": "http://localhost:3001"
-    },
-    {
-      "@id": "solid-calendar-store:CalendarStore",
-      "@type": "RepresentationConvertingStore",
-      "RepresentationConvertingStore:_source": {
-        "@id": "solid-calendar-store:HttpGetStore"
-      },
-      "RepresentationConvertingStore:_options_outConverter": {
-        "@id": "solid-calendar-store:RepresentationConverter"
-      }
+      "@id": "solid-calendar-store:HolidayStore",
+      "@type": "HolidayStore",
+      "HolidayStore:_options_configPath": "test/configs/holidays.yaml"
     }
   ]
 }

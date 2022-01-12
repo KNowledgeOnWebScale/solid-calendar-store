@@ -61,49 +61,13 @@
       },
       "storeMap": [
         {
-          "RegexRouterRule:_storeMap_key": "^/holidays/busy$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:ExtendedBusyStore"
-          }
-        },
-        {
-          "RegexRouterRule:_storeMap_key": "^/holidays(/)?$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:HolidayStore"
-          }
-        },
-        {
           "RegexRouterRule:_storeMap_key": "^/calendar$",
           "RegexRouterRule:_storeMap_value": {
             "@id": "solid-calendar-store:CalendarStore"
           }
         },
         {
-          "RegexRouterRule:_storeMap_key": "^/availability$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:AvailabilityStore"
-          }
-        },
-        {
-          "RegexRouterRule:_storeMap_key": "^/busy$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:BusyStore"
-          }
-        },
-        {
-          "RegexRouterRule:_storeMap_key": "^/aggregate$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:AggregateStore"
-          }
-        },
-        {
-          "RegexRouterRule:_storeMap_key": "^/transformation$",
-          "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:TransformationStore"
-          }
-        },
-        {
-          "RegexRouterRule:_storeMap_key": "^/(\\.acl)?$",
+          "RegexRouterRule:_storeMap_key": "^/(?!calendar$).*$",
           "RegexRouterRule:_storeMap_value": {
             "@id": "solid-server:MemoryResourceStore"
           }
@@ -121,67 +85,6 @@
       "@id": "solid-calendar-store:HttpGetStore",
       "@type": "HttpGetStore",
       "HttpGetStore:_options_url": "http://localhost:3001"
-    },
-    {
-      "@id": "solid-calendar-store:BusyStore",
-      "@type": "TransformationStore",
-      "TransformationStore:_options_settingsPaths": [
-        "test/configs/test-settings.yaml"
-      ]
-    },
-    {
-      "@id": "solid-calendar-store:TransformationStore",
-      "@type": "TransformationStore",
-      "TransformationStore:_source": {
-        "@id": "solid-calendar-store:CalendarStore"
-      },
-      "TransformationStore:_options_settingsPaths": [
-        "test/configs/test-settings.yaml"
-      ]
-    },
-    {
-      "@id": "solid-calendar-store:HolidayStore",
-      "HolidayStore:_options_configPath": "test/configs/holidays.yaml"
-    },
-    {
-      "@id": "solid-calendar-store:AvailabilityStore",
-      "@type": "AvailabilityStore",
-      "AvailabilityStore:_source": {
-        "@id": "solid-calendar-store:CalendarStore"
-      },
-      "AvailabilityStore:_options_baseUrl": "http://example.com/",
-      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
-      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
-    },
-    {
-      "@id": "solid-calendar-store:ExtendedBusyStore",
-      "@type": "AggregateStore",
-      "AggregateStore:_source1": { "@id": "solid-calendar-store:BusyStore" },
-      "AggregateStore:_source2": { "@id": "solid-calendar-store:HolidayStore"}
-    },
-    {
-      "@id": "solid-calendar-store:HolidayStore",
-      "@type": "HolidayStore",
-      "HolidayStore:_options_configPath": "./examples/holiday-store-settings.yaml"
-    },
-    {
-      "@id": "solid-calendar-store:BusyStore",
-      "@type": "TransformationStore",
-      "TransformationStore:_options_rules": ["busy"],
-      "TransformationStore:_source": {
-        "@id": "solid-calendar-store:CalendarStore"
-      },
-      "TransformationStore:_options_settingsPaths": ["examples/busy.yaml"]
-    },
-    {
-      "@id": "solid-calendar-store:AggregateStore",
-      "@type": "AggregateStore",
-      "AggregateStore:_source1": {
-        "@id": "solid-calendar-store:CalendarStore"
-      },
-      "AggregateStore:_source2": {
-        "@id": "solid-calendar-store:CalendarStore"
-      }
     },
     {
       "@id": "solid-calendar-store:CalendarStore",

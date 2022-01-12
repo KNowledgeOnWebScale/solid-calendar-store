@@ -1,11 +1,10 @@
-import { CssServer } from "../servers/test-css-server";
-import { IcalServer } from "../servers/test-ical-server";
-import { expect } from "chai";
+import {CssServer} from "../servers/test-css-server";
+import {IcalServer} from "../servers/test-ical-server";
+import {expect} from "chai";
 import {
-  correctConfig,
   holidayStoreEmptyConfig,
   holidayStoreIncorrectConfig,
-  getEndpoint,
+  getEndpoint, holidayStoreConfig,
 } from "./common";
 
 describe("HolidayStore", function () {
@@ -16,7 +15,7 @@ describe("HolidayStore", function () {
 
   describe("Default", () => {
     before(async () => {
-      await cssServer.start(correctConfig);
+      await cssServer.start(holidayStoreConfig);
       icalServer.start();
     });
 
@@ -30,23 +29,23 @@ describe("HolidayStore", function () {
         name: "Holiday",
         events: [
           {
-            endDate: "2021-01-01T23:59:00.000Z",
-            startDate: "2021-01-01T00:00:00.000Z",
+            endDate: "2022-01-01T23:59:00.000Z",
+            startDate: "2022-01-01T00:00:00.000Z",
             title: "New Year",
           },
           {
-            endDate: "2021-12-31T23:59:00.000Z",
-            startDate: "2021-12-31T00:00:00.000Z",
+            endDate: "2022-12-31T23:59:00.000Z",
+            startDate: "2022-12-31T00:00:00.000Z",
             title: "New Year's Eve",
           },
           {
-            endDate: "2021-04-04T23:59:00.000Z",
-            startDate: "2021-04-04T00:00:00.000Z",
+            endDate: "2022-04-04T23:59:00.000Z",
+            startDate: "2022-04-04T00:00:00.000Z",
             title: "easter",
           },
           {
-            endDate: "2021-06-12T23:59:00.000Z",
-            startDate: "2021-06-12T00:00:00.000Z",
+            endDate: "2022-06-11T23:59:00.000Z",
+            startDate: "2022-06-11T00:00:00.000Z",
             title: "Father's Day",
           },
         ],
