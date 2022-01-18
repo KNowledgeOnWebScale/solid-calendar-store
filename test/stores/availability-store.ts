@@ -109,7 +109,7 @@ describe("AvailabilityStore", function () {
     });
   });
 
-  describe.only("No startDate", function () {
+  describe("No startDate", function () {
     before(async () => {
       await cssServer.start(availabilityStoreNoStartDateConfig);
       icalServer.start();

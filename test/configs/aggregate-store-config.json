@@ -61,7 +61,7 @@
           "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:AggregateStore" }
         },
         {
-          "RegexRouterRule:_storeMap_key": "^/(\\.acl)?$",
+          "RegexRouterRule:_storeMap_key": "^/(?!aggregate$).*$",
           "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
         }
       ]

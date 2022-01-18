@@ -6,7 +6,8 @@
     {
       "solid-calendar-store": "urn:solid-calendar-store:default:",
       "solid-server": "urn:solid-server:default:",
-      "solid-rml-store": "urn:solid-rml-store:default:"
+      "solid-rml-store": "urn:solid-rml-store:default:",
+      "my": "urn:example:"
     }
   ],
   "import": [
@@ -41,7 +42,6 @@
     "files-scs:config/storage/backend/data-accessors/memory.json",
 
     "files-rsrs:config/default.json",
-
     "files-knows-scs:config/converters.json"
   ],
   "@graph": [
@@ -49,20 +49,28 @@
       "comment": "A more complex example with 3 different stores being routed to.",
       "@id": "urn:solid-server:default:ResourceStore_Backend",
       "@type": "RoutingResourceStore",
-      "rule": { "@id": "solid-server:RouterRule" }
+      "rule": {
+        "@id": "solid-server:RouterRule"
+      }
     },
     {
       "@id": "solid-server:RouterRule",
       "@type": "RegexRouterRule",
-      "base": { "@id": "solid-server:variable:baseUrl" },
+      "base": {
+        "@id": "solid-server:variable:baseUrl"
+      },
       "storeMap": [
         {
-          "RegexRouterRule:_storeMap_key": "^/aggregate$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:AggregateStore" }
+          "RegexRouterRule:_storeMap_key": "^/busy$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-calendar-store:BusyStore"
+          }
         },
         {
-          "RegexRouterRule:_storeMap_key": "^/(?!aggregate$).*$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
+          "RegexRouterRule:_storeMap_key": "^/(?!busy$).*$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-server:MemoryResourceStore"
+          }
         }
       ]
     },
@@ -79,15 +87,13 @@
       "HttpGetStore:_options_url": "http://localhost:3001"
     },
     {
-      "@id": "solid-calendar-store:AggregateStore",
-      "@type": "AggregateStore",
-      "AggregateStore:_options_name": "Custom calendar name",
-      "AggregateStore:_source1": {
+      "@id": "solid-calendar-store:BusyStore",
+      "@type": "TransformationStore",
+      "TransformationStore:_options_rules": ["busy"],
+      "TransformationStore:_source": {
         "@id": "solid-calendar-store:CalendarStore"
       },
-      "AggregateStore:_source2": {
-        "@id": "solid-calendar-store:CalendarStore"
-      }
+      "TransformationStore:_options_settingsPaths": ["test/configs/busy.yaml"]
     },
     {
       "@id": "solid-calendar-store:CalendarStore",

@@ -19,7 +19,7 @@ export const getEndpoint = async (endpoint: string): Promise<any> => {
 };
 
 // Configs
-export const correctConfig = "./test/configs/config.json";
+export const correctConfig = "./test/configs/test-config.json";
 export const calendarStoreConfig = "./test/configs/calendar-store-config.json";
 export const transformationStoreConfig = "./test/configs/transformation-store.json";
 export const transformationStoreRemoveFieldsConfig =
@@ -33,6 +33,7 @@ export const holidayStoreIncorrectConfig = "./test/configs/holiday-store-incorre
 export const holidayStoreConfig = "./test/configs/holiday-store-config.json";
 export const aggregateStoreConfig = "./test/configs/aggregate-store-config.json"
 export const transformationStoreEmptyConfig = "./test/configs/transformation-store-empty-config.json";
+export const transformationStoreAlternateIcalServerConfig = "./test/configs/transformation-store-alternate-ical-server.json";
 export const availabilityStoreConfig = "./test/configs/availability-store-config.json";
 export const availabilityStoreAlternateConfig = "./test/configs/availability-store-alternate-config.json";
 export const availabilityStoreNoStartDateConfig = "./test/configs/availability-store-no-start-date-config.json";

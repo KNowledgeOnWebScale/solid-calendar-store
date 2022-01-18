@@ -1,12 +1,11 @@
-import { expect } from "chai";
-import { CssServer } from "../servers/test-css-server";
-import { IcalServer } from "../servers/test-ical-server";
+import {expect} from "chai";
+import {CssServer} from "../servers/test-css-server";
+import {IcalServer} from "../servers/test-ical-server";
 import {
-  correctConfig,
   transformationStoreEmptyConfig,
   getEndpoint,
   transformationStoreRemoveFieldsConfig,
-  transformationStoreConfig,
+  transformationStoreConfig, transformationStoreAlternateIcalServerConfig,
 } from "./common";
 
 describe("TransformationStore", function () {
@@ -127,7 +126,7 @@ describe("TransformationStore - Alternate icalserver", function () {
   const icalServer = new IcalServer({isBusy: true});
 
   before(async () => {
-    await cssServer.start(correctConfig);
+    await cssServer.start(transformationStoreAlternateIcalServerConfig);
     icalServer.start();
   });
 
@@ -153,12 +152,14 @@ describe("TransformationStore - Alternate icalserver", function () {
         {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
-          title: "Unavailable",
+          location: "my room",
+          url: "http://example.com/",
+          title: "Busy",
         },
       ],
     };
     const result = await getEndpoint("busy");
 
-    expect(result).to.deep.equal(expectedResult);
+    expect(result).excludingEvery('hash').to.deep.equal(expectedResult);
   });
 });
