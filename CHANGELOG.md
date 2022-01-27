@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Clarify instructions wrt Google Calendar (see [issue 8](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/8))
 
+### Changed
+- Use CSS v2
+
 ## [0.0.14] - 2021-11-02
 
 ### Added
