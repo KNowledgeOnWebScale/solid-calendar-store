@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.0.15] - 2022-01-28
+
 ### Added
 - Option to Keep Store to remove past events
 
@@ -23,4 +25,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.0.15]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.14...v0.0.15
 [0.0.14]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.5...v0.0.14
