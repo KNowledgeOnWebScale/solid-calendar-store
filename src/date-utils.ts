@@ -1,4 +1,6 @@
 import { DateTime } from "luxon";
+import {Event} from "./event";
+import {RRule, rrulestr} from "rrule";
 
 export function nextDay(date: Date, days = 1) {
   const [year, month, day] = getUtcComponents(date || new Date());
@@ -123,4 +125,40 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
   return DateTime.fromJSDate(fstDate).diff(DateTime.fromJSDate(sndDate), [
     "days",
   ]).days;
+}
+
+export function getRecurringEvents(originalEvent: Event, rrule: string): Event[] {
+  const today = new Date();
+  let rule = rrulestr(`RRULE:${rrule}`);
+  const origOptions = rule.origOptions;
+  const originalStartDate = new Date(originalEvent.startDate);
+  origOptions.dtstart = originalStartDate;
+
+  rule = new RRule(origOptions);
+
+  const todayPlusOneYear = new Date((today < originalStartDate ? originalStartDate : today).getTime());
+  todayPlusOneYear.setFullYear(todayPlusOneYear.getFullYear() + 1);
+
+  const allStartDates = rule.between(today, todayPlusOneYear, true);
+
+  if (allStartDates.length > 0 && allStartDates[0].getTime() === originalStartDate.getTime()) {
+    allStartDates.shift();
+  }
+
+  const differenceMs = (new Date(originalEvent.endDate)).getTime() - originalStartDate.getTime();
+
+  const recurringEvents: Event[] = [];
+
+  allStartDates.forEach(startDate => {
+    const endDate = new Date();
+    endDate.setTime(startDate.getTime() + differenceMs);
+
+    const recurringEvent = JSON.parse(JSON.stringify(originalEvent));
+    recurringEvent.startDate = startDate.toISOString();
+    recurringEvent.endDate = endDate.toISOString();
+
+    recurringEvents.push(recurringEvent);
+  });
+
+  return recurringEvents;
 }

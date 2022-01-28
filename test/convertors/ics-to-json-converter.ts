@@ -5,6 +5,8 @@ import {
   InternalServerError,
 } from "@solid/community-server";
 import { convertToJSON } from "./common";
+import fs from 'fs-extra';
+import path from 'path';
 
 describe("IcsToJsonConverter", function () {
   this.timeout(4000);
@@ -26,29 +28,7 @@ describe("IcsToJsonConverter", function () {
         ],
       };
 
-      const event = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Test for Solid calendar
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-DESCRIPTION:
-LAST-MODIFIED:20210408T124806Z
-LOCATION:
-URL:http://example.com
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR`;
+      const event = await fs.readFile(path.join(__dirname, 'resources/valid-calendar.ics'), 'utf-8');
 
       const convertedRepresentation = await convertToJSON(event);
       const data = await readableToString(convertedRepresentation.data);
@@ -70,28 +50,19 @@ END:VCALENDAR`;
         ],
       };
 
-      const event = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Test for Solid calendar
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-LAST-MODIFIED:20210408T124806Z
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR`;
+      const event = await fs.readFile(path.join(__dirname, 'resources/valid-calendar-2.ics'), 'utf-8');
 
       const convertedRepresentation = await convertToJSON(event);
+      const data = await readableToString(convertedRepresentation.data);
+      const resultTyped = JSON.parse(data);
+
+      expect(resultTyped).to.deep.equal(expectedResult);
+    });
+
+    it("Recurring events", async () => {
+      const expectedResult = await fs.readJson(path.join(__dirname, 'resources/recurring-events.json'));
+      const ics = await fs.readFile(path.join(__dirname, 'resources/recurring-events.ics'), 'utf-8');
+      const convertedRepresentation = await convertToJSON(ics);
       const data = await readableToString(convertedRepresentation.data);
       const resultTyped = JSON.parse(data);
 
@@ -101,27 +72,7 @@ END:VCALENDAR`;
 
   describe("Verify converter on incorrect input", () => {
     it("#1", async () => {
-      const event = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Test for Solid calendar
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-DESCRIPTION:
-LAST-MODIFIED:20210408T124806Z
-LOCATION:
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT`;
+      const event = await fs.readFile(path.join(__dirname, 'resources/invalid-body.ics'), 'utf-8');
 
       await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith(
@@ -131,20 +82,7 @@ END:VEVENT`;
     });
 
     it("#2 - 500", async () => {
-      const event = `BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-DESCRIPTION:
-LAST-MODIFIED:20210408T124806Z
-LOCATION:
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT`;
+      const event = await fs.readFile(path.join(__dirname, 'resources/no-calendar-name.ics'), 'utf-8');
 
       await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith("No calendar name found")
@@ -158,28 +96,7 @@ END:VEVENT`;
     });
 
     it("#4 - 500", async () => {
-      const event = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-DESCRIPTION:
-LAST-MODIFIED:20210408T124806Z
-LOCATION:
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR`;
+      const event = await fs.readFile(path.join(__dirname, 'resources/empty-calendar-name.ics'), 'utf-8');
 
       await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith("No calendar name found")
@@ -187,49 +104,13 @@ END:VCALENDAR`;
     });
 
     it("#5 - 500", async () => {
-      const event_1 = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Test for Solid calendar
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTSTART:20210408T150000Z
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-LAST-MODIFIED:20210408T124806Z
-SEQUENCE:0
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR`;
+      const event_1 = await fs.readFile(path.join(__dirname, 'resources/no-summary.ics'), 'utf-8');
 
       await expect(convertToJSON(event_1))
         .to.eventually.be.rejectedWith("Summary needs to be provided")
         .and.be.an.instanceOf(BadRequestHttpError);
 
-      const event_2 = `BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Test for Solid calendar
-X-WR-TIMEZONE:Europe/Brussels
-BEGIN:VEVENT
-DTEND:20210408T170000Z
-DTSTAMP:20210618T121947Z
-UID:04jkkr8hoj6jdcc5ikrrhk2c5o@google.com
-CREATED:20210408T124806Z
-LAST-MODIFIED:20210408T124806Z
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Correctly converted
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR`;
+      const event_2 = await fs.readFile(path.join(__dirname, 'resources/no-dtstart.ics'), 'utf-8');
 
       await expect(convertToJSON(event_2))
         .to.eventually.be.rejectedWith("Dtstart needs to be provided")

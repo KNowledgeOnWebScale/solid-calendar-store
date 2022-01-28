@@ -10,6 +10,7 @@ import {
 
 const md5 = require('md5');
 import { Event } from './event';
+import {getRecurringEvents} from "./date-utils";
 
 const ICAL = require("ical.js");
 const outputType = "application/json";
@@ -27,7 +28,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     representation,
   }: RepresentationConverterArgs): Promise<Representation> {
     const data = await readableToString(representation.data);
-    const events: Event[] = [];
+    let events: Event[] = [];
 
     if (!data?.length)
       throw new BadRequestHttpError("Empty input is not allowed");
@@ -66,6 +67,11 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
         event.location = vevent.getFirstPropertyValue("location");
 
       events.push(event);
+
+      if (vevent.getFirstPropertyValue("rrule")) {
+        const recurringEvents = getRecurringEvents(event, vevent.getFirstPropertyValue("rrule"));
+        events = events.concat(recurringEvents);
+      }
     }
 
     const calendar = {

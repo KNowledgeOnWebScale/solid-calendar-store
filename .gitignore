@@ -8,3 +8,4 @@ token.json
 credentials.json
 config/config-calendar.json
 personal
+.internal
