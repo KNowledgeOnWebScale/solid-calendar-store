@@ -127,6 +127,13 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
   ]).days;
 }
 
+/**
+ * This function returns the recurring events for the original event.
+ * Only one year of future events are returned, starting from today or the start date of the original event,
+ * whatever is most recent.
+ * @param originalEvent - The original event.
+ * @param rrule - The RRULE (coming from ICS) for the original event.
+ */
 export function getRecurringEvents(originalEvent: Event, rrule: string): Event[] {
   const today = new Date();
   let rule = rrulestr(`RRULE:${rrule}`);
