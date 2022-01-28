@@ -42,17 +42,26 @@ export class KeepEventsStore extends AbstractManipulationStore {
     const filters = await this._getManipulations();
 
     const keptEvents: Event[] = [];
+    const today = new Date();
 
     events.forEach((event: Event) => {
       filters.forEach(
         ({
-          match
+          match,
+          pastEvents
         }: {
-          match: RegExp
+          match: RegExp,
+          pastEvents: boolean
         }) => {
           const regex = new RegExp(match, "g");
 
-          if (regex.test(event.title)) {
+          if (pastEvents === undefined) {
+            pastEvents = true;
+          }
+
+          const endDate = new Date(event.endDate);
+
+          if (regex.test(event.title) && (pastEvents || endDate > today)) {
             keptEvents.push(event);
           }
         }

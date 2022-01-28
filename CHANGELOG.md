@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Option to Keep Store to remove past events
+
 ### Fixed
 - Clarify instructions wrt Google Calendar (see [issue 8](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/8))
 - Converting recurring events in ICS to JSON

@@ -3,7 +3,7 @@ import {CssServer} from "../servers/test-css-server";
 import {IcalServer} from "../servers/test-ical-server";
 import {
   keepEventsStoreConfig,
-  getEndpoint,
+  getEndpoint, keepEventsStoreOnlyUpcomingConfig,
 } from "./common";
 
 describe("KeepEventsStore", function () {
@@ -27,11 +27,16 @@ describe("KeepEventsStore", function () {
         description: "It works ;)",
         location: "my room",
         url: "http://example.com/",
+      },
+      {
+        start: "Wed Jan 28 2032 12:00:10 GMT+0200",
+        end: "Wed Jan 28 2032 12:00:13 GMT+0200",
+        summary: "Keep this"
       }
     ]
   });
 
-  describe("Default", () => {
+  describe("Match", () => {
     before(async () => {
       await cssServer.start(keepEventsStoreConfig);
       icalServer.start();
@@ -53,6 +58,53 @@ describe("KeepEventsStore", function () {
             description: "It works ;)",
             location: "my room",
             url: "http://example.com/",
+          }
+        ],
+      };
+      const result = await getEndpoint("keep");
+
+      expect(result.events).excluding('hash').to.deep.equal(expectedResult.events);
+    });
+
+    it("Only keep upcoming events", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            startDate: "2021-06-16T10:00:10.000Z",
+            endDate: "2021-06-16T10:00:13.000Z",
+            title: "Example Event (PH)",
+            description: "It works ;)",
+            location: "my room",
+            url: "http://example.com/",
+          }
+        ],
+      };
+      const result = await getEndpoint("keep");
+
+      expect(result.events).excluding('hash').to.deep.equal(expectedResult.events);
+    });
+  });
+
+  describe("pastEvents", () => {
+    before(async () => {
+      await cssServer.start(keepEventsStoreOnlyUpcomingConfig);
+      icalServer.start();
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("Only keep upcoming events", async () => {
+      const expectedResult = {
+        name: "my first iCal",
+        events: [
+          {
+            "endDate": "2032-01-28T10:00:13.000Z",
+            "startDate": "2032-01-28T10:00:10.000Z",
+            "title": "Keep this"
           }
         ],
       };

@@ -28,6 +28,7 @@ export const aggregateNameConfig =
   "./test/configs/aggregate-name-config.json";
 export const alternateConfig = "./test/configs/alternate-config.json";
 export const keepEventsStoreConfig = "./test/configs/keep-events-store-config.json";
+export const keepEventsStoreOnlyUpcomingConfig = "./test/configs/keep-events-store-only-upcoming-config.json";
 export const holidayStoreEmptyConfig = "./test/configs/holiday-store-empty-config.json";
 export const holidayStoreIncorrectConfig = "./test/configs/holiday-store-incorrect-config.json";
 export const holidayStoreConfig = "./test/configs/holiday-store-config.json";

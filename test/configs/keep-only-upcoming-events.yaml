@@ -1,0 +1,3 @@
+transformation:
+  keep:
+    - pastEvents: false #default true
