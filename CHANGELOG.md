@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.0.16] - 2022-02-01
+
 ### Fixed
 - Recurring events and daylight saving time
 
@@ -28,5 +30,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.0.16]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.15...v0.0.16
 [0.0.15]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.14...v0.0.15
 [0.0.14]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.5...v0.0.14
