@@ -41,8 +41,7 @@ describe("CalendarStore", function () {
           startDate: "2021-06-16T10:00:10.000Z",
           endDate: "2021-06-16T10:00:13.000Z",
           title: "Example Event",
-          url: "http://example.com/",
-          hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
+          url: "http://example.com/"
         },
       ],
     };
@@ -64,6 +63,6 @@ describe("CalendarStore", function () {
     const data = await readableToString(resultStream.data);
     const resultTyped = JSON.parse(data);
 
-    expect(resultTyped).to.deep.equal(expectedResult);
+    expect(resultTyped).excludingEvery('hash').to.deep.equal(expectedResult);
   });
 });

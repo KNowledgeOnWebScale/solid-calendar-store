@@ -35,8 +35,7 @@ describe("JsonToIcsConverter", function () {
           {
             title: "Correctly converted",
             startDate: "2021-04-08T15:00:00.000Z",
-            endDate: "2021-04-08T17:00:00.000Z",
-            hash: "2d4bb875c6c9f10695ea238e952c6e67"
+            endDate: "2021-04-08T17:00:00.000Z"
           },
         ],
       };
@@ -47,7 +46,7 @@ describe("JsonToIcsConverter", function () {
       const dataJson = await readableToString(result.data);
       const resultTyped = JSON.parse(dataJson);
 
-      expect(resultTyped).to.deep.equal(calendar);
+      expect(resultTyped).excludingEvery('hash').to.deep.equal(calendar);
     });
 
     it("#2", async () => {
@@ -60,8 +59,7 @@ describe("JsonToIcsConverter", function () {
             endDate: "2021-04-08T17:00:00.000Z",
             description: "An event",
             location: "My room",
-            url: "http://example.com",
-            hash: "2d4bb875c6c9f10695ea238e952c6e67"
+            url: "http://example.com"
           },
         ],
       };
@@ -72,7 +70,7 @@ describe("JsonToIcsConverter", function () {
       const dataJson = await readableToString(result.data);
       const resultTyped = JSON.parse(dataJson);
 
-      expect(resultTyped).to.deep.equal(calendar);
+      expect(resultTyped).excludingEvery('hash').to.deep.equal(calendar);
     });
 
     it("Recurring events", async () => {

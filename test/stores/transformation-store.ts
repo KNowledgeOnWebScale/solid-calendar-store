@@ -76,15 +76,14 @@ describe("TransformationStore", function () {
           {
             description: "It works ;)",
             location: "my room",
-            url: "http://example.com/",
-            hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
+            url: "http://example.com/"
           },
         ],
       };
 
       const result = await getEndpoint("transformation");
 
-      expect(result).to.deep.equal(expectedResult);
+      expect(result).excludingEvery('hash').to.deep.equal(expectedResult);
     });
   });
 

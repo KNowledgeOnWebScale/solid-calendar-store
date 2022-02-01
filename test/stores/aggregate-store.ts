@@ -34,8 +34,7 @@ describe("AggregateStore", function () {
             startDate: "2021-06-16T10:00:10.000Z",
             endDate: "2021-06-16T10:00:13.000Z",
             title: "[my first iCal] Example Event",
-            url: "http://example.com/",
-            hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
+            url: "http://example.com/"
           },
           {
             description: "It works ;)",
@@ -43,15 +42,14 @@ describe("AggregateStore", function () {
             startDate: "2021-06-16T10:00:10.000Z",
             endDate: "2021-06-16T10:00:13.000Z",
             title: "[my first iCal] Example Event",
-            url: "http://example.com/",
-            hash: "a02c2ce90b9a2ace1e712f55ebf18c1c"
+            url: "http://example.com/"
           },
         ],
       };
 
       const result = await getEndpoint("aggregate");
 
-      expect(result).excluding("name").to.deep.equal(expectedResult);
+      expect(result).excludingEvery(['name', 'hash']).to.deep.equal(expectedResult);
     });
 
     it("Default name is used", async () => {
