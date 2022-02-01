@@ -135,34 +135,48 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
  * @param rrule - The RRULE (coming from ICS) for the original event.
  */
 export function getRecurringEvents(originalEvent: Event, rrule: string): Event[] {
-  const today = new Date();
+  const today: Date = new Date();
   let rule = rrulestr(`RRULE:${rrule}`);
   const origOptions = rule.origOptions;
-  const originalStartDate = new Date(originalEvent.startDate);
+  const originalStartDate: Date = new Date(originalEvent.startDate);
   origOptions.dtstart = originalStartDate;
 
   rule = new RRule(origOptions);
 
-  const todayPlusOneYear = new Date((today < originalStartDate ? originalStartDate : today).getTime());
+  const todayPlusOneYear: Date = new Date((today < originalStartDate ? originalStartDate : today).getTime());
   todayPlusOneYear.setFullYear(todayPlusOneYear.getFullYear() + 1);
 
-  const allStartDates = rule.between(today, todayPlusOneYear, true);
+  let allStartDates: Date[]= rule.between(today, todayPlusOneYear, true);
 
   if (allStartDates.length > 0 && allStartDates[0].getTime() === originalStartDate.getTime()) {
     allStartDates.shift();
   }
 
-  const differenceMs = (new Date(originalEvent.endDate)).getTime() - originalStartDate.getTime();
+  allStartDates = allStartDates.map(date => {
+      let temp = DateTime.fromJSDate(date);
 
+      if (temp.isInDST !== DateTime.fromJSDate(originalStartDate).isInDST) {
+        if (temp.isInDST) {
+          temp = temp.minus({hours: 1});
+        } else {
+          temp = temp.plus({hours: 1});
+        }
+      }
+
+      return temp.toJSDate();
+    }
+  );
+
+  const differenceMs = originalEvent.endDate.getTime() - originalStartDate.getTime();
   const recurringEvents: Event[] = [];
 
   allStartDates.forEach(startDate => {
     const endDate = new Date();
     endDate.setTime(startDate.getTime() + differenceMs);
 
-    const recurringEvent = JSON.parse(JSON.stringify(originalEvent));
-    recurringEvent.startDate = startDate.toISOString();
-    recurringEvent.endDate = endDate.toISOString();
+    const recurringEvent: Event = JSON.parse(JSON.stringify(originalEvent));
+    recurringEvent.startDate = startDate;
+    recurringEvent.endDate = endDate;
 
     recurringEvents.push(recurringEvent);
   });

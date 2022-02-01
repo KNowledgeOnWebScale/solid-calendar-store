@@ -31,15 +31,15 @@ export class JsonToIcsConverter extends TypedRepresentationConverter {
     representation,
   }: RepresentationConverterArgs): Promise<Representation> {
     const data = await readableToString(representation.data);
-    const dataTyped = JSON.parse(data);
+    const parsedDate = JSON.parse(data);
 
-    if (!dataTyped.name)
+    if (!parsedDate.name)
       throw new BadRequestHttpError("JsonToIcsConverter: Calendar name needs to be provided");
 
-    const calendar = ical({ name: dataTyped.name });
+    const calendar = ical({ name: parsedDate.name });
 
-    for (const event of dataTyped.events) {
-      const new_event: Event = {
+    for (const event of parsedDate.events) {
+      const newEvent: Event = {
         summary: event.title,
         start: event.startDate,
         end: event.endDate,
@@ -58,11 +58,11 @@ export class JsonToIcsConverter extends TypedRepresentationConverter {
           "Each event needs an endDate to be provided"
         );
 
-      if (event.description) new_event.description = event.description;
-      if (event.url) new_event.url = event.url;
-      if (event.location) new_event.location = event.location;
+      if (event.description) newEvent.description = event.description;
+      if (event.url) newEvent.url = event.url;
+      if (event.location) newEvent.location = event.location;
 
-      calendar.createEvent(new_event);
+      calendar.createEvent(newEvent);
     }
 
     return new BasicRepresentation(

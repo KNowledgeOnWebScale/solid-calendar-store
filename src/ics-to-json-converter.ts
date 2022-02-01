@@ -48,9 +48,9 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
       if (!startDate)
         throw new BadRequestHttpError("Dtstart needs to be provided");
 
-      startDate = new Date(startDate).toISOString();
+      startDate = new Date(startDate);
       let endDate = vevent.getFirstPropertyValue("dtend");
-      endDate = new Date(endDate).toISOString();
+      endDate = new Date(endDate);
 
       const event: Event = {
         title: summary,

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+- Recurring events and daylight saving time
+
 ## [0.0.15] - 2022-01-28
 
 ### Added

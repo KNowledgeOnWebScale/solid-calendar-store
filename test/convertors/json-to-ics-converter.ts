@@ -7,6 +7,8 @@ import {
   BadRequestHttpError,
 } from "@solid/community-server";
 import { convertToJSON } from "./common";
+import fs from "fs-extra";
+import path from "path";
 
 const convertToIcs = async (input: object) => {
   const inputStream = guardedStreamFrom(JSON.stringify(input));
@@ -27,7 +29,7 @@ describe("JsonToIcsConverter", function () {
 
   describe("Verify converter on correct input", () => {
     it("#1", async () => {
-      const event = {
+      const calendar = {
         name: "Test for Solid calendar",
         events: [
           {
@@ -39,17 +41,17 @@ describe("JsonToIcsConverter", function () {
         ],
       };
 
-      const convertedRepresentation = await convertToIcs(event);
+      const convertedRepresentation = await convertToIcs(calendar);
       const dataIcs = await readableToString(convertedRepresentation.data);
       const result = await convertToJSON(dataIcs);
       const dataJson = await readableToString(result.data);
       const resultTyped = JSON.parse(dataJson);
 
-      expect(resultTyped).to.deep.equal(event);
+      expect(resultTyped).to.deep.equal(calendar);
     });
 
     it("#2", async () => {
-      const event = {
+      const calendar = {
         name: "Test for Solid calendar",
         events: [
           {
@@ -64,13 +66,26 @@ describe("JsonToIcsConverter", function () {
         ],
       };
 
-      const convertedRepresentation = await convertToIcs(event);
+      const convertedRepresentation = await convertToIcs(calendar);
       const dataIcs = await readableToString(convertedRepresentation.data);
       const result = await convertToJSON(dataIcs);
       const dataJson = await readableToString(result.data);
       const resultTyped = JSON.parse(dataJson);
 
-      expect(resultTyped).to.deep.equal(event);
+      expect(resultTyped).to.deep.equal(calendar);
+    });
+
+    it("Recurring events", async () => {
+      const calendar = await fs.readJson(path.join(__dirname, 'resources/recurring-events-dst.json'));
+      const expectedIcs = await fs.readFile(path.join(__dirname, 'resources/recurring-events-expanded.ics'), 'utf-8');
+
+      const convertedRepresentation = await convertToIcs(calendar);
+      let actualIcs = await readableToString(convertedRepresentation.data);
+
+      const expectedSplit = expectedIcs.split('\n').filter(line => !line.startsWith('UID') && !line.startsWith('DTSTAMP'));
+      const actualSplit = actualIcs.split('\n').filter(line => !line.startsWith('UID') && !line.startsWith('DTSTAMP'));
+
+      expect(actualSplit).to.deep.equal(expectedSplit);
     });
   });
 
