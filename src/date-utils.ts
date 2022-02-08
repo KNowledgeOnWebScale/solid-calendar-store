@@ -200,9 +200,6 @@ export function removeChangedEventsFromRecurringEvents(events: Event[]) {
       }
 
       if (i < events.length) {
-        if (event.title === 'WOD') {
-          console.log('test');
-        }
         events[i].toBeRemoved = true;
       }
     }

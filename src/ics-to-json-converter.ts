@@ -74,19 +74,7 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
 
       if (vevent.getFirstPropertyValue("rrule")) {
         const recurringEvents = getRecurringEvents(event, vevent.getFirstPropertyValue("rrule"));
-
-        for (let i = 0; i < recurringEvents.length; i ++) {
-          const event = recurringEvents[i];
-          if (event.title === 'WOD' && event.startDate.getFullYear() === 2022 && event.startDate.getUTCMonth() === 1) {
-            console.log('test');
-          }
-        }
-
         events = events.concat(recurringEvents);
-      }
-
-      if (event.title === 'WOD' && event.startDate.getFullYear() === 2022 && event.startDate.getUTCMonth() === 1) {
-        console.log('test');
       }
     }
 
