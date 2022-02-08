@@ -1,0 +1,35 @@
+{
+  "events": [
+    {
+      "endDate": "2032-12-14T10:00:00.000Z",
+      "hash": "d9a0347ba073b3cfa9fa28c271ebcd34",
+      "startDate": "2032-12-14T09:00:00.000Z",
+      "title": "Recurring event"
+    },
+    {
+      "endDate": "2032-12-21T10:00:00.000Z",
+      "hash": "d9a0347ba073b3cfa9fa28c271ebcd34",
+      "startDate": "2032-12-21T09:00:00.000Z",
+      "title": "Recurring event"
+    },
+    {
+      "endDate": "2033-01-04T10:00:00.000Z",
+      "hash": "d9a0347ba073b3cfa9fa28c271ebcd34",
+      "startDate": "2033-01-04T09:00:00.000Z",
+      "title": "Recurring event"
+    },
+    {
+      "endDate": "2033-01-11T10:00:00.000Z",
+      "hash": "d9a0347ba073b3cfa9fa28c271ebcd34",
+      "startDate": "2033-01-11T09:00:00.000Z",
+      "title": "Recurring event"
+    },
+    {
+      "endDate": "2032-12-28T15:00:00.000Z",
+      "hash": "0b5aaad204b078eb5afba0ad98dac756",
+      "startDate": "2032-12-28T14:00:00.000Z",
+      "title": "Recurring event"
+    }
+  ],
+  "name": "Test calendar"
+}

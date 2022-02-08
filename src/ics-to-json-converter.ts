@@ -10,7 +10,7 @@ import {
 
 const md5 = require('md5');
 import { Event } from './event';
-import {getRecurringEvents} from "./date-utils";
+import {getRecurringEvents, removeChangedEventsFromRecurringEvents} from "./date-utils";
 
 const ICAL = require("ical.js");
 const outputType = "application/json";
@@ -65,14 +65,32 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
         event.url = vevent.getFirstPropertyValue("url");
       if (vevent.hasProperty("location"))
         event.location = vevent.getFirstPropertyValue("location");
+      if (vevent.hasProperty("uid"))
+        event.originalUID = vevent.getFirstPropertyValue("uid");
+      if (vevent.hasProperty("recurrence-id"))
+        event.originalRecurrenceID = vevent.getFirstPropertyValue("recurrence-id");
 
       events.push(event);
 
       if (vevent.getFirstPropertyValue("rrule")) {
         const recurringEvents = getRecurringEvents(event, vevent.getFirstPropertyValue("rrule"));
+
+        for (let i = 0; i < recurringEvents.length; i ++) {
+          const event = recurringEvents[i];
+          if (event.title === 'WOD' && event.startDate.getFullYear() === 2022 && event.startDate.getUTCMonth() === 1) {
+            console.log('test');
+          }
+        }
+
         events = events.concat(recurringEvents);
       }
+
+      if (event.title === 'WOD' && event.startDate.getFullYear() === 2022 && event.startDate.getUTCMonth() === 1) {
+        console.log('test');
+      }
     }
+
+    removeChangedEventsFromRecurringEvents(events);
 
     const calendar = {
       name: vcalendar.getFirstPropertyValue("x-wr-calname") as string,

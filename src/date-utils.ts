@@ -183,3 +183,38 @@ export function getRecurringEvents(originalEvent: Event, rrule: string): Event[]
 
   return recurringEvents;
 }
+
+/**
+ * This method removes instances of recurring events that have been changed,
+ * based on RECURRING-ID and UID.
+ * The attributes "originalUID" and "originalRecurrenceID" are removed from all events in the process.
+ * @param events - The events that are checked and where events are removed if needed.
+ */
+export function removeChangedEventsFromRecurringEvents(events: Event[]) {
+  events.forEach(event => {
+    if (event.originalRecurrenceID) {
+      let i = 0;
+
+      while (i < events.length && !(events[i].originalUID === events[i].originalUID && events[i].startDate.toISOString() === new Date(event.originalRecurrenceID).toISOString())) {
+        i ++;
+      }
+
+      if (i < events.length) {
+        if (event.title === 'WOD') {
+          console.log('test');
+        }
+        events[i].toBeRemoved = true;
+      }
+    }
+  });
+
+  for (let i = 0; i < events.length; i ++) {
+    if (events[i].toBeRemoved) {
+      events.splice(i, 1);
+      i --;
+    } else {
+      delete events[i].originalRecurrenceID;
+      delete events[i].originalUID;
+    }
+  }
+}

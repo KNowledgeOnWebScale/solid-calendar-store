@@ -86,6 +86,16 @@ describe("IcsToJsonConverter", function () {
 
       expect(resultTyped).to.deep.equal(expectedResult);
     });
+
+    it("Recurring events - change one recurrence", async () => {
+      const expectedResult = await fs.readJson(path.join(__dirname, 'resources/recurring-events-change-one-recurrence.json'));
+      const ics = await fs.readFile(path.join(__dirname, 'resources/recurring-events-change-one-recurrence.ics'), 'utf-8');
+      const convertedRepresentation = await convertToJSON(ics);
+      const data = await readableToString(convertedRepresentation.data);
+      const resultTyped = JSON.parse(data);
+
+      expect(resultTyped).to.deep.equal(expectedResult);
+    });
   });
 
   describe("Verify converter on incorrect input", () => {

@@ -6,4 +6,7 @@ export interface Event {
   url?: string;
   location?: string;
   hash?: string;
+  originalUID?: string,
+  originalRecurrenceID?: string
+  toBeRemoved?: boolean
 }
