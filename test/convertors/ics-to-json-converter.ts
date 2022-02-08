@@ -144,9 +144,9 @@ describe("IcsToJsonConverter", function () {
     });
 
     it("#5 - 500", async () => {
-      const event_2 = await fs.readFile(path.join(__dirname, 'resources/no-dtstart.ics'), 'utf-8');
+      const event = await fs.readFile(path.join(__dirname, 'resources/no-dtstart.ics'), 'utf-8');
 
-      await expect(convertToJSON(event_2))
+      await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith("Dtstart needs to be provided")
         .and.be.an.instanceOf(BadRequestHttpError);
     });
