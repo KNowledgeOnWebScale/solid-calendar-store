@@ -26,6 +26,7 @@
     "@types/chai-as-promised": "^7.1.4",
     "@types/md5": "^2.3.1",
     "@types/mocha": "^8.2.2",
+    "@types/sinon": "^10.0.11",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "chai": "^4.3.4",
@@ -64,7 +65,8 @@
     "luxon": "^1.26.0",
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
-    "rrule": "^2.6.8"
+    "rrule": "^2.6.8",
+    "sinon": "^13.0.1"
   },
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store",
   "lsd:components": "dist/components/components.jsonld",

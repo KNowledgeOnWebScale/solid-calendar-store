@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+- Do not send bad request error when event doesn't have summary (see [issue 16](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/16))
+
 ## [0.0.17] - 2022-02-08
 
 ### Fixed

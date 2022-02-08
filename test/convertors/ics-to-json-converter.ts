@@ -7,6 +7,7 @@ import {
 import { convertToJSON } from "./common";
 import fs from 'fs-extra';
 import path from 'path';
+import sinon from 'sinon';
 
 describe("IcsToJsonConverter", function () {
   this.timeout(4000);
@@ -98,6 +99,21 @@ describe("IcsToJsonConverter", function () {
     });
   });
 
+  describe('Standard output', () => {
+    let consoleWarnStub = sinon.stub(console, 'warn');
+
+    beforeEach(function() {
+      //consoleLogStub = sinon.stub(console, 'log');
+    });
+
+    it('Warn when no summary for event', async () => {
+      const event = await fs.readFile(path.join(__dirname, 'resources/no-summary.ics'), 'utf-8');
+      await convertToJSON(event);
+
+      expect(consoleWarnStub.withArgs(`Encountered event without summary/title in calendar "Test for Solid calendar".`).callCount ).to.equal(1);
+    });
+  });
+
   describe("Verify converter on incorrect input", () => {
     it("#1", async () => {
       const event = await fs.readFile(path.join(__dirname, 'resources/invalid-body.ics'), 'utf-8');
@@ -132,12 +148,6 @@ describe("IcsToJsonConverter", function () {
     });
 
     it("#5 - 500", async () => {
-      const event_1 = await fs.readFile(path.join(__dirname, 'resources/no-summary.ics'), 'utf-8');
-
-      await expect(convertToJSON(event_1))
-        .to.eventually.be.rejectedWith("Summary needs to be provided")
-        .and.be.an.instanceOf(BadRequestHttpError);
-
       const event_2 = await fs.readFile(path.join(__dirname, 'resources/no-dtstart.ics'), 'utf-8');
 
       await expect(convertToJSON(event_2))

@@ -40,8 +40,9 @@ export class IcsToJsonConverter extends TypedRepresentationConverter {
     for (const vevent of vevents) {
       const summary = vevent.getFirstPropertyValue("summary");
 
-      if (!summary)
-        throw new BadRequestHttpError("Summary needs to be provided");
+      if (!summary) {
+        console.warn(`Encountered event without summary/title in calendar "${vcalendar.getFirstPropertyValue("x-wr-calname")}".`);
+      }
 
       let startDate = vevent.getFirstPropertyValue("dtstart");
 
