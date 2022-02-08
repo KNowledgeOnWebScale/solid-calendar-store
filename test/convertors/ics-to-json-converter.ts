@@ -100,7 +100,7 @@ describe("IcsToJsonConverter", function () {
   });
 
   describe('Standard output', () => {
-    let consoleWarnStub = sinon.stub(console, 'warn');
+    const consoleWarnStub = sinon.stub(console, 'warn');
 
     it('Warn when no summary for event', async () => {
       const event = await fs.readFile(path.join(__dirname, 'resources/no-summary.ics'), 'utf-8');
