@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.0.18] - 2022-02-08
+
 ### Fixed
 - Do not send bad request error when event doesn't have summary (see [issue 16](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/16))
 
@@ -38,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.0.18]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.16...v0.0.17
 [0.0.16]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.15...v0.0.16
 [0.0.15]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.14...v0.0.15
