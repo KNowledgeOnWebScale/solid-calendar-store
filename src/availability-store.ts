@@ -29,7 +29,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
   private readonly settingsPath: string;
   private readonly holidaySource?: RepresentationConvertingStore;
   private minimumSlotDuration: number;
-  private startDate: Date;
+  private startDate: Date | undefined;
   private timezone: string;
   private weekend: number[];
   private name: string | undefined;
@@ -53,7 +53,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
     this.weekend = [0, 6];
     this.startDate = options.startDate
       ? new Date(options.startDate)
-      : new Date();
+      : undefined;
     this.holidaySource = options.holidaySource;
     this.name = options.name;
     this._getSettings();
@@ -83,7 +83,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
       events,
       this.availabilitySlots,
       this.minimumSlotDuration,
-      this.startDate,
+      this._getStartDateForSlots(),
       { weekend: this.weekend, timezone: this.timezone }
     );
 
@@ -133,5 +133,13 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
     this.minimumSlotDuration = minimumSlotDuration ?? this.minimumSlotDuration;
     this.timezone = timezone ?? this.timezone;
     this.weekend = weekend ?? this.weekend;
+  }
+
+  _getStartDateForSlots(): Date {
+    if (!this.startDate) {
+      return new Date();
+    }
+
+    return this.startDate;
   }
 }
