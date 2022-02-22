@@ -10,7 +10,8 @@ conversions see [the documentation](docs).
 1. Install dependencies via `npm i`.
 2. Navigate to `examples` via `cd examples`.
 3. Rename `examples/config-example.json` to `examples/config.json`.
-4. Run server via `npx community-solid-server -c config.json -m ..`.
+4. Update `examples/config.json`.
+5. Run server via `npx community-solid-server -c config.json -m ..`.
 
 See the [Community Solid Server documentation](https://github.com/solid/community-server#configuring-the-server) 
 for more information on what each parameter does.

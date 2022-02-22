@@ -76,8 +76,7 @@
   "lsd:importPaths": {
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/": "dist/components/",
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/config/": "config/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/dist/": "dist/",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/personal/": "personal/"
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/dist/": "dist/"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
