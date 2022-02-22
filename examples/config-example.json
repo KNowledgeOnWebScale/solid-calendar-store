@@ -1,0 +1,168 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^2.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
+    {
+      "solid-calendar-store": "urn:solid-calendar-store:default:",
+      "solid-server": "urn:solid-server:default:",
+      "my": "urn:example:"
+    }
+  ],
+  "import": [
+    "files-scs:config/app/main/default.json",
+    "files-scs:config/app/init/default.json",
+    "files-scs:config/app/setup/required.json",
+    "files-scs:config/http/handler/default.json",
+    "files-scs:config/http/middleware/websockets.json",
+    "files-scs:config/http/server-factory/websockets.json",
+    "files-scs:config/http/static/default.json",
+    "files-scs:config/identity/access/public.json",
+    "files-scs:config/identity/email/default.json",
+    "files-scs:config/identity/handler/default.json",
+    "files-scs:config/identity/ownership/token.json",
+    "files-scs:config/identity/pod/static.json",
+    "files-scs:config/identity/registration/enabled.json",
+    "files-scs:config/ldp/authentication/dpop-bearer.json",
+    "files-scs:config/ldp/authorization/webacl.json",
+    "files-scs:config/ldp/handler/default.json",
+    "files-scs:config/ldp/metadata-parser/default.json",
+    "files-scs:config/ldp/metadata-writer/default.json",
+    "files-scs:config/ldp/modes/default.json",
+    "files-scs:config/storage/key-value/resource-store.json",
+    "files-scs:config/storage/middleware/default.json",
+    "files-scs:config/util/auxiliary/acl.json",
+    "files-scs:config/util/identifiers/suffix.json",
+    "files-scs:config/util/index/default.json",
+    "files-scs:config/util/logging/winston.json",
+    "files-scs:config/util/representation-conversion/default.json",
+    "files-scs:config/util/resource-locker/memory.json",
+    "files-scs:config/util/variables/default.json",
+    "files-scs:config/storage/backend/data-accessors/file.json"
+  ],
+  "@graph": [
+    {
+      "comment": "A single-pod server that stores its resources on disk."
+    },
+    {
+      "@id": "urn:solid-server:default:ResourceStore_Backend",
+      "@type": "RoutingResourceStore",
+      "rule": {
+        "@id": "my:RouterRule"
+      }
+    },
+    {
+      "@id": "my:RouterRule",
+      "@type": "RegexRouterRule",
+      "base": {
+        "@id": "solid-server:variable:baseUrl"
+      },
+      "storeMap": [
+        {
+          "RegexRouterRule:_storeMap_key": "^/availability$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "my:AvailabilityStore"
+          }
+        },
+        {
+          "comment": "Send everything else to file store",
+          "RegexRouterRule:_storeMap_key": "^/(?!availability$).*",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "urn:solid-server:default:FileResourceStore"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "urn:solid-server:default:FileResourceStore",
+      "@type": "DataAccessorBasedStore",
+      "identifierStrategy": {
+        "@id": "urn:solid-server:default:IdentifierStrategy"
+      },
+      "auxiliaryStrategy": {
+        "@id": "urn:solid-server:default:AuxiliaryStrategy"
+      },
+      "accessor": {
+        "@id": "urn:solid-server:default:FileDataAccessor"
+      }
+    },
+    {
+      "@id": "my:PersonalGoogleCalendar",
+      "@type": "RepresentationConvertingStore",
+      "RepresentationConvertingStore:_source": {
+        "@type": "HttpGetStore",
+        "HttpGetStore:_options_url": "**CALENDAR_URL**"
+      },
+      "RepresentationConvertingStore:_options_outConverter": {
+        "@id": "my:RepresentationConverter"
+      }
+    },
+    {
+      "@id": "my:AvailabilityStore",
+      "@type": "RepresentationConvertingStore",
+      "RepresentationConvertingStore:_source": {
+        "@type": "AvailabilityStore",
+        "AvailabilityStore:_source": {
+          "@id": "my:PersonalGoogleCalendar"
+        },
+        "AvailabilityStore:_options_settingsPath": "availability-store-settings.yaml",
+        "AvailabilityStore:_options_baseUrl": "http://example.com/",
+        "AvailabilityStore:_options_name": "Availability of **YOUR_NAME**"
+      },
+      "RepresentationConvertingStore:_options_outConverter": {
+        "@id": "my:RepresentationConverter"
+      }
+    },
+    {
+      "@id": "my:RepresentationConverter",
+      "@type": "WaterfallHandler",
+      "WaterfallHandler:_handlers": [
+        {
+          "@type": "IfNeededConverter",
+          "comment": "Only continue converting if the requester cannot accept the available content type"
+        },
+        {
+          "@id": "solid-server:ContentTypeReplacer"
+        },
+        {
+          "@id": "my:json-to-rdf-converter"
+        },
+        {
+          "@id": "my:IcsToJsonConverter"
+        },
+        {
+          "@id": "my:JsonToIcsConverter"
+        },
+        {
+          "@id": "my:RdfRepresentationConverter"
+        }
+      ]
+    },
+    {
+      "@id": "my:RdfRepresentationConverter",
+      "@type": "ChainedConverter",
+      "ChainedConverter:_converters": [
+        {
+          "@id": "my:IcsToJsonConverter"
+        },
+        {
+          "@id": "my:json-to-rdf-converter"
+        }
+      ]
+    },
+    {
+      "@id": "my:IcsToJsonConverter",
+      "@type": "IcsToJsonConverter"
+    },
+    {
+      "@id": "my:JsonToIcsConverter",
+      "@type": "JsonToIcsConverter"
+    },
+    {
+      "@id": "my:json-to-rdf-converter",
+      "@type": "AnyToRdfConverter",
+      "AnyToRdfConverter:_rmlRulesPath": "events.rml.ttl",
+      "AnyToRdfConverter:_rmlmapperPath": "./rmlmapper.jar"
+    }
+  ]
+}

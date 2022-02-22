@@ -6,6 +6,7 @@ import {
 import { expect } from "chai";
 import { convertToJSON } from "./common";
 import { AnyToRdfConverter } from "@rmlio/solid-rml-store";
+import path from 'path';
 
 /**
  * Converts an input (typically JSON) to RDF and converts the stream to string
@@ -15,8 +16,8 @@ import { AnyToRdfConverter } from "@rmlio/solid-rml-store";
 const convertToRDF = async (input: any): Promise<any> => {
   const inputStream = guardedStreamFrom(JSON.stringify(input));
   const outputStream = await new AnyToRdfConverter(
-    "./events.rml.ttl",
-    "./rmlmapper.jar"
+    path.join(__dirname, "resources/events.rml.ttl"),
+    path.join(__dirname, "resources/rmlmapper.jar")
   ).handle({
     identifier: { path: "json" },
     representation: {

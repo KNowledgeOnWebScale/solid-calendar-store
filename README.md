@@ -8,9 +8,9 @@ conversions see [the documentation](docs).
 ## How to run
 
 1. Install dependencies via `npm i`.
-2. Rename `config/config-calendar-example.json` to `config/config-calendar.json`.
-3. Update `config/config-calendar.json` to your calendar settings.
-4. Run server via `npx community-solid-server -c config.json -m .`.
+2. Navigate to `examples` via `cd examples`.
+3. Rename `examples/config-example.json` to `examples/config.json`.
+4. Run server via `npx community-solid-server -c config.json -m ..`.
 
 See the [Community Solid Server documentation](https://github.com/solid/community-server#configuring-the-server) 
 for more information on what each parameter does.
@@ -111,22 +111,4 @@ See `docs/stores.md` for places where you can use the holidays.
 
 For the calendar name the `X-WR-CALNAME` field is used.  
 Not all possible event fields of an ICS calendar are used. 
-The following are required: `summary`, `dtstart` and `dtend`.
-tTese are optional: `description` and `location`.
-
-This results in the following format:
-
-```ts
-{
-    name: string,
-    events: [
-        {
-            title: string,
-            startDate: Date,
-            endDate: Date,
-            location?: string,
-            description?: string
-        }
-    ]
-}
-```
+You find the used field in [src/event.ts](src/event.ts).
