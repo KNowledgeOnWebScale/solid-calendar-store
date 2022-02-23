@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.1.0] - 2022-02-23
+
 ### Changed
 - File structure
 - Documentation on how to run the store
@@ -49,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.1.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.19...v0.1.0
 [0.0.19]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.0.16...v0.0.17
