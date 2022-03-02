@@ -1,11 +1,10 @@
 import {
-  BadRequestHttpError,
+  BadRequestHttpError, BaseTypedRepresentationConverter,
   BasicRepresentation,
   InternalServerError,
   readableToString,
   Representation,
-  RepresentationConverterArgs,
-  TypedRepresentationConverter,
+  RepresentationConverterArgs
 } from "@solid/community-server";
 
 const md5 = require('md5');
@@ -18,7 +17,7 @@ const outputType = "application/json";
 /**
  * Converts an ICS representation to JSON
  */
-export class IcsToJsonConverter extends TypedRepresentationConverter {
+export class IcsToJsonConverter extends BaseTypedRepresentationConverter {
   public constructor() {
     super("text/calendar", outputType);
   }

@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@solid/community-server": "^2.0.1",
+    "@solid/community-server": "^3.0.0",
     "@tsconfig/node14": "^1.0.1",
     "@types/chai": "^4.2.15",
     "@types/chai-as-promised": "^7.1.4",
@@ -47,7 +47,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@rmlio/solid-rml-store": "^0.0.4",
+    "@rmlio/solid-rml-store": "^0.1.0",
     "@types/fs-extra": "^9.0.10",
     "@types/ical": "^0.6.2",
     "@types/js-yaml": "^4.0.0",

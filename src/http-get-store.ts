@@ -5,11 +5,11 @@ import {
   ResourceIdentifier,
 } from "@solid/community-server";
 import fetch from "node-fetch";
-import { RepresentationPreferences } from "@solid/community-server/dist/ldp/representation/RepresentationPreferences";
+import { RepresentationPreferences } from "@solid/community-server/dist/http/representation/RepresentationPreferences";
 const parseContentType = require("content-type").parse;
 
 /**
- * Fetches the resource at an URL
+ * Fetches the resource at a URL
  */
 export class HttpGetStore extends BaseResourceStore {
   private readonly url: string;
@@ -20,7 +20,7 @@ export class HttpGetStore extends BaseResourceStore {
   }
 
   /**
-   * Retrieves a JSON representation of events in the calender.
+   * Retrieves a JSON representation of events in the calendar.
    */
   public async getRepresentation(
     identifier: ResourceIdentifier,

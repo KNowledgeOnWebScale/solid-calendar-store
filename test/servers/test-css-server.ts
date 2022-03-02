@@ -16,19 +16,20 @@ const loaderProperties: IComponentsManagerBuilderOptions<App> = {
 };
 
 const configVariables = {
-  showStackTrace: true,
-  loggingLevel: "Info",
-  port: 3000,
+  'urn:solid-server:default:variable:showStackTrace': true,
+  'urn:solid-server:default:variable:loggingLevel': "Info",
+  'urn:solid-server:default:variable:port': 3000,
+  'urn:solid-server:default:variable:baseUrl': 'http://localhost:3000'
 };
 
 /**
  * Wrapper around the App object to make it easy to start and stop it.
  */
 export class CssServer {
-  private app: any;
+  private app: App | undefined;
 
   public async start(configFile: string) {
-    this.app = await appRunner.createApp(
+    this.app = await appRunner.create(
       loaderProperties,
       configFile,
       configVariables

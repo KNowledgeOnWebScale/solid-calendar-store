@@ -19,7 +19,6 @@ export const getEndpoint = async (endpoint: string): Promise<any> => {
 };
 
 // Configs
-export const correctConfig = "./test/configs/test-config.json";
 export const calendarStoreConfig = "./test/configs/calendar-store-config.json";
 export const transformationStoreConfig = "./test/configs/transformation-store.json";
 export const transformationStoreRemoveFieldsConfig =

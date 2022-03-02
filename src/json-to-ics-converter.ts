@@ -1,10 +1,9 @@
 import {
-  BadRequestHttpError,
+  BadRequestHttpError, BaseTypedRepresentationConverter,
   BasicRepresentation,
   readableToString,
   Representation,
-  RepresentationConverterArgs,
-  TypedRepresentationConverter,
+  RepresentationConverterArgs
 } from "@solid/community-server";
 import ical from "ical-generator";
 
@@ -21,7 +20,7 @@ interface Event {
 /**
  * Converts a JSON representation to ICS
  */
-export class JsonToIcsConverter extends TypedRepresentationConverter {
+export class JsonToIcsConverter extends BaseTypedRepresentationConverter {
   public constructor() {
     super("application/json", outputType);
   }

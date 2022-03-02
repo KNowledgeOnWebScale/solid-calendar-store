@@ -4,7 +4,7 @@ import {
   Representation,
   ResourceIdentifier,
 } from "@solid/community-server";
-import {RepresentationPreferences} from "@solid/community-server/dist/ldp/representation/RepresentationPreferences";
+import {RepresentationPreferences} from "@solid/community-server/dist/http/representation/RepresentationPreferences";
 import fs from "fs-extra";
 import {google, Common} from "googleapis";
 import {Event} from './event';
