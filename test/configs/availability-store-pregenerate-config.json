@@ -1,0 +1,112 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^3.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
+    {
+      "solid-calendar-store": "urn:solid-calendar-store:default:",
+      "solid-server": "urn:solid-server:default:",
+      "solid-rml-store": "urn:solid-rml-store:default:",
+      "my": "urn:example:"
+    }
+  ],
+  "import": [
+    "files-scs:config/app/main/default.json",
+    "files-scs:config/app/init/default.json",
+    "files-scs:config/app/setup/disabled.json",
+    "files-scs:config/http/handler/default.json",
+    "files-scs:config/http/middleware/websockets.json",
+    "files-scs:config/http/server-factory/websockets.json",
+    "files-scs:config/http/static/default.json",
+    "files-scs:config/identity/access/public.json",
+    "files-scs:config/identity/email/default.json",
+    "files-scs:config/identity/handler/default.json",
+    "files-scs:config/identity/ownership/token.json",
+    "files-scs:config/identity/pod/static.json",
+    "files-scs:config/identity/registration/enabled.json",
+    "files-scs:config/ldp/authentication/dpop-bearer.json",
+    "files-scs:config/ldp/authorization/allow-all.json",
+    "files-scs:config/ldp/handler/default.json",
+    "files-scs:config/ldp/metadata-parser/default.json",
+    "files-scs:config/ldp/metadata-writer/default.json",
+    "files-scs:config/ldp/modes/default.json",
+    "files-scs:config/storage/key-value/resource-store.json",
+    "files-scs:config/storage/middleware/default.json",
+    "files-scs:config/util/auxiliary/acl.json",
+    "files-scs:config/util/identifiers/suffix.json",
+    "files-scs:config/util/index/default.json",
+    "files-scs:config/util/logging/winston.json",
+    "files-scs:config/util/representation-conversion/default.json",
+    "files-scs:config/util/resource-locker/memory.json",
+    "files-scs:config/util/variables/default.json",
+    "files-scs:config/storage/backend/data-accessors/memory.json",
+
+    "files-rsrs:config/default.json",
+    "files-knows-scs:config/converters.json"
+  ],
+  "@graph": [
+    {
+      "comment": "A more complex example with 3 different stores being routed to.",
+      "@id": "urn:solid-server:default:ResourceStore_Backend",
+      "@type": "RoutingResourceStore",
+      "rule": {
+        "@id": "solid-server:RouterRule"
+      }
+    },
+    {
+      "@id": "solid-server:RouterRule",
+      "@type": "RegexRouterRule",
+      "base": {
+        "@id": "solid-server:variable:baseUrl"
+      },
+      "storeMap": [
+        {
+          "RegexRouterRule:_storeMap_key": "^/availability$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-calendar-store:AvailabilityStore"
+          }
+        },
+        {
+          "RegexRouterRule:_storeMap_key": "^/(?!availability$).*$",
+          "RegexRouterRule:_storeMap_value": {
+            "@id": "solid-server:MemoryResourceStore"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "solid-server:MemoryResourceStore",
+      "@type": "DataAccessorBasedStore",
+      "identifierStrategy": { "@id": "solid-server:IdentifierStrategy" },
+      "auxiliaryStrategy": { "@id": "solid-server:AuxiliaryStrategy" },
+      "accessor": { "@id": "solid-server:MemoryDataAccessor" }
+    },
+    {
+      "@id": "solid-calendar-store:HttpGetStore",
+      "@type": "HttpGetStore",
+      "HttpGetStore:_options_url": "http://localhost:3001"
+    },
+    {
+      "@id": "solid-calendar-store:AvailabilityStore",
+      "@type": "AvailabilityStore",
+      "AvailabilityStore:_source": {
+        "@id": "solid-calendar-store:CalendarStore"
+      },
+      "AvailabilityStore:_options_baseUrl": "http://example.com/",
+      "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
+      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z",
+      "AvailabilityStore:_options_resourcePath": "http://localhost:3000/availability",
+      "AvailabilityStore:_options_duration": "once"
+    },
+    {
+      "@id": "solid-calendar-store:CalendarStore",
+      "@type": "RepresentationConvertingStore",
+      "RepresentationConvertingStore:_source": {
+        "@id": "solid-calendar-store:HttpGetStore"
+      },
+      "RepresentationConvertingStore:_options_outConverter": {
+        "@id": "solid-calendar-store:RepresentationConverter"
+      }
+    }
+  ]
+}

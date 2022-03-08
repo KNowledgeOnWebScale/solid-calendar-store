@@ -40,3 +40,4 @@ export const availabilityStoreNoStartDateConfig = "./test/configs/availability-s
 export const availabilityStoreWeekendConfig = "./test/configs/availability-store-weekend-config.json";
 export const availabilityStoreAlternateWeekendConfig = "./test/configs/availability-store-alternate-weekend-config.json";
 export const availabilityStoreHolidayConfig = "./test/configs/availability-store-holiday-config.json";
+export const availabilityStorePregenerateConfig = "./test/configs/availability-store-pregenerate-config.json";

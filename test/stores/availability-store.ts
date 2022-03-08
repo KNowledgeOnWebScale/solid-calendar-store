@@ -16,11 +16,12 @@ import {
   availabilityStoreConfig,
   availabilityStoreNoStartDateConfig,
   availabilityStoreWeekendConfig,
-  availabilityStoreHolidayConfig
+  availabilityStoreHolidayConfig, availabilityStorePregenerateConfig
 } from "./common";
 import yaml from "js-yaml";
 import fs from "fs-extra";
 import path from "path";
+import sinon from "sinon";
 
 describe("AvailabilityStore", function () {
   this.timeout(60000);
@@ -241,4 +242,28 @@ describe("AvailabilityStore", function () {
       expect(resultStartDate).to.equal(false);
     });
   });
+
+  describe("Pre-generation", function () {
+    const consoleWarnLog = sinon.stub(console, 'log');
+
+    before(async () => {
+      icalServer.start();
+      await cssServer.start(availabilityStorePregenerateConfig);
+    });
+
+    after(async () => {
+      await cssServer.stop();
+      icalServer.stop();
+    });
+
+    it("#1", async () => {
+      await sleep(5*1000);
+      await getEndpoint("availability");
+      expect(consoleWarnLog.withArgs(`Availability calendar: Use pre-generated representation for resource "http://localhost:3000/availability".`).callCount ).to.equal(1);
+    });
+  });
 });
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
