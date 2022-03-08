@@ -75,6 +75,12 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
     }
   }
 
+  /**
+   * This method actives the pre-generation of the calendar.
+   * It does this only for the resource identified by this.resourcePath.
+   * It regenerates the calendar after the duration given by this.duration,
+   * which is in milliseconds.
+   */
   async _activatePreGeneration() {
     const fn = async () => {
       this.latestRepresentation = await this._getLatestRepresentation(new ConcreteResourceIdentifier(this.resourcePath));
