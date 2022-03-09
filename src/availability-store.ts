@@ -36,7 +36,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
   private timezone: string;
   private weekend: number[];
   private readonly name: string | undefined;
-  private latestRepresentation: Representation | undefined;
+  private latestRepresentationData: string | undefined;
   private readonly duration?: number;
   private readonly resourcePath: string;
   private readonly onlyOnce: boolean;
@@ -83,7 +83,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
    */
   async _activatePreGeneration() {
     const fn = async () => {
-      this.latestRepresentation = await this._getLatestRepresentation(new ConcreteResourceIdentifier(this.resourcePath));
+      this.latestRepresentationData = await this._getLatestRepresentationData(new ConcreteResourceIdentifier(this.resourcePath));
       console.log(`Availability calendar: Pre-generated representation for resource "${this.resourcePath}" has been updated.`);
     };
 
@@ -99,15 +99,23 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
     preferences: RepresentationPreferences,
     conditions?: Conditions
   ): Promise<Representation> {
-    if (this.resourcePath && this.resourcePath === identifier.path && this.latestRepresentation) {
+    let data: string;
+
+    if (this.resourcePath && this.resourcePath === identifier.path && this.latestRepresentationData) {
       console.log(`Availability calendar: Use pre-generated representation for resource "${identifier.path}".`);
-      return this.latestRepresentation;
+      data = this.latestRepresentationData;
     } else {
-      return await this._getLatestRepresentation(identifier);
+      data = await this._getLatestRepresentationData(identifier);
     }
+
+    return new BasicRepresentation(
+      data,
+      identifier,
+      outputType
+    );
   }
 
-  async _getLatestRepresentation(identifier: ResourceIdentifier): Promise<Representation> {
+  async _getLatestRepresentationData(identifier: ResourceIdentifier): Promise<string> {
     try {
       const sourceRepresentation: Representation = await super.getRepresentation(
         identifier,
@@ -158,11 +166,7 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
         slot.hash = md5(slot.title + slot.startDate + slot.endDate);
       })
 
-      return new BasicRepresentation(
-        JSON.stringify({name: this.name || calendar.name, events: slots}),
-        identifier,
-        outputType
-      );
+      return JSON.stringify({name: this.name || calendar.name, events: slots});
     } catch (e) {
       console.error(e);
       throw e;
