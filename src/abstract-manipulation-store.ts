@@ -63,7 +63,7 @@ export abstract class AbstractManipulationStore extends PassthroughStore<BaseRes
 
   async _getManipulations() {
     return (
-      [] as { match: RegExp; replace: string; removeFields: string[], pastEvents: boolean }[]
+      [] as { match: RegExp; replace: string; removeFields: string[], prefix: string, before: number, after: number, removeDuration: boolean, pastEvents: boolean }[]
     ).concat(
       ...(await Promise.all(
         this.settingsPaths.map(

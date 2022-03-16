@@ -8,3 +8,4 @@ export * from "./holiday-store";
 export * from "./google-calendar-get-store";
 export * from "./keep-events-store";
 export * from "./abstract-manipulation-store";
+export * from "./change-duration-store";

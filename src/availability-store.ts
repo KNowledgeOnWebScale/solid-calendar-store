@@ -17,7 +17,7 @@ import fs from "fs-extra";
 import path from "path";
 import {getUtcComponents} from "./date-utils";
 import md5 from "md5";
-import {ConcreteResourceIdentifier} from "./ConcreteResourceIdentifier";
+import {ConcreteResourceIdentifier} from "./concrete- resource-identifier";
 
 const humanToMilliseconds = require('human-to-milliseconds');
 

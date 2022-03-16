@@ -1,0 +1,16 @@
+transformation:
+  all:
+    - before: 15 #minutes
+      after: 15 #minutes
+
+  selected:
+    - match: ".*with car.*"
+      before: 30 #minutes
+      after: 30 #minutes
+
+  inEvent:
+    - prefix: 🚗 # 🚗10,15 means "add 10 min. before the event and 15 min. after"
+
+  inEventRemovePrefix:
+    - prefix: 🚗 # 🚗10,15 means "add 10 min. before the event and 15 min. after"
+      removeDuration: true #default is false
