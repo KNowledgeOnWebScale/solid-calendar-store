@@ -68,3 +68,54 @@ Generates a list of holidays from a given json file. These can then, for example
 ## GoogleCalendarGetStore
 
 GoogleCalendarGetStore gets the events of a Google Calendar of an authenticated user.
+
+## ChangeDurationStore
+
+Changes the duration of an event: 
+add minutes to start or end of an event.
+Below you find how it is configured.
+
+```json
+{
+  "@type": "ChangeDurationStore",
+  "ChangeDurationStore:_source": {
+    "@id": "my:OriginalCalendar"
+  },
+  "ChangeDurationStore:_options_settingsPaths": [
+    "test/configs/change-duration.yaml"
+  ],
+  "ChangeDurationStore:_options_rules": [
+     "inEvent"
+  ]
+}
+```
+
+- `settingsPaths`: paths to the YAML files with settings.
+- `rules`:  which rule in the YAML files is used.
+
+The contents of `change-duration.yaml` is
+
+```yaml
+transformation:
+  all:
+    - before: 15 #minutes
+      after: 15 #minutes
+
+  selected:
+    - match: ".*with car.*" #regex that the title of an event needs to match
+      before: 30 #minutes
+      after: 30 #minutes
+
+  inEvent:
+    - prefix: 🚗 # 🚗10,15 in the title of an event means "add 10 min. before the event and 15 min. after"
+
+  inEventRemovePrefix:
+    - prefix: 🚗 # 🚗10,15 in the title of an event means "add 10 min. before the event and 15 min. after"
+      removeDuration: true #default is false
+```
+
+- `before`: amount of minutes added at start of event.
+- `after`: amount of minutes add to end of event.
+- `match`: regex the title of the event needs to match before the change is applied.
+- `prefix`: text that prefixes a custom duration. 
+- `removeDuration`: if true the information about the change in duration is removed from the title of the event.
