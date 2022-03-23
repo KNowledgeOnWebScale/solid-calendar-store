@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.3.0] - 2022-03-23
+
+### Added
+- Add store to manipulate duration of events (see [issue 10](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/10))
+
 ## [0.2.2] - 2022-03-09
 
 ### Fixed
@@ -66,6 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.3.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.1.0...v0.2.0
