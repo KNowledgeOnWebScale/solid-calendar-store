@@ -42,3 +42,5 @@ export const availabilityStoreAlternateWeekendConfig = "./test/configs/availabil
 export const availabilityStoreHolidayConfig = "./test/configs/availability-store-holiday-config.json";
 export const availabilityStorePregenerateConfig = "./test/configs/availability-store-pregenerate-config.json";
 export const changeDurationStoreConfig = "./test/configs/change-duration-store-config.json";
+export const vacationStoreConfig = "./test/configs/vacation-store-config.json";
+export const vacationStoreAlternateConfig = "./test/configs/vacation-store-alternate-name-config.json";
