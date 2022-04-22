@@ -30,7 +30,7 @@ export class VacationStore extends BaseResourceStore {
 
     this.source = source;
     this.name = options.name || 'Vacation calendar';
-    this.vacationTag = options.vacationTag || 'Vacation calendar';
+    this.vacationTag = options.vacationTag || '[vacation]';
     this.morningTag = options.morningTag || 'AM';
     this.afternoonTag = options.afternoonTag || 'PM';
   }
@@ -73,7 +73,7 @@ export class VacationStore extends BaseResourceStore {
     const days: any[] = [];
 
     events.forEach((event: Event) => {
-      if (event.title.toLocaleLowerCase().includes('[vacation]') && this._is24HoursLong(event)) {
+      if (event.title.toLocaleLowerCase().includes(this.vacationTag) && this._is24HoursLong(event)) {
         let partOfDay = 'FullDay';
 
         if (event.title.includes(this.afternoonTag)) {
