@@ -63,7 +63,7 @@
         {
           "RegexRouterRule:_storeMap_key": "^/availability$",
           "RegexRouterRule:_storeMap_value": {
-            "@id": "solid-calendar-store:AvailabilityStore"
+            "@id": "solid-calendar-store:AvailabilityStorePre"
           }
         },
         {
@@ -87,6 +87,15 @@
       "HttpGetStore:_options_url": "http://localhost:3001"
     },
     {
+      "@id": "solid-calendar-store:AvailabilityStorePre",
+      "@type": "PreGenerateStore",
+      "PreGenerateStore:_source": {
+        "@id": "solid-calendar-store:AvailabilityStore"
+      },
+      "PreGenerateStore:_options_resourcePath": "http://localhost:3000/availability",
+      "PreGenerateStore:_options_duration": "once"
+    },
+    {
       "@id": "solid-calendar-store:AvailabilityStore",
       "@type": "AvailabilityStore",
       "AvailabilityStore:_source": {
@@ -94,9 +103,7 @@
       },
       "AvailabilityStore:_options_baseUrl": "http://example.com/",
       "AvailabilityStore:_options_settingsPath": "test/configs/test-settings.yaml",
-      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z",
-      "AvailabilityStore:_options_resourcePath": "http://localhost:3000/availability",
-      "AvailabilityStore:_options_duration": "once"
+      "AvailabilityStore:_options_startDate": "2021-06-24T07:47:29.182Z"
     },
     {
       "@id": "solid-calendar-store:CalendarStore",

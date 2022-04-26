@@ -259,7 +259,7 @@ describe("AvailabilityStore", function () {
     it("#1", async () => {
       await sleep(5*1000);
       await getEndpoint("availability");
-      expect(consoleWarnLog.withArgs(`Availability calendar: Use pre-generated representation for resource "http://localhost:3000/availability".`).callCount ).to.equal(1);
+      expect(consoleWarnLog.withArgs(`Use pre-generated representation for resource "http://localhost:3000/availability".`).callCount ).to.equal(1);
     });
   });
 });

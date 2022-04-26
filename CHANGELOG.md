@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Changed
+- Pre-generation as separate component (see [issue 24](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/24))
+
 ## [0.3.0] - 2022-03-23
 
 ### Added
