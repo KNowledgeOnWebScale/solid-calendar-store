@@ -17,9 +17,6 @@ import fs from "fs-extra";
 import path from "path";
 import {getUtcComponents} from "./date-utils";
 import md5 from "md5";
-import {ConcreteResourceIdentifier} from "./concrete- resource-identifier";
-
-const humanToMilliseconds = require('human-to-milliseconds');
 
 const outputType: string = "application/json";
 
@@ -36,10 +33,6 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
   private timezone: string;
   private weekend: number[];
   private readonly name: string | undefined;
-  private latestRepresentationData: string | undefined;
-  private readonly duration?: number;
-  private readonly resourcePath: string;
-  private readonly onlyOnce: boolean;
 
   constructor(
     source: HttpGetStore,
@@ -49,8 +42,6 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
       holidaySource?: RepresentationConvertingStore;
       startDate?: string;
       name?: string;
-      duration?: string;
-      resourcePath?: string;
     }
   ) {
     super(source);
@@ -65,33 +56,8 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
       : undefined;
     this.holidaySource = options.holidaySource;
     this.name = options.name;
-    this.onlyOnce = options.duration === 'once';
-    this.duration = options.duration === 'once' ? null : humanToMilliseconds(options.duration || '60s');
-    this.resourcePath = options.resourcePath || '';
     this._getSettings();
 
-    if (this.resourcePath) {
-      this._activatePreGeneration();
-    }
-  }
-
-  /**
-   * This method actives the pre-generation of the calendar.
-   * It does this only for the resource identified by this.resourcePath.
-   * It regenerates the calendar after the duration given by this.duration,
-   * which is in milliseconds.
-   */
-  async _activatePreGeneration() {
-    const fn = async () => {
-      this.latestRepresentationData = await this._getLatestRepresentationData(new ConcreteResourceIdentifier(this.resourcePath));
-      console.log(`Availability calendar: Pre-generated representation for resource "${this.resourcePath}" has been updated.`);
-    };
-
-    await fn();
-
-    if (!this.onlyOnce) {
-      setInterval(fn, this.duration);
-    }
   }
 
   async getRepresentation(
@@ -99,78 +65,62 @@ export class AvailabilityStore extends PassthroughStore<BaseResourceStore> {
     preferences: RepresentationPreferences,
     conditions?: Conditions
   ): Promise<Representation> {
-    let data: string;
-
-    if (this.resourcePath && this.resourcePath === identifier.path && this.latestRepresentationData) {
-      console.log(`Availability calendar: Use pre-generated representation for resource "${identifier.path}".`);
-      data = this.latestRepresentationData;
-    } else {
-      data = await this._getLatestRepresentationData(identifier);
-    }
-
-    return new BasicRepresentation(
-      data,
+    const sourceRepresentation: Representation = await super.getRepresentation(
       identifier,
-      outputType
+      {type: {"application/json": 1}}
     );
-  }
 
-  async _getLatestRepresentationData(identifier: ResourceIdentifier): Promise<string> {
-    try {
-      const sourceRepresentation: Representation = await super.getRepresentation(
-        identifier,
-        {type: {"application/json": 1}}
-      );
+    const data = await readableToString(sourceRepresentation.data);
+    const calendar = JSON.parse(data);
+    const events = calendar.events;
+
+    events.forEach((event: { startDate: any; endDate: any }) => {
+      event.startDate = new Date(event.startDate);
+      event.endDate = new Date(event.endDate);
+    });
+
+    let slots = getAvailableSlots(
+      this.baseUrl,
+      events,
+      this.availabilitySlots,
+      this.minimumSlotDuration,
+      this._getStartDateForSlots(),
+      {weekend: this.weekend, timezone: this.timezone}
+    );
+
+    if (this.holidaySource) {
+      const sourceRepresentation: Representation =
+        await this.holidaySource.getRepresentation(identifier, {
+          type: {"application/json": 1},
+        });
 
       const data = await readableToString(sourceRepresentation.data);
       const calendar = JSON.parse(data);
       const events = calendar.events;
 
-      events.forEach((event: { startDate: any; endDate: any }) => {
-        event.startDate = new Date(event.startDate);
-        event.endDate = new Date(event.endDate);
-      });
-
-      let slots = getAvailableSlots(
-        this.baseUrl,
-        events,
-        this.availabilitySlots,
-        this.minimumSlotDuration,
-        this._getStartDateForSlots(),
-        {weekend: this.weekend, timezone: this.timezone}
+      slots = slots.filter(
+        (s) =>
+          !events.some(
+            (ev: { startDate: Date; endDate: Date }) =>
+              getUtcComponents(new Date(ev.startDate)) <=
+              getUtcComponents(new Date(s.startDate)) &&
+              getUtcComponents(new Date(ev.endDate)) >=
+              getUtcComponents(new Date(s.endDate))
+          )
       );
-
-      if (this.holidaySource) {
-        const sourceRepresentation: Representation =
-          await this.holidaySource.getRepresentation(identifier, {
-            type: {"application/json": 1},
-          });
-
-        const data = await readableToString(sourceRepresentation.data);
-        const calendar = JSON.parse(data);
-        const events = calendar.events;
-
-        slots = slots.filter(
-          (s) =>
-            !events.some(
-              (ev: { startDate: Date; endDate: Date }) =>
-                getUtcComponents(new Date(ev.startDate)) <=
-                getUtcComponents(new Date(s.startDate)) &&
-                getUtcComponents(new Date(ev.endDate)) >=
-                getUtcComponents(new Date(s.endDate))
-            )
-        );
-      }
-
-      slots.forEach(slot => {
-        slot.hash = md5(slot.title + slot.startDate + slot.endDate);
-      })
-
-      return JSON.stringify({name: this.name || calendar.name, events: slots});
-    } catch (e) {
-      console.error(e);
-      throw e;
     }
+
+    slots.forEach(slot => {
+      slot.hash = md5(slot.title + slot.startDate + slot.endDate);
+    })
+
+    const name = this.name || calendar.name;
+
+    return new BasicRepresentation(
+      JSON.stringify({name, events: slots}),
+      identifier,
+      outputType
+    );
   }
 
   async _getSettings() {
