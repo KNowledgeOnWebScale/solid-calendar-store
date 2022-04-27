@@ -1,6 +1,6 @@
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^2.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^3.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
     {
@@ -13,6 +13,7 @@
     "files-scs:config/app/main/default.json",
     "files-scs:config/app/init/default.json",
     "files-scs:config/app/setup/required.json",
+    "files-scs:config/app/variables/default.json",
     "files-scs:config/http/handler/default.json",
     "files-scs:config/http/middleware/websockets.json",
     "files-scs:config/http/server-factory/websockets.json",
@@ -118,13 +119,6 @@
       "@type": "WaterfallHandler",
       "WaterfallHandler:_handlers": [
         {
-          "@type": "IfNeededConverter",
-          "comment": "Only continue converting if the requester cannot accept the available content type"
-        },
-        {
-          "@id": "solid-server:ContentTypeReplacer"
-        },
-        {
           "@id": "my:json-to-rdf-converter"
         },
         {
@@ -132,9 +126,6 @@
         },
         {
           "@id": "my:JsonToIcsConverter"
-        },
-        {
-          "@id": "my:RdfRepresentationConverter"
         }
       ]
     },
