@@ -119,3 +119,24 @@ transformation:
 - `match`: regex the title of the event needs to match before the change is applied.
 - `prefix`: text that prefixes a custom duration. 
 - `removeDuration`: if true the information about the change in duration is removed from the title of the event.
+
+## VacationStore
+
+Generate vacation calendar and days based on existing calendar.
+Below you find how it is configured.
+
+```json
+{
+  "@id": "solid-calendar-store:VacationStore",
+  "@type": "VacationStore",
+  "VacationStore:_source": {
+    "@id": "ex:ExistingCalendarStore"
+  }
+}
+```
+
+- `source`: the existing calendar.
+- `name`: name of the vacation calendar. Default is "Vacation calendar".
+- `vacationTag`: tag used to recognize vacation days. Default is "[vacation]".
+- `morningTag`: tag used to recognized vacation days that are only in the morning. Default is "AM".
+- `afternoonTag`: tag used to recognized vacation days that are only in the afternoon. Default is "PM".
