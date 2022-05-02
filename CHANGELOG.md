@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.4.0] - 2022-05-02
+
 ### Added
 - Add vacation store
 
@@ -80,6 +82,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.4.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.2.0...v0.2.1
