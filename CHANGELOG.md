@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Add vacation store
+
 ### Fixed
 - Update example config to v3 (see [issue 28](https://github.com/KNowledgeOnWebScale/solid-calendar-store/issues/28))
 
