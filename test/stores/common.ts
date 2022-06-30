@@ -3,18 +3,31 @@ import fetch from "node-fetch";
 /**
  * Performs a GET request on 1 of the endpoints and parses the response to JSON.
  * @param endpoint - The endpoint to GET
+ * @param acceptHeader - The accept header for the request.
  * @returns The JSON parsed response text
  */
-export const getEndpoint = async (endpoint: string): Promise<any> => {
-  const response = await fetch(`http://localhost:3000/${endpoint}`);
+export const getEndpoint = async (endpoint: string, acceptHeader?: string): Promise<any> => {
+  let options = {};
+
+  if (acceptHeader) {
+    options = {
+      headers: {accept: acceptHeader}
+    };
+  }
+
+  const response = await fetch(`http://localhost:3000/${endpoint}`, options);
   const text = await response.text();
 
-  if (response.status !== 200) return response.status;
+  if (response.status !== 200) {
+    console.log(text);
+    return response.status;
+  }
 
-  if (response.headers.get("content-type") !== "text/calendar") {
+  const contentType = response.headers.get("content-type");
+  if (contentType !== "text/calendar" && contentType !== 'text/turtle') {
     return JSON.parse(text);
   } else {
-    return [text, "text/calendar"];
+    return [text, contentType];
   }
 };
 
@@ -44,3 +57,4 @@ export const availabilityStorePregenerateConfig = "./test/configs/availability-s
 export const changeDurationStoreConfig = "./test/configs/change-duration-store-config.json";
 export const vacationStoreConfig = "./test/configs/vacation-store-config.json";
 export const vacationStoreAlternateConfig = "./test/configs/vacation-store-alternate-name-config.json";
+export const vacationStoreTurtleConfig = "./test/configs/vacation-store-turtle-config.json";

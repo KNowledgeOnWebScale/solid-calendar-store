@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Extra tests for vacation store
+
 ## [0.4.0] - 2022-05-02
 
 ### Added
