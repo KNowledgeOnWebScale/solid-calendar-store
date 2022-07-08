@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use CSS v4 instead of v3
 
 ### Fixed
-- Import chia exclude in tests
+- Import chai exclude in tests
 
 ## [0.4.0] - 2022-05-02
 
