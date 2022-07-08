@@ -123,7 +123,7 @@ describe("TransformationStore", function () {
 
 // As we're using a different icalServer we can't combine this one with the others
 describe("TransformationStore - Alternate icalserver", function () {
-  this.timeout(4000);
+  this.timeout(60000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer({isBusy: true});
