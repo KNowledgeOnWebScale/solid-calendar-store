@@ -3,14 +3,18 @@ import {
   RepresentationMetadata,
   readableToString,
 } from "@solid/community-server";
-import {expect} from "chai";
+import * as chai from "chai";
+import chaiExclude from "chai-exclude"
 import {CssServer} from "../servers/test-css-server";
 import {IcalServer} from "../servers/test-ical-server";
 import {calendarStoreConfig, getEndpoint} from "./common";
 import {IcsToJsonConverter} from "../../src";
 
+chai.use(chaiExclude);
+const {expect} = chai;
+
 describe("CalendarStore", function () {
-  this.timeout(4000);
+  this.timeout(10000);
 
   const cssServer = new CssServer();
   const icalServer = new IcalServer();

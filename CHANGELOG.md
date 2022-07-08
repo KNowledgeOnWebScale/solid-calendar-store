@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Extra tests for vacation store
 
+### Changed
+- Use CSS v4 instead of v3
+
 ## [0.4.0] - 2022-05-02
 
 ### Added

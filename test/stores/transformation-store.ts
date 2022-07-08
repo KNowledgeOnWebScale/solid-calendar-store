@@ -1,4 +1,5 @@
-import {expect} from "chai";
+import * as chai from "chai";
+import chaiExclude from "chai-exclude";
 import {CssServer} from "../servers/test-css-server";
 import {IcalServer} from "../servers/test-ical-server";
 import {
@@ -7,6 +8,9 @@ import {
   transformationStoreRemoveFieldsConfig,
   transformationStoreConfig, transformationStoreAlternateIcalServerConfig,
 } from "./common";
+
+chai.use(chaiExclude);
+const {expect} = chai;
 
 describe("TransformationStore", function () {
   this.timeout(60000);

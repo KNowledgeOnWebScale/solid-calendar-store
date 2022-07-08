@@ -1,11 +1,15 @@
 import {CssServer} from "../servers/test-css-server";
 import {IcalServer} from "../servers/test-ical-server";
-import {expect} from "chai";
+import * as chai from "chai";
+import chaiExclude from "chai-exclude";
 import {
   holidayStoreEmptyConfig,
   holidayStoreIncorrectConfig,
   getEndpoint, holidayStoreConfig,
 } from "./common";
+
+chai.use(chaiExclude);
+const {expect} = chai;
 
 describe("HolidayStore", function () {
   this.timeout(20000);

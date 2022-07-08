@@ -1,10 +1,14 @@
-import {expect} from "chai";
+import * as chai from 'chai';
+import chaiExclude from 'chai-exclude';
 import {CssServer} from "../servers/test-css-server";
 import {IcalServer} from "../servers/test-ical-server";
 import {
   changeDurationStoreConfig,
   getEndpoint,
 } from "./common";
+
+chai.use(chaiExclude);
+const {expect} = chai;
 
 describe("ChangeDurationStore", function () {
   this.timeout(60000);

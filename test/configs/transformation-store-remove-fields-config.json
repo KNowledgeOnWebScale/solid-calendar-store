@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^3.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^4.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
     {
       "solid-calendar-store": "urn:solid-calendar-store:default:",
@@ -13,6 +13,7 @@
     "files-scs:config/app/main/default.json",
     "files-scs:config/app/init/default.json",
     "files-scs:config/app/setup/disabled.json",
+    "files-scs:config/app/variables/default.json",
     "files-scs:config/http/handler/default.json",
     "files-scs:config/http/middleware/websockets.json",
     "files-scs:config/http/server-factory/websockets.json",
