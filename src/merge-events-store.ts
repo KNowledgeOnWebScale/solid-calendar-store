@@ -9,7 +9,6 @@ import {
 import {Event} from "./event";
 import {AbstractManipulationStore} from "./abstract-manipulation-store";
 import _ from "lodash";
-
 const humanToMilliseconds = require('human-to-milliseconds');
 
 const outputType = "application/json";
