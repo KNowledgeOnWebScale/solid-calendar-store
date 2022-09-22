@@ -11,3 +11,4 @@ export * from "./abstract-manipulation-store";
 export * from "./change-duration-store";
 export * from "./vacation-store";
 export * from "./pre-generate-store";
+export * from "./merge-events-store";

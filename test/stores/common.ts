@@ -58,3 +58,5 @@ export const changeDurationStoreConfig = "./test/configs/change-duration-store-c
 export const vacationStoreConfig = "./test/configs/vacation-store-config.json";
 export const vacationStoreAlternateConfig = "./test/configs/vacation-store-alternate-name-config.json";
 export const vacationStoreTurtleConfig = "./test/configs/vacation-store-turtle-config.json";
+export const mergeEventsStoreConfig = "./test/configs/merge-events-store-config.json";
+export const mergeEventsStoreDistanceConfig = "./test/configs/merge-events-store-distance-config.json";

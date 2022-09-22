@@ -1,0 +1,4 @@
+transformation:
+  merge:
+    - match: '.*'
+      distance: 5m

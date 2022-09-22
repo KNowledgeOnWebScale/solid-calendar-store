@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Store to merge overlapping events
+
 ## [0.5.0] - 2022-07-08
 
 ### Added
