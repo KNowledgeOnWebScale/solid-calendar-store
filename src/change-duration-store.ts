@@ -61,7 +61,7 @@ export class ChangeDurationStore extends AbstractManipulationStore {
               after = parseInt(matches[2]);
 
               if (removeDuration) {
-                event.title = event.title.replace(matches[0], '').trim();
+                event.title = event.title.replace(matches[0] || '', '').trim();
               }
             }
           }

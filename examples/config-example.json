@@ -1,6 +1,6 @@
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^4.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^5.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
     {
