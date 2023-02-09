@@ -18,19 +18,29 @@ const outputType = "application/json";
  * Converts an ICS representation to JSON
  */
 export class IcsToJsonConverter extends BaseTypedRepresentationConverter {
-  public constructor() {
+
+  private removeAppleLocation: boolean;
+  public constructor(
+    options?: { removeAppleLocation?: boolean }
+  ) {
     super("text/calendar", outputType);
+    this.removeAppleLocation = options?.removeAppleLocation || false;
   }
 
   public async handle({
     identifier,
     representation,
   }: RepresentationConverterArgs): Promise<Representation> {
-    const data = await readableToString(representation.data);
+    let data = await readableToString(representation.data);
     let events: Event[] = [];
 
     if (!data?.length)
       throw new BadRequestHttpError("Empty input is not allowed");
+
+    if (this.removeAppleLocation) {
+      data = data.replace(/X-APPLE-STRUCTURED-LOCATION;(((?!END:VEVENT).|\n)*)/g, '');
+      console.log(data);
+    }
 
     const jcalData = ICAL.parse(data);
     const vcalendar = new ICAL.Component(jcalData);

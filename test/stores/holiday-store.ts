@@ -33,23 +33,23 @@ describe("HolidayStore", function () {
         name: "Holiday",
         events: [
           {
-            endDate: "2022-01-01T23:59:00.000Z",
-            startDate: "2022-01-01T00:00:00.000Z",
+            endDate: "2023-01-01T23:59:00.000Z",
+            startDate: "2023-01-01T00:00:00.000Z",
             title: "New Year",
           },
           {
-            endDate: "2022-12-31T23:59:00.000Z",
-            startDate: "2022-12-31T00:00:00.000Z",
+            endDate: "2023-12-31T23:59:00.000Z",
+            startDate: "2023-12-31T00:00:00.000Z",
             title: "New Year's Eve",
           },
           {
-            endDate: "2022-04-04T23:59:00.000Z",
-            startDate: "2022-04-04T00:00:00.000Z",
-            title: "easter",
+            endDate: "2023-04-09T23:59:00.000Z",
+            startDate: "2023-04-09T00:00:00.000Z",
+            title: "Easter",
           },
           {
-            endDate: "2022-06-11T23:59:00.000Z",
-            startDate: "2022-06-11T00:00:00.000Z",
+            endDate: "2023-06-10T23:59:00.000Z",
+            startDate: "2023-06-10T00:00:00.000Z",
             title: "Father's Day",
           },
         ],

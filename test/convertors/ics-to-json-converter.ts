@@ -97,6 +97,18 @@ describe("IcsToJsonConverter", function () {
 
       expect(resultTyped).to.deep.equal(expectedResult);
     });
+
+    it("Remove Apple location fields", async () => {
+      const expectedResult = await fs.readJson(path.join(__dirname, 'resources/valid-calendar-with-apple-location.json'));
+      const events = await fs.readFile(path.join(__dirname, 'resources/valid-calendar-with-apple-location.ics'), 'utf-8');
+
+      const convertedRepresentation = await convertToJSON(events, {removeAppleLocation: true});
+      const data = await readableToString(convertedRepresentation.data);
+      const resultTyped = JSON.parse(data);
+      console.log(resultTyped);
+
+      expect(resultTyped).excludingEvery('hash').to.deep.equal(expectedResult);
+    });
   });
 
   describe('Standard output', () => {

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Option to remove `X-APPLE-STRUCTURED-LOCATION` in `ics-to-json-converter`.
+
 ## [0.5.1] - 2022-09-22
 
 ### Added
