@@ -38,8 +38,8 @@ export class IcsToJsonConverter extends BaseTypedRepresentationConverter {
       throw new BadRequestHttpError("Empty input is not allowed");
 
     if (this.removeAppleLocation) {
-      data = data.replace(/X-APPLE-STRUCTURED-LOCATION;(((?!END:VEVENT).|\n)*)/g, '');
-      console.log(data);
+      data = data.replace(/X-APPLE-STRUCTURED-LOCATION;(((?!END:VEVENT).|\r|\n)*)/g, '');
+      //console.log(data);
     }
 
     const jcalData = ICAL.parse(data);

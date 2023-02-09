@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+- `\r\n` in remove `X-APPLE-STRUCTURED-LOCATION` in `ics-to-json-converter`
+
 ## [0.5.2] - 2023-02-09
 
 ### Added
-- Option to remove `X-APPLE-STRUCTURED-LOCATION` in `ics-to-json-converter`.
+- Option to remove `X-APPLE-STRUCTURED-LOCATION` in `ics-to-json-converter`
 
 ## [0.5.1] - 2022-09-22
 
