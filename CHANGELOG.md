@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.5.2] - 2023-02-09
+
 ### Added
 - Option to remove `X-APPLE-STRUCTURED-LOCATION` in `ics-to-json-converter`.
 
@@ -101,6 +103,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for authenticated Google Calendars
 
 
+[0.5.2]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/KNowledgeOnWebScale/solid-calendar-store/compare/v0.3.0...v0.4.0
