@@ -1,6 +1,6 @@
 import { DateTime, IANAZone, LocalZone } from "luxon";
 import {Event} from "./event";
-import {RRule, rrulestr} from "rrule";
+import {RRule} from "rrule";
 
 export function nextDay(date: Date, days = 1) {
   const [year, month, day] = getUtcComponents(date || new Date());
@@ -136,17 +136,16 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
  */
 export function getRecurringEvents(originalEvent: Event, rrule: any): Event[] {
   const today: Date = new Date();
-  let rule = rrule; //rrulestr(`RRULE:${rrule}`);
-  const origOptions = rule.origOptions;
+  const origOptions = rrule.origOptions;
   const originalStartDate: Date = new Date(originalEvent.startDate);
   origOptions.dtstart = originalStartDate;
 
-  rule = new RRule(origOptions);
+  rrule = new RRule(origOptions);
 
   const todayPlusOneYear: Date = new Date((today < originalStartDate ? originalStartDate : today).getTime());
   todayPlusOneYear.setFullYear(todayPlusOneYear.getFullYear() + 1);
 
-  let allStartDates: Date[]= rule.between(today, todayPlusOneYear, true);
+  let allStartDates: Date[]= rrule.between(today, todayPlusOneYear, true);
 
   if (allStartDates.length > 0 && allStartDates[0].getTime() === originalStartDate.getTime()) {
     allStartDates.shift();
