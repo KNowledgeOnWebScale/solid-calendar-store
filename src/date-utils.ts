@@ -196,7 +196,7 @@ export function removeChangedEventsFromRecurringEvents(events: Event[]) {
       let i = 0;
 
       while (i < events.length && !(events[i].originalUID === events[i].originalUID && events[i].startDate.toISOString() === new Date(event.originalRecurrenceID).toISOString())) {
-        i ++;
+        i++;
       }
 
       if (i < events.length) {
@@ -205,44 +205,13 @@ export function removeChangedEventsFromRecurringEvents(events: Event[]) {
     }
   });
 
-  for (let i = 0; i < events.length; i ++) {
+  for (let i = 0; i < events.length; i++) {
     if (events[i].toBeRemoved) {
       events.splice(i, 1);
-      i --;
+      i--;
     } else {
       delete events[i].originalRecurrenceID;
       delete events[i].originalUID;
     }
   }
-}
-
-function getRecurringStartDates(event: any) {
-  const result: Date[] = [];
-  const dates = event.rrule.between(new Date(2021, 0, 1, 0, 0, 0, 0), new Date(2042, 11, 31, 0, 0, 0, 0))
-  if (dates.length === 0) return result;
-
-  console.log('Summary:', event.summary);
-  console.log('Original start:', event.start);
-  console.log('RRule start:', `${event.rrule.origOptions.dtstart} [${event.rrule.origOptions.tzid}]`)
-
-  dates.forEach((date: Date) => {
-    let newDate
-    if (event.rrule.origOptions.tzid) {
-      // tzid present (calculate offset from recurrence start)
-      const dateTimezone = IANAZone.create('UTC');// moment.tz.zone('UTC')
-      const localTimezone = new LocalZone(); //moment.tz.guess()
-      const tz = localTimezone // event.rrule.origOptions.tzid === localTimezone ? event.rrule.origOptions.tzid : localTimezone // TODO
-      const timezone = localTimezone;
-      const offset = timezone.offset(date.getTime()) - dateTimezone.offset(date.getTime()); // timezone.utcOffset(date) - dateTimezone.utcOffset(date)
-      newDate = DateTime.fromJSDate(date).plus({minutes: offset}).toJSDate(); //moment(date).add(offset, 'minutes').toDate()
-    } else {
-      // tzid not present (calculate offset from original start)
-      newDate = new Date(date.setHours(date.getHours() - ((event.start.getTimezoneOffset() - date.getTimezoneOffset()) / 60)))
-    }
-
-    console.log('Recurrence start:', newDate);
-    result.push(newDate);
-  });
-
-  return result;
 }
