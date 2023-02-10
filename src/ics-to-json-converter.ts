@@ -95,6 +95,11 @@ export class IcsToJsonConverter extends BaseTypedRepresentationConverter {
     );
   }
 
+  /**
+   * This function extracts all events and changed recurrences.
+   * @param data - The ICS parsed as an object.
+   * @private
+   */
   private getVEvents(data: any) {
     const events = [];
 
