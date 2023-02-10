@@ -134,7 +134,7 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
  * @param originalEvent - The original event.
  * @param rrule - The RRULE (coming from ICS) for the original event.
  */
-export function getRecurringEvents(originalEvent: Event, rrule: any): Event[] {
+export function getRecurringEvents(originalEvent: Event, rrule: RRule): Event[] {
   const today: Date = new Date();
   const origOptions = rrule.origOptions;
   const originalStartDate: Date = new Date(originalEvent.startDate);
