@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Changed
+- Replaced `ical.js` with `node-ical`
+
+### Removed
+- Option to remove Apple-specific fields
+
 ## [0.5.3] - 2023-02-09
 
 ### Fixed

@@ -21,8 +21,6 @@ describe("IcsToJsonConverter", function () {
             title: "Correctly converted",
             startDate: "2021-04-08T15:00:00.000Z",
             endDate: "2021-04-08T17:00:00.000Z",
-            description: "",
-            location: "",
             url: "http://example.com"
           },
         ],
@@ -97,31 +95,6 @@ describe("IcsToJsonConverter", function () {
 
       expect(resultTyped).to.deep.equal(expectedResult);
     });
-
-    it("Remove Apple location fields", async () => {
-      const expectedResult = await fs.readJson(path.join(__dirname, 'resources/valid-calendar-with-apple-location.json'));
-      const events = await fs.readFile(path.join(__dirname, 'resources/valid-calendar-with-apple-location.ics'), 'utf-8');
-
-      const convertedRepresentation = await convertToJSON(events, {removeAppleLocation: true});
-      const data = await readableToString(convertedRepresentation.data);
-      const resultTyped = JSON.parse(data);
-      console.log(resultTyped);
-
-      expect(resultTyped).excludingEvery('hash').to.deep.equal(expectedResult);
-    });
-
-    it("Remove Apple location fields: \\r\\n" , async () => {
-      const expectedResult = await fs.readJson(path.join(__dirname, 'resources/valid-calendar-with-apple-location.json'));
-      let events = await fs.readFile(path.join(__dirname, 'resources/valid-calendar-with-apple-location.ics'), 'utf-8');
-      events = events.replace(/\n/g, '\r\n');
-
-      const convertedRepresentation = await convertToJSON(events, {removeAppleLocation: true});
-      const data = await readableToString(convertedRepresentation.data);
-      const resultTyped = JSON.parse(data);
-      console.log(resultTyped);
-
-      expect(resultTyped).excludingEvery('hash').to.deep.equal(expectedResult);
-    });
   });
 
   describe('Standard output', () => {
@@ -141,7 +114,7 @@ describe("IcsToJsonConverter", function () {
 
       await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith(
-          "invalid ical body. component began but did not end"
+          "No calendar found"
         )
         .and.be.an.instanceOf(Error);
     });
@@ -150,7 +123,7 @@ describe("IcsToJsonConverter", function () {
       const event = await fs.readFile(path.join(__dirname, 'resources/no-calendar-name.ics'), 'utf-8');
 
       await expect(convertToJSON(event))
-        .to.eventually.be.rejectedWith("No calendar name found")
+        .to.eventually.be.rejectedWith("No calendar found")
         .and.be.an.instanceOf(InternalServerError);
     });
 
