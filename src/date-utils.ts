@@ -1,4 +1,4 @@
-import { DateTime, IANAZone, LocalZone } from "luxon";
+import { DateTime } from "luxon";
 import {Event} from "./event";
 import {RRule} from "rrule";
 
