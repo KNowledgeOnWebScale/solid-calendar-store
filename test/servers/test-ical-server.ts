@@ -60,7 +60,7 @@ export class IcalServer {
 
   // The server starts on localhost on port 3001
   public start() {
-    this.icalServer.listen(3001, "127.0.0.1");
+      this.icalServer.listen(3001, "localhost");
   }
 
   public stop() {

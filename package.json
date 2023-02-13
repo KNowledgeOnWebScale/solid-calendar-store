@@ -62,11 +62,11 @@
     "ical-generator": "^2.2.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
-    "luxon": "^1.26.0",
+    "luxon": "^1.28.1",
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
     "node-ical": "^0.15.3",
-    "rrule": "^2.6.8",
+    "rrule": "^2.7.2",
     "sinon": "^13.0.1"
   },
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store",
