@@ -21,8 +21,6 @@ describe("IcsToJsonConverter", function () {
             title: "Correctly converted",
             startDate: "2021-04-08T15:00:00.000Z",
             endDate: "2021-04-08T17:00:00.000Z",
-            description: "",
-            location: "",
             url: "http://example.com"
           },
         ],
@@ -116,7 +114,7 @@ describe("IcsToJsonConverter", function () {
 
       await expect(convertToJSON(event))
         .to.eventually.be.rejectedWith(
-          "invalid ical body. component began but did not end"
+          "No calendar found"
         )
         .and.be.an.instanceOf(Error);
     });
@@ -125,7 +123,7 @@ describe("IcsToJsonConverter", function () {
       const event = await fs.readFile(path.join(__dirname, 'resources/no-calendar-name.ics'), 'utf-8');
 
       await expect(convertToJSON(event))
-        .to.eventually.be.rejectedWith("No calendar name found")
+        .to.eventually.be.rejectedWith("No calendar found")
         .and.be.an.instanceOf(InternalServerError);
     });
 

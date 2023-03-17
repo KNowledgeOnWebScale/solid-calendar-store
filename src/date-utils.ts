@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import {Event} from "./event";
-import {RRule, rrulestr} from "rrule";
+import {RRule} from "rrule";
 
 export function nextDay(date: Date, days = 1) {
   const [year, month, day] = getUtcComponents(date || new Date());
@@ -134,19 +134,18 @@ export function getDaysBetween(fstDate: Date, sndDate: Date): Number {
  * @param originalEvent - The original event.
  * @param rrule - The RRULE (coming from ICS) for the original event.
  */
-export function getRecurringEvents(originalEvent: Event, rrule: string): Event[] {
+export function getRecurringEvents(originalEvent: Event, rrule: RRule): Event[] {
   const today: Date = new Date();
-  let rule = rrulestr(`RRULE:${rrule}`);
-  const origOptions = rule.origOptions;
+  const origOptions = rrule.origOptions;
   const originalStartDate: Date = new Date(originalEvent.startDate);
   origOptions.dtstart = originalStartDate;
 
-  rule = new RRule(origOptions);
+  rrule = new RRule(origOptions);
 
   const todayPlusOneYear: Date = new Date((today < originalStartDate ? originalStartDate : today).getTime());
   todayPlusOneYear.setFullYear(todayPlusOneYear.getFullYear() + 1);
 
-  let allStartDates: Date[]= rule.between(today, todayPlusOneYear, true);
+  let allStartDates: Date[]= rrule.between(today, todayPlusOneYear, true);
 
   if (allStartDates.length > 0 && allStartDates[0].getTime() === originalStartDate.getTime()) {
     allStartDates.shift();
@@ -196,7 +195,7 @@ export function removeChangedEventsFromRecurringEvents(events: Event[]) {
       let i = 0;
 
       while (i < events.length && !(events[i].originalUID === events[i].originalUID && events[i].startDate.toISOString() === new Date(event.originalRecurrenceID).toISOString())) {
-        i ++;
+        i++;
       }
 
       if (i < events.length) {
@@ -205,10 +204,10 @@ export function removeChangedEventsFromRecurringEvents(events: Event[]) {
     }
   });
 
-  for (let i = 0; i < events.length; i ++) {
+  for (let i = 0; i < events.length; i++) {
     if (events[i].toBeRemoved) {
       events.splice(i, 1);
-      i --;
+      i--;
     } else {
       delete events[i].originalRecurrenceID;
       delete events[i].originalUID;

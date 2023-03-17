@@ -1,6 +1,6 @@
 {
   "name": "solid-calendar-store",
-  "version": "0.5.1",
+  "version": "0.6.1",
   "description": "Access calendars via your Solid POD.",
   "scripts": {
     "build": "npm run build:ts && npm run build:components",
@@ -60,13 +60,13 @@
     "googleapis": "^88.2.0",
     "human-to-milliseconds": "^2.0.0",
     "ical-generator": "^2.2.0",
-    "ical.js": "^1.5.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
-    "luxon": "^1.26.0",
+    "luxon": "^1.28.1",
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
-    "rrule": "^2.6.8",
+    "node-ical": "^0.15.3",
+    "rrule": "^2.7.2",
     "sinon": "^13.0.1"
   },
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store",

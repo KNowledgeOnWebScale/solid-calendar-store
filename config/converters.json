@@ -27,7 +27,7 @@
     {
       "@id": "solid-calendar-store:RdfRepresentationConverter",
       "@type": "ChainedConverter",
-      "ChainedConverter:_converters": [
+      "converters": [
         {
           "@id": "solid-calendar-store:IcsToJsonConverter"
         },
@@ -39,7 +39,7 @@
     {
       "@id": "solid-calendar-store:RepresentationConverter",
       "@type": "ChainedConverter",
-      "ChainedConverter:_converters": [
+      "converters": [
         {
           "@id": "solid-server:ContentTypeReplacer"
         },

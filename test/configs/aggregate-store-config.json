@@ -74,7 +74,8 @@
       "@type": "DataAccessorBasedStore",
       "identifierStrategy": { "@id": "solid-server:IdentifierStrategy" },
       "auxiliaryStrategy": { "@id": "solid-server:AuxiliaryStrategy" },
-      "accessor": { "@id": "solid-server:MemoryDataAccessor" }
+      "accessor": { "@id": "solid-server:MemoryDataAccessor" },
+      "metadataStrategy":{ "@id": "solid-server:MetadataStrategy" }
     },
     {
       "@id": "solid-calendar-store:HttpGetStore",

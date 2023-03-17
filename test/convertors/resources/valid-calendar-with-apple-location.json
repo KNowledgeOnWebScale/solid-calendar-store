@@ -1,0 +1,29 @@
+{
+ "events": [
+  {
+   "description": "",
+   "endDate": "2021-04-08T17:00:00.000Z",
+   "location": "",
+   "startDate": "2021-04-08T15:00:00.000Z",
+   "title": "Correctly converted",
+   "url": "http://example.com"
+  },
+  {
+   "description": "",
+   "endDate": "2022-04-08T17:00:00.000Z",
+   "location": "",
+   "startDate": "2022-04-08T15:00:00.000Z",
+   "title": "Correctly converted",
+   "url": "http://example.com"
+  },
+  {
+   "description": "",
+   "endDate": "2023-04-08T17:00:00.000Z",
+   "location": "",
+   "startDate": "2023-04-08T15:00:00.000Z",
+   "title": "Correctly converted",
+   "url": "http://example.com"
+  }
+ ],
+ "name": "Test for Solid calendar"
+}
