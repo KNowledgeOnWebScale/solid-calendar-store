@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Changed
+- Use CSS v5 instead of v4
+
 ## [0.6.1] - 2023-02-13
 
 ### Changed
