@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/solid-calendar-store/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^4.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^5.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@rmlio/solid-rml-store/^0.0.0/components/context.jsonld",
     {
       "solid-calendar-store": "urn:solid-calendar-store:default:",
@@ -10,69 +10,84 @@
     }
   ],
   "import": [
-    "files-scs:config/app/main/default.json",
-    "files-scs:config/app/init/default.json",
-    "files-scs:config/app/setup/disabled.json",
-    "files-scs:config/app/variables/default.json",
-    "files-scs:config/http/handler/default.json",
-    "files-scs:config/http/middleware/websockets.json",
-    "files-scs:config/http/server-factory/websockets.json",
-    "files-scs:config/http/static/default.json",
-    "files-scs:config/identity/access/public.json",
-    "files-scs:config/identity/email/default.json",
-    "files-scs:config/identity/handler/default.json",
-    "files-scs:config/identity/ownership/token.json",
-    "files-scs:config/identity/pod/static.json",
-    "files-scs:config/identity/registration/enabled.json",
-    "files-scs:config/ldp/authentication/dpop-bearer.json",
-    "files-scs:config/ldp/authorization/allow-all.json",
-    "files-scs:config/ldp/handler/default.json",
-    "files-scs:config/ldp/metadata-parser/default.json",
-    "files-scs:config/ldp/metadata-writer/default.json",
-    "files-scs:config/ldp/modes/default.json",
-    "files-scs:config/storage/key-value/resource-store.json",
-    "files-scs:config/storage/middleware/default.json",
-    "files-scs:config/util/auxiliary/acl.json",
-    "files-scs:config/util/identifiers/suffix.json",
-    "files-scs:config/util/index/default.json",
-    "files-scs:config/util/logging/winston.json",
-    "files-scs:config/util/representation-conversion/default.json",
-    "files-scs:config/util/resource-locker/memory.json",
-    "files-scs:config/util/variables/default.json",
-    "files-scs:config/storage/backend/data-accessors/memory.json",
-
-    "files-rsrs:config/default.json",
-
-    "files-knows-scs:config/converters.json"
+    "css:config/app/main/default.json",
+    "css:config/app/init/default.json",
+    "css:config/app/setup/disabled.json",
+    "css:config/app/variables/default.json",
+    "css:config/http/handler/default.json",
+    "css:config/http/middleware/websockets.json",
+    "css:config/http/server-factory/websockets.json",
+    "css:config/http/static/default.json",
+    "css:config/identity/access/public.json",
+    "css:config/identity/email/default.json",
+    "css:config/identity/handler/default.json",
+    "css:config/identity/ownership/token.json",
+    "css:config/identity/pod/static.json",
+    "css:config/identity/registration/enabled.json",
+    "css:config/ldp/authentication/dpop-bearer.json",
+    "css:config/ldp/authorization/allow-all.json",
+    "css:config/ldp/handler/default.json",
+    "css:config/ldp/metadata-parser/default.json",
+    "css:config/ldp/metadata-writer/default.json",
+    "css:config/ldp/modes/default.json",
+    "css:config/storage/key-value/resource-store.json",
+    "css:config/storage/middleware/default.json",
+    "css:config/util/auxiliary/acl.json",
+    "css:config/util/identifiers/suffix.json",
+    "css:config/util/index/default.json",
+    "css:config/util/logging/winston.json",
+    "css:config/util/representation-conversion/default.json",
+    "css:config/util/resource-locker/memory.json",
+    "css:config/util/variables/default.json",
+    "css:config/storage/backend/data-accessors/memory.json",
+    "rsrs:config/default.json",
+    "knows-scs:config/converters.json"
   ],
   "@graph": [
     {
       "comment": "A more complex example with 3 different stores being routed to.",
       "@id": "urn:solid-server:default:ResourceStore_Backend",
       "@type": "RoutingResourceStore",
-      "rule": { "@id": "solid-server:RouterRule" }
+      "rule": {
+        "@id": "solid-server:RouterRule"
+      }
     },
     {
       "@id": "solid-server:RouterRule",
       "@type": "RegexRouterRule",
-      "base": { "@id": "solid-server:variable:baseUrl" },
-      "storeMap": [
+      "base": {
+        "@id": "solid-server:variable:baseUrl"
+      },
+      "rules": [
         {
-          "RegexRouterRule:_storeMap_key": "^/aggregate$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-calendar-store:AggregateStore" }
+          "@type": "RegexRule",
+          "regex": "^/aggregate$",
+          "store": {
+            "@id": "solid-calendar-store:AggregateStore"
+          }
         },
         {
-          "RegexRouterRule:_storeMap_key": "^/(?!aggregate$).*$",
-          "RegexRouterRule:_storeMap_value": { "@id": "solid-server:MemoryResourceStore" }
+          "@type": "RegexRule",
+          "regex": "^/(?!aggregate$).*$",
+          "store": {
+            "@id": "solid-server:MemoryResourceStore"
+          }
         }
       ]
     },
     {
       "@id": "solid-server:MemoryResourceStore",
       "@type": "DataAccessorBasedStore",
-      "identifierStrategy": { "@id": "solid-server:IdentifierStrategy" },
-      "auxiliaryStrategy": { "@id": "solid-server:AuxiliaryStrategy" },
-      "accessor": { "@id": "solid-server:MemoryDataAccessor" }
+      "identifierStrategy": {
+        "@id": "solid-server:IdentifierStrategy"
+      },
+      "auxiliaryStrategy": {
+        "@id": "solid-server:AuxiliaryStrategy"
+      },
+      "accessor": {
+        "@id": "solid-server:MemoryDataAccessor"
+      },
+      "metadataStrategy":{ "@id": "solid-server:MetadataStrategy" }
     },
     {
       "@id": "solid-calendar-store:HttpGetStore",

@@ -13,6 +13,7 @@ const appRunner = new AppRunner();
 
 const loaderProperties: IComponentsManagerBuilderOptions<App> = {
   mainModulePath: absoluteFilePath("."),
+  typeChecking: false,
 };
 
 const configVariables = {
